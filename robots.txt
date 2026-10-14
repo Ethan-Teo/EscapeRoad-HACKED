@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://escaperoad-3.github.io/sitemap.xml
