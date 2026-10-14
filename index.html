@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NMD3EREE08"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-NMD3EREE08');
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="content-language" content="en">
+    <meta name="external" content="true">
+    <meta name="distribution" content="Global">
+    <meta http-equiv="audience" content="General">
+    <link rel="icon" href="rs/imgs/escape-road-3-github2.png">
+    <title>Escape Road 3</title>
+    <meta name="keywords" content="escape road 3">
+    <meta name="news_keywords" content="escape road 3">
+    <meta name="description" content="Escape Road 3 is a high-speed driving action game combining survival mechanics, where you play as a fugitive escaping police in a crowded city filled with unexpected obstacles.">
+    <link rel="stylesheet" type="text/css" href="rs/css/all.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ---------- Info tables (replaces repeated inline styles) ---------- */
+        .er-table-wrap { overflow-x: auto; margin: 20px 0; }
+        .er-table { width: 100%; min-width: 500px; border-collapse: separate; border-spacing: 0; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,.08); }
+        .er-table th { border: none; padding: 12px 8px; text-align: left; font-size: 16px; font-weight: 700; background: #b40202; color: #fff; }
+        .er-table td { border: none; padding: 10px 8px; text-align: left; font-size: 15px; color: #1a1a1a; }
+        .er-table td:first-child { font-weight: 600; }
+        .er-table tr:nth-child(even) td { background: #f8f9fa; }
+
+        /* ---------- Save system ---------- */
+        :root {
+            --sv-red: #b40202; --sv-red-dark: #8a0101; --sv-bg: #ffffff; --sv-surface: #f6f7f9;
+            --sv-border: #e3e5ea; --sv-text: #1a1a1a; --sv-muted: #6b7280; --sv-ok: #15803d; --sv-shadow: 0 12px 40px rgba(0,0,0,.22);
+        }
+        .sv, .sv * { box-sizing: border-box; font-family: "Nunito Sans", system-ui, sans-serif; }
+        .sv button { font: inherit; cursor: pointer; }
+        .sv-fab { position: fixed; right: 18px; bottom: 18px; z-index: 9998; display: flex; align-items: center; gap: 8px; padding: 12px 18px; border: none; border-radius: 999px; background: var(--sv-red); color: #fff; font-weight: 700; font-size: 15px; box-shadow: var(--sv-shadow); }
+        .sv-fab:hover { background: var(--sv-red-dark); }
+        .sv-fab svg { width: 18px; height: 18px; fill: currentColor; }
+
+        .sv-panel { position: fixed; right: 18px; bottom: 76px; z-index: 9999; width: 380px; max-width: calc(100vw - 32px); max-height: min(640px, calc(100vh - 100px)); display: flex; flex-direction: column; background: var(--sv-bg); color: var(--sv-text); border-radius: 14px; box-shadow: var(--sv-shadow); overflow: hidden; }
+        .sv-panel[hidden], .sv-modal[hidden], .sv-toast[hidden] { display: none; }
+        .sv-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: var(--sv-red); color: #fff; }
+        .sv-head strong { font-size: 16px; }
+        .sv-status { font-size: 12px; opacity: .85; margin-left: auto; }
+        .sv-x { background: none; border: none; color: inherit; font-size: 22px; line-height: 1; padding: 0 4px; }
+        .sv-tabs { display: flex; border-bottom: 1px solid var(--sv-border); background: var(--sv-surface); }
+        .sv-tabs button { flex: 1; padding: 10px 4px; border: none; background: none; font-weight: 600; font-size: 14px; color: var(--sv-muted); border-bottom: 3px solid transparent; }
+        .sv-tabs button.on { color: var(--sv-red); border-bottom-color: var(--sv-red); }
+        .sv-body { padding: 14px 16px; overflow-y: auto; flex: 1; font-size: 14px; }
+        .sv-foot { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-top: 1px solid var(--sv-border); font-size: 12px; color: var(--sv-muted); }
+
+        .sv-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+        .sv-slot { border: 1.5px solid var(--sv-border); border-radius: 10px; padding: 8px; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .sv-slot.on { border-color: var(--sv-red); background: #fff5f5; }
+        .sv-slot b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+        .sv-slot small { color: var(--sv-muted); font-size: 11px; }
+        .sv-slot em { font-style: normal; font-size: 11px; font-weight: 700; color: var(--sv-red); margin-top: auto; }
+        .sv-slot.empty { border-style: dashed; }
+        .sv-slot-n { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--sv-muted); font-weight: 700; }
+        .sv-slot button { margin-top: auto; }
+
+        .sv-btn { padding: 7px 12px; border-radius: 8px; border: 1px solid var(--sv-border); background: #fff; color: var(--sv-text); font-weight: 600; font-size: 13px; }
+        .sv-btn:hover { border-color: #c8ccd4; }
+        .sv-btn.pri { background: var(--sv-red); border-color: var(--sv-red); color: #fff; }
+        .sv-btn.pri:hover { background: var(--sv-red-dark); }
+        .sv-btn.danger { color: var(--sv-red); border-color: #f1c4c4; }
+        .sv-btn.sm { padding: 4px 8px; font-size: 12px; }
+        .sv-link { background: none; border: none; color: var(--sv-muted); text-decoration: underline; font-size: 12px; padding: 0; }
+        .sv-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .sv-field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+        .sv-field label { font-size: 12px; font-weight: 700; color: var(--sv-muted); }
+        .sv input[type=text], .sv input[type=number], .sv textarea, .sv select { width: 100%; padding: 8px 10px; border: 1px solid var(--sv-border); border-radius: 8px; font: inherit; font-size: 14px; color: var(--sv-text); background: #fff; }
+        .sv textarea { resize: vertical; min-height: 64px; }
+        .sv textarea.mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }
+        .sv-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+        .sv-stat { background: var(--sv-surface); border-radius: 8px; padding: 8px 10px; }
+        .sv-stat span { display: block; font-size: 11px; color: var(--sv-muted); font-weight: 600; }
+        .sv-stat b { font-size: 16px; }
+        .sv-muted { color: var(--sv-muted); font-size: 13px; }
+        .sv h4 { margin: 14px 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--sv-muted); display: flex; justify-content: space-between; }
+        .sv-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .sv-list { list-style: none; margin: 0; padding: 0; }
+        .sv-list li { display: flex; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--sv-border); }
+        .sv-list li .grow { flex: 1; min-width: 0; }
+        .sv-list li small { display: block; color: var(--sv-muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .sv-check { display: flex; align-items: center; gap: 8px; padding: 5px 0; }
+        .sv-check input { width: 16px; height: 16px; accent-color: var(--sv-red); }
+        .sv-bar { height: 6px; background: var(--sv-border); border-radius: 99px; overflow: hidden; margin-bottom: 4px; }
+        .sv-bar i { display: block; height: 100%; background: var(--sv-red); }
+
+        .sv-modal { position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; padding: 16px; }
+        .sv-modal-card { background: var(--sv-bg); color: var(--sv-text); border-radius: 14px; width: 100%; max-width: 720px; max-height: calc(100vh - 32px); overflow-y: auto; box-shadow: var(--sv-shadow); }
+        .sv-modal-card.small { max-width: 320px; }
+        .sv-modal-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: #1a1a1a; color: #fff; position: sticky; top: 0; z-index: 1; }
+        .sv-modal-body { padding: 16px 18px; font-size: 14px; }
+        .sv-pin { display: flex; justify-content: center; gap: 12px; margin: 8px 0 16px; }
+        .sv-pin i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #9ca3af; }
+        .sv-pin i.f { background: var(--sv-text); border-color: var(--sv-text); }
+        .sv-pin.err i { border-color: var(--sv-red); animation: sv-shake .3s; }
+        @keyframes sv-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+        .sv-keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .sv-keys button { padding: 14px 0; font-size: 20px; font-weight: 700; border-radius: 10px; border: 1px solid var(--sv-border); background: var(--sv-surface); }
+        .sv-keys button:active { background: var(--sv-border); }
+        .sv-msg { text-align: center; min-height: 20px; font-size: 13px; color: var(--sv-red); margin-top: 10px; }
+        .sv-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .sv-table th, .sv-table td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--sv-border); }
+        .sv-table th { font-size: 11px; text-transform: uppercase; color: var(--sv-muted); }
+        .sv-table tr.sel td { background: #fff5f5; }
+        .sv-section { border: 1px solid var(--sv-border); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; }
+        .sv-section h4 { margin-top: 0; }
+        .sv-log { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11px; color: var(--sv-muted); max-height: 140px; overflow-y: auto; }
+        .sv-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 10001; background: #1a1a1a; color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 14px; box-shadow: var(--sv-shadow); }
+
+        /* ---------- Garage ---------- */
+        .sv-hp { height: 14px; background: var(--sv-border); border-radius: 99px; overflow: hidden; margin: 4px 0 12px; }
+        .sv-hp i { display: block; height: 100%; background: linear-gradient(90deg, #16a34a, #4ade80); transition: width .3s; }
+        .sv-hp.low i { background: linear-gradient(90deg, #b40202, #f87171); }
+        .sv-hp.god i { width: 100% !important; background: linear-gradient(90deg, #f59e0b, #fde047, #f59e0b); background-size: 200% 100%; animation: sv-shine 1.5s linear infinite; }
+        @keyframes sv-shine { to { background-position: 200% 0; } }
+        .sv-kv { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; }
+        .sv-kv span { font-size: 12px; color: var(--sv-muted); font-weight: 600; }
+        .sv-stars { font-size: 18px; letter-spacing: 2px; color: #d1d5db; }
+        .sv-stars b { color: #f59e0b; font-weight: 400; }
+        .sv-badge { display: inline-block; padding: 2px 8px; border-radius: 99px; background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; letter-spacing: .04em; }
+        .sv-vehs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .sv-veh { border: 1px solid var(--sv-border); border-radius: 8px; padding: 6px 8px; font-size: 12px; font-weight: 600; }
+        .sv-veh small { display: block; color: var(--sv-muted); font-weight: 500; font-size: 10px; }
+        .sv-veh.locked { opacity: .45; border-style: dashed; }
+        .sv-veh.sel { border-color: var(--sv-red); background: #fff5f5; }
+        .sv-item { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-size: 13px; }
+        .sv-pips { display: inline-flex; gap: 3px; }
+        .sv-pips i { width: 10px; height: 10px; border-radius: 2px; background: var(--sv-border); }
+        .sv-pips i.f { background: var(--sv-red); }
+        .sv-btn.on { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+        .sv-btn:disabled { opacity: .5; cursor: not-allowed; }
+        .sv-cheat { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; align-items: center; padding: 8px 0; border-bottom: 1px dashed var(--sv-border); }
+        .sv-cheat:last-of-type { border-bottom: none; }
+        .sv-cheat > b { font-size: 13px; }
+        .sv-cheat > b small { display: block; color: var(--sv-muted); font-weight: 600; font-size: 12px; }
+
+        /* ---------- Page effects ---------- */
+        #sv-siren { position: fixed; inset: 0; pointer-events: none; z-index: 9997; animation: sv-siren .8s steps(1) infinite; }
+        @keyframes sv-siren { 0% { box-shadow: inset 0 0 0 8px rgba(220,38,38,.9), inset 0 0 90px rgba(220,38,38,.45); } 50% { box-shadow: inset 0 0 0 8px rgba(37,99,235,.9), inset 0 0 90px rgba(37,99,235,.45); } }
+        body.fx-rainbow #game-page { animation: sv-rainbow 4s linear infinite; }
+        @keyframes sv-rainbow { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(360deg); } }
+        body.fx-flip #game-page { transform: rotate(180deg); }
+        body.fx-night #header, body.fx-night .uk-p10 { filter: invert(.9) hue-rotate(180deg); }
+        body.fx-night .uk-p10 img { filter: invert(1) hue-rotate(180deg); }
+        body.fx-shake #game-page > .container { animation: sv-quake .12s linear 12; }
+        @keyframes sv-quake { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(-6px, 3px) rotate(-.5deg); } 50% { transform: translate(5px, -4px); } 75% { transform: translate(-3px, 5px) rotate(.5deg); } }
+        .sv-confetti { position: fixed; top: -16px; width: 8px; height: 14px; z-index: 10002; pointer-events: none; animation: sv-fall linear forwards; }
+        @keyframes sv-fall { to { transform: translate3d(var(--dx), 110vh, 0) rotate(var(--r)); } }
+        @media (prefers-reduced-motion: reduce) { #sv-siren { animation-duration: 3s; } body.fx-shake #game-page > .container { animation: none; } }
+
+        @media (max-width: 520px) {
+            .sv-cheat { grid-template-columns: 1fr; }
+            .sv-panel { right: 0; left: 0; bottom: 0; width: 100%; max-width: 100%; border-radius: 14px 14px 0 0; max-height: 85vh; }
+            .sv-fab { right: 16px; bottom: 16px; }
+            .sv-grid2 { grid-template-columns: 1fr; }
+            .sv-table .hide-sm { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+<!--MENU-->
+<header id="header">
+    <div class="container">
+        <div class="row">
+            <div class="p-r d-flex sp al header-bar">
+                <div class="bar-logo">
+                    <a class="logo-text" href="/">Escape Road 3</a>
+                </div>
+                <nav class="navigation"><ul></ul></nav>
+                <div class="center-box merge_icon icon-menu-mobile">
+                    <svg fill="#555" height="24" viewBox="0 -21 384 384" width="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="m362.667969 0h-341.335938c-11.753906 0-21.332031 9.578125-21.332031 21.332031v42.667969c0 11.753906 9.578125 21.332031 21.332031 21.332031h341.335938c11.753906 0 21.332031-9.578125 21.332031-21.332031v-42.667969c0-11.753906-9.578125-21.332031-21.332031-21.332031zm0 0"></path>
+                        <path d="m362.667969 128h-341.335938c-11.753906 0-21.332031 9.578125-21.332031 21.332031v42.667969c0 11.753906 9.578125 21.332031 21.332031 21.332031h341.335938c11.753906 0 21.332031-9.578125 21.332031-21.332031v-42.667969c0-11.753906-9.578125-21.332031-21.332031-21.332031zm0 0"></path>
+                        <path d="m362.667969 256h-341.335938c-11.753906 0-21.332031 9.578125-21.332031 21.332031v42.667969c0 11.753906 9.578125 21.332031 21.332031 21.332031h341.335938c11.753906 0 21.332031-9.578125 21.332031-21.332031v-42.667969c0-11.753906-9.578125-21.332031-21.332031-21.332031zm0 0"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--END MENU-->
+<!--Mobile MENU-->
+<div class="mobile-dropdown" id="mobile-dropdown">
+    <div class="row"><nav class="nav-mobile-controler"><ul></ul></nav></div>
+</div>
+<!--END Mobile menu-->
+
+<!--GAME PLAY-->
+<div id="game-page" class="main">
+    <div class="container">
+        <div class="row">
+            <div class="frame-box-game">
+                <iframe title="Escape Road 3" id="iframehtml5" class="d-block" width="100%" height="600px" src="https://gamea.azgame.io/escape-road-3/" frameborder="0" border="0" scrolling="no" allowfullscreen=""></iframe>
+                <div class="header-game">
+                    <div class="box-header">
+                        <h1>Escape Road 3</h1>
+                        <div class="header-game-extend">
+                            <span class="us-expand" id="half-expand" onclick="theaterMode()">
+                                <svg class="scale-anim" width="24" height="24" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+                                    <path d="M8.5 22.5A3.5 3.5 0 0 0 5 26v48a3.5 3.5 0 0 0 3.5 3.5h83A3.5 3.5 0 0 0 95 74V26a3.5 3.5 0 0 0-3.5-3.5h-83zm3.5 7h76v41H12v-41z"></path>
+                                </svg>
+                            </span>
+                            <span class="expand-btn" id="expand">
+                                <svg class="scale-anim" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3,15 L3.11662113,15.0067277 C3.57570299,15.0600494 3.93995063,15.424297 3.99327227,15.8833789 L4,16 L4,20 L8,20 L8.11662113,20.0067277 C8.61395981,20.0644928 9,20.4871642 9,21 C9,21.5128358 8.61395981,21.9355072 8.11662113,21.9932723 L8,22 L3,22 L2.88337887,21.9932723 C2.42429701,21.9399506 2.06004937,21.575703 2.00672773,21.1166211 L2,21 L2,16 L2.00672773,15.8833789 C2.06004937,15.424297 2.42429701,15.0600494 2.88337887,15.0067277 L3,15 Z M21,15 C21.5128358,15 21.9355072,15.3860402 21.9932723,15.8833789 L22,16 L22,21 C22,21.5128358 21.6139598,21.9355072 21.1166211,21.9932723 L21,22 L16,22 C15.4477153,22 15,21.5522847 15,21 C15,20.4871642 15.3860402,20.0644928 15.8833789,20.0067277 L16,20 L20,20 L20,16 C20,15.4871642 20.3860402,15.0644928 20.8833789,15.0067277 L21,15 Z M8,2 C8.55228475,2 9,2.44771525 9,3 C9,3.51283584 8.61395981,3.93550716 8.11662113,3.99327227 L8,4 L4,4 L4,8 C4,8.51283584 3.61395981,8.93550716 3.11662113,8.99327227 L3,9 C2.48716416,9 2.06449284,8.61395981 2.00672773,8.11662113 L2,8 L2,3 C2,2.48716416 2.38604019,2.06449284 2.88337887,2.00672773 L3,2 L8,2 Z M21,2 L21.1166211,2.00672773 C21.575703,2.06004937 21.9399506,2.42429701 21.9932723,2.88337887 L22,3 L22,8 L21.9932723,8.11662113 C21.9399506,8.57570299 21.575703,8.93995063 21.1166211,8.99327227 L21,9 L20.8833789,8.99327227 C20.424297,8.93995063 20.0600494,8.57570299 20.0067277,8.11662113 L20,8 L20,4 L16,4 L15.8833789,3.99327227 C15.3860402,3.93550716 15,3.51283584 15,3 C15,2.48716416 15.3860402,2.06449284 15.8833789,2.00672773 L16,2 L21,2 Z" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <span class="exit-fullscreen hidden" id="_exit_full_screen">
+                    <svg fill="#fff" width="24" height="24" viewBox="0 0 512.001 512.001">
+                        <path d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717 L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859 c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287 l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285 L284.286,256.002z"></path>
+                    </svg>
+                </span>
+            </div>
+        </div>
+        <br />
+
+        <div class="row"><div class="uk-grid-clayover"></div></div>
+
+        <br />
+        <div class="uk-p10">
+            <div class="row">
+                <div class="frame-box-game">
+                    <div class="text-area">
+                        <div class="d-flex us-game-info">
+                            <div class="bread-crumb">
+                                <div class="overwrite-breadcumb">
+                                    <div class="d-flex al sp bread-crumb-list">
+                                        <div class="d-flex al sp">
+                                            <a class="bread-crumb-item" href="/">Home</a>
+                                            <span class="bread-crumb-item bread-after">Escape Road 3</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-area--content">
+<h2>About Escape Road 3</h2>
+<p><strong>Escape Road 3 puts you in a thrilling high-speed getaway driving game where every sharp turn, near miss, and last-second escape keeps the sirens just behind you.</strong></p>
+<h2>What is Escape Road 3?</h2>
+<p>Escape Road 3 is a <strong>high-speed driving action game combining survival mechanics</strong>, where you play as a fugitive escaping police in a crowded city filled with unexpected obstacles.</p>
+<div class="er-table-wrap">
+<table class="er-table">
+<tbody>
+<tr><th style="width:33%">Category</th><th style="width:67%">Details</th></tr>
+<tr><td>Game Name</td><td>Escape Road 3</td></tr>
+<tr><td>Publisher</td><td>Azgames</td></tr>
+<tr><td>Release Date</td><td>April 6, 2026</td></tr>
+<tr><td>Genre</td><td>Driving, Action, Survival, Reflex</td></tr>
+<tr><td>Platform</td><td>Browser (Desktop, Mobile, Tablet)</td></tr>
+<tr><td>Game Mode</td><td>Single Player</td></tr>
+<tr><td>Key Features</td><td>Vehicle switching mid-run, swimming, on-foot escape, character + vehicle combo system, 30+ characters, Mythic vehicles, 8 support items, diverse mini-games</td></tr>
+</tbody>
+</table>
+</div>
+<h2>How to Play Escape Road 3</h2>
+<p>Your goal is simple: <strong>drive as far as possible, avoid obstacles, and don't let the police catch you</strong>. The city is extremely chaotic with all kinds of obstacles: trees, buildings, heavy traffic. One wrong crash can trap you and get you arrested immediately.</p>
+<h3>New Gameplay Mechanics</h3>
+<p>Beyond just driving on city streets like previous versions, Escape Road 3 introduces completely new mechanics:</p>
+<ul>
+<li>Vehicle Switching: You can control boats, airplanes, and gliders mid-run. Fall into water? No problem, you can swim instead of dying like before.</li>
+<li>On-Foot Escape: When things get too hot, you can exit your vehicle and run. However, be careful, police can shoot at you.</li>
+<li>Combo System: Pairing a specific vehicle with a character or item creates special effects, giving you unique advantages.</li>
+<li>Diverse Mini-Games: Scattered throughout the game are mini-games like F1 racing, firefighting, zombie survival, underwater treasure hunting, complete them to earn rare vehicles and valuable rewards.</li>
+</ul>
+<h3>Effective Strategies</h3>
+<h3>Safe Play &ndash; Survive as long as possible:</h3>
+<p>Treat the city as a survival map. Use narrow alleys, sharp turns, and obstacles to shake off police. Prioritize smooth paths, avoid collisions, and extend your survival time. Don't risk cash pickups if they're not safe.</p>
+<h3>Aggressive Play &ndash; Turn every chase into an action movie:</h3>
+<p>If you love adrenaline, play aggressively. Brake late, take sharp cuts, make sudden direction changes to make police cars lose control. Risk picking up cash right in the line of fire. This style is shorter, crazier &ndash; but when it works, it's incredibly satisfying.</p>
+<h2>In-Game Controls</h2>
+<div class="er-table-wrap">
+<table class="er-table">
+<tbody>
+<tr><th style="width:25%">Key</th><th style="width:35%">Action</th><th style="width:40%">Notes</th></tr>
+<tr><td>WASD / Arrow Keys</td><td>Drive / Steer</td><td>Primary movement controls</td></tr>
+<tr><td>Shift</td><td>Nitro / Burst Speed</td><td>Use to break through police encirclements</td></tr>
+<tr><td>F</td><td>Use Legendary / Special Item</td><td>Activate powerful items mid-run</td></tr>
+<tr><td>Space</td><td>Enter / Exit Vehicle</td><td>Get out of vehicle when cornered</td></tr>
+<tr><td>E</td><td>Change Escape Route</td><td>Flexible route switching</td></tr>
+<tr><td>R</td><td>Restart Run</td><td>Quick reset</td></tr>
+<tr><td>P</td><td>Pause</td><td>Pause the game</td></tr>
+<tr><td>M</td><td>Mute / Unmute Sound</td><td>Audio settings</td></tr>
+</tbody>
+</table>
+</div>
+<p><img src="https://taproad.io/data/image/escape-road-3.png" alt="Escape Road 3" width="500" height="500" /></p>
+<h2>Game Features</h2>
+<ul>
+<li><strong>Mythic Cars:</strong> F1 Racing Car, Zombie Slaying Truck, Firefighter Helicopter, Alien Hunter Ship</li>
+<li><strong>Legendary Car Upgrades</strong>: Bulldozer (reinforced bumper), Interceptor (police jammer), Stealth Coupe (active camouflage), Armored Tank (explosive shells)</li>
+<li><strong>Character System:</strong> 30+ characters with unique power stats: Speed Bonus, Handling Bonus, Durability Bonus, Item Efficiency, Coin Magnet, Police Evasion</li>
+<li><strong>Support Items 8 items total</strong>: Health Pack, Shield, Nitro Boost, Oil Slick, Smoke Screen, EMP Burst, Repair Kit, Mega Magnet (each can be upgraded)</li>
+<li><strong>Environments</strong>: City, Suburbs, Desert, Ocean/Beach, Snowy Mountains, Forest, Industrial Zone (each with unique obstacles)</li>
+<li><strong>Swimming Feature:</strong> Fall into water? You can swim to safety &ndash; police cannot follow you into deep water</li>
+<li><strong>Multi-Vehicle Control:</strong> Boats, airplanes, gliders, jet skis &ndash; switch between them mid-run</li>
+<li><strong>Mini-Games (Mythic Unlock):</strong> F1 Racing, Firefighting, Zombie Survival, Alien Invasion</li>
+<li><strong>Side Mini-Games:</strong> Underwater Treasure Hunt, Stop Alien Invasion, Bank Robbery Escape, Highway Patrol Challenge</li>
+<li><strong>Combo System:</strong> Car + Item or Car + Character creates special effects (e.g., Tank + Faster Gun destroys police cars faster; Bulldozer + Bumper pushes through any obstacle)</li>
+<li><strong>Low-End Device Support:</strong> Low Graphics Mode, Disable Weather Effects, Reduce Draw Distance, Simple Collision, 30 FPS Cap, Disable Background Animations</li>
+</ul>
+<h2>Tips &amp; Tricks for Escape Road 3</h2>
+<ul>
+<li>Use terrain against police. Narrow alleys, sharp turns, and obstacles can cut off police and create breathing room. Turn the city into your weapon instead of just reacting to it.</li>
+<li>Collect coins and items, but don't risk your run for every pickup. Treat cash as a bonus for good positioning, not something you must collect at all costs.</li>
+<li>Avoid crowded areas. More people and traffic mean more collisions and more chances to get cornered. Keep distance from high-traffic zones whenever possible.</li>
+<li>Use nitro at the right time. Don't waste it early. Save nitro for moments when you need to break out of police encirclement or escape a deadly trap.</li>
+<li>Master sharp turns. Sudden, razor-sharp turns can make police cars crash into obstacles. Practice this skill &ndash; it's one of the most effective escape techniques.</li>
+<li>Switch escape routes often. Don't run in a straight line. The harder you are to predict, the harder it is for police to catch you. Use the E key to change your route frequently.</li>
+<li>Don't stay outside your vehicle too long. On-foot escape is a good backup plan, but under police gunfire, you shouldn't stay outside for more than a few seconds.</li>
+<li>Experiment with combos. Every car + character pair has unique effects. Try different combinations to find the strongest setup for your playstyle.</li>
+<li>Swim to safety if you fall into water. Don't panic. Police cannot follow you into deep water. Use swimming to reach a new shore and continue your escape.</li>
+<li>Adjust graphics for low-end PCs. If the game feels laggy, go to Settings and enable Low Graphics Mode and 30 FPS Cap. You can also disable weather effects and background animations for smoother performance.</li>
+</ul>
+<h2>FAQs</h2>
+<h3>How do I escape police when cornered?</h3>
+<p>Press Space to exit your vehicle and run on foot. You can also find water areas to swim across to the other side &ndash; police cannot follow you into deep water.</p>
+<h3>Where can I play Escape Road 3 unblocked?</h3>
+<p>You can play Escape Road 3 unblocked on websites like KBH Games, Tap Road, Slopeio.org, or EscapeRoad2d.io. These sites are usually not blocked in school or office environments.</p>
+<h3>How do I unlock Mythic vehicles?</h3>
+<p>To unlock Mythic vehicles like the F1 Racing Car or Zombie Slaying Truck, you need to complete mini-games scattered throughout the game. Each mini-game offers a unique challenge and rewards exclusive vehicles.</p>
+<h3>What happens if I fall into water?</h3>
+<p>No need to worry anymore! In Escape Road 3, if your vehicle falls into water, you can swim to continue your escape. This is one of the biggest improvements over previous versions. Some characters even have Swim Speed Bonus stats.</p>
+<h3>How does the Combo system work?</h3>
+<p>Pairing a specific vehicle with a character (and sometimes support items) activates a special effect. For example, the Armored Tank combined with a Faster Gun character destroys police cars twice as fast. The Bulldozer combined with a Reinforced Bumper can push through any obstacle without slowing down. Experiment with different combinations to find your advantage.</p>
+<h3>What vehicles can I control besides cars?</h3>
+<p>A lot! Besides cars, you can control boats, airplanes, gliders, and jet skis &ndash; all switchable mid-run. Each vehicle type has unique handling characteristics and works best in specific environments.</p>
+<h3>How many characters are there?</h3>
+<p>There are 30+ characters, each with different power stats including Speed Bonus, Handling Bonus, Durability Bonus, Item Efficiency, Coin Magnet, and Police Evasion. Choose the character that best matches your playstyle.</p>
+<h3>What are the 8 support items?</h3>
+<p>The eight support items are: Health Pack (restores vehicle health), Shield (temporary damage immunity), Nitro Boost (instant speed burst), Oil Slick (causes police cars to spin out), Smoke Screen (blocks police vision), EMP Burst (disables nearby police electronics), Repair Kit (gradual health regeneration), and Mega Magnet (attracts all items and coins on screen). Each item can be upgraded for stronger effects.</p>
+<h3>Can I play on a low-end computer?</h3>
+<p>Yes! Escape Road 3 includes Low Graphics Mode, 30 FPS Cap, and other settings to help the game run smoothly on weak configurations. You can also disable weather effects, reduce draw distance, and turn off background animations.</p>
+<h3>How do I switch between selecting cars and characters in the garage?</h3>
+<p>Use Tab to toggle between Vehicle Selection and Character Selection. Then use WASD or Arrow Keys to navigate, and Space to confirm your choice.</p>
+<h3>What environments can I drive through?</h3>
+<p>Escape Road 3 features seven diverse environments: City (traffic jams, construction zones), Suburbs (parked cars, mailboxes), Desert (sand dunes, cacti), Ocean/Beach (waves, piers), Snowy Mountains (ice patches, falling rocks), Forest (fallen trees), and Industrial Zone (oil spills, cargo containers). Each environment has unique obstacles and difficulty levels.</p>
+<h2>Summary</h2>
+<p><strong>Escape Road 3</strong> isn't just a simple upgrade &ndash; it's a small revolution in browser-based chase games. From vehicle switching, swimming, on-foot escape, combo systems, 30+ unique characters, 8 support items, diverse environments, and rich mini-games &ndash; this game deserves to be a top choice for anyone who loves heart-pounding, adrenaline-fueled, and addictive gameplay.</p>
+<p>Open your browser, go to your <a href="https://escaperoad-3.github.io">escaperoad-3.github.io</a> site, hit the gas &ndash; and see how long you can survive before the police sirens catch up!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END GAME PLAY-->
+
+<!-- ===================== SAVE SYSTEM ===================== -->
+<div class="sv">
+    <button id="sv-fab" class="sv-fab" type="button" aria-haspopup="dialog" aria-controls="sv-panel">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4zm-5 16a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm3-10H5V5h10v4z"/></svg>
+        Saves
+    </button>
+
+    <div id="sv-panel" class="sv-panel" role="dialog" aria-label="Save system" hidden>
+        <div class="sv-head">
+            <strong>Save System</strong>
+            <span id="sv-status" class="sv-status"></span>
+            <button class="sv-x" data-act="close" aria-label="Close">&times;</button>
+        </div>
+        <div class="sv-tabs" role="tablist">
+            <button data-tab="profile" class="on">Profile</button>
+            <button data-tab="garage">Garage</button>
+            <button data-tab="runs">Runs</button>
+            <button data-tab="unlocks">Unlocks</button>
+            <button data-tab="backup">Backup</button>
+        </div>
+        <div id="sv-body" class="sv-body"></div>
+        <div class="sv-foot">
+            <span id="sv-slotlabel"></span>
+            <button class="sv-link" data-act="admin">Admin</button>
+        </div>
+    </div>
+
+    <div id="sv-admin" class="sv-modal" hidden>
+        <div id="sv-admin-card" class="sv-modal-card small"></div>
+    </div>
+
+    <div id="sv-toast" class="sv-toast" role="status" hidden></div>
+</div>
+
+<script>
+(function () {
+    'use strict';
+
+    /* ---------------- Config ---------------- */
+    var STORE_KEY = 'er3_save_v1';
+    var ADMIN_KEY = 'er3_admin_try';
+    var ADMIN_CODE = '4334';
+    var MAX_TRIES = 5, LOCKOUT_MS = 30000;
+    var SLOT_COUNT = 3;
+    var UNLOCKS = {
+        'Mythic vehicles': ['F1 Racing Car', 'Zombie Slaying Truck', 'Firefighter Helicopter', 'Alien Hunter Ship'],
+        'Legendary upgrades': ['Bulldozer', 'Interceptor', 'Stealth Coupe', 'Armored Tank'],
+        'Mini-games completed': ['F1 Racing', 'Firefighting', 'Zombie Survival', 'Alien Invasion', 'Underwater Treasure Hunt', 'Stop Alien Invasion', 'Bank Robbery Escape', 'Highway Patrol Challenge'],
+        'Environments reached': ['City', 'Suburbs', 'Desert', 'Ocean/Beach', 'Snowy Mountains', 'Forest', 'Industrial Zone'],
+        'Vehicle types': ['Boat', 'Airplane', 'Glider', 'Jet Ski']
+    };
+    var UNLOCK_TOTAL = Object.keys(UNLOCKS).reduce(function (n, g) { return n + UNLOCKS[g].length; }, 0);
+    var VEHICLE_GROUPS = ['Mythic vehicles', 'Legendary upgrades', 'Vehicle types'];
+    var STARTER = 'Starter Car';
+    var ITEMS = ['Health Pack', 'Shield', 'Nitro Boost', 'Oil Slick', 'Smoke Screen', 'EMP Burst', 'Repair Kit', 'Mega Magnet'];
+    var MAX_ITEM = 5, MAX_LEVEL = 99, XP_PER_LEVEL = 1000, MAX_HP = 999, MAX_COINS = 1e12;
+
+    /* ---------------- Helpers ---------------- */
+    var $ = function (id) { return document.getElementById(id); };
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function fmtTime(sec) {
+        sec = Math.max(0, Math.floor(sec || 0));
+        var h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60;
+        return h ? h + 'h ' + m + 'm' : m ? m + 'm ' + s + 's' : s + 's';
+    }
+    function fmtDate(t) { return t ? new Date(t).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : '—'; }
+    function num(v) { var n = Number(v); return isFinite(n) && n >= 0 ? Math.floor(n) : 0; }
+    function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+    function toast(msg) {
+        var t = $('sv-toast'); t.textContent = msg; t.hidden = false;
+        clearTimeout(toast._t); toast._t = setTimeout(function () { t.hidden = true; }, 2200);
+    }
+    function encode(obj) { return btoa(unescape(encodeURIComponent(JSON.stringify(obj)))); }
+    function decode(str) { return JSON.parse(decodeURIComponent(escape(atob(str.trim())))); }
+    function download(name, obj) {
+        var blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    }
+
+    /* ---------------- Data model ---------------- */
+    function newSlot(name) {
+        var now = Date.now();
+        return { name: name || 'Player', created: now, updated: now, playSeconds: 0, sessions: 0, lastPlayed: null, runs: [], unlocks: {}, notes: '',
+            health: 100, god: false, coins: 0, xp: 0, wanted: 0, vehicle: STARTER, items: {} };
+    }
+    function fresh() {
+        var s = []; for (var i = 0; i < SLOT_COUNT; i++) s.push(null);
+        return { version: 1, activeSlot: 0, slots: s, adminLog: [], fx: { siren: false, rainbow: false, flip: false, night: false } };
+    }
+    function normSlot(s) {
+        if (!s || typeof s !== 'object') return null;
+        var n = newSlot(String(s.name || 'Player').slice(0, 24));
+        n.created = num(s.created) || n.created;
+        n.updated = num(s.updated) || n.updated;
+        n.playSeconds = num(s.playSeconds);
+        n.sessions = num(s.sessions);
+        n.lastPlayed = num(s.lastPlayed) || null;
+        n.notes = String(s.notes || '').slice(0, 2000);
+        n.runs = Array.isArray(s.runs) ? s.runs.slice(0, 500).map(function (r) {
+            return { id: String(r.id || uid()), date: num(r.date) || Date.now(), score: num(r.score), coins: num(r.coins), vehicle: String(r.vehicle || '').slice(0, 40), note: String(r.note || '').slice(0, 120) };
+        }) : [];
+        if (s.unlocks && typeof s.unlocks === 'object') Object.keys(s.unlocks).forEach(function (k) { if (s.unlocks[k]) n.unlocks[k] = true; });
+        n.health = s.health == null ? 100 : Math.min(MAX_HP, num(s.health));
+        n.god = !!s.god;
+        n.coins = Math.min(MAX_COINS, num(s.coins));
+        n.xp = Math.min((MAX_LEVEL - 1) * XP_PER_LEVEL, num(s.xp));
+        n.wanted = Math.min(5, num(s.wanted));
+        n.vehicle = String(s.vehicle || STARTER).slice(0, 40);
+        if (s.items && typeof s.items === 'object') ITEMS.forEach(function (it) { var lv = Math.min(MAX_ITEM, num(s.items[it])); if (lv) n.items[it] = lv; });
+        if (ownedVehicles(n).indexOf(n.vehicle) < 0) n.vehicle = STARTER;
+        return n;
+    }
+    function normalize(d) {
+        var out = fresh();
+        if (!d || typeof d !== 'object' || !Array.isArray(d.slots)) return out;
+        for (var i = 0; i < SLOT_COUNT; i++) out.slots[i] = normSlot(d.slots[i]);
+        out.activeSlot = Math.min(SLOT_COUNT - 1, num(d.activeSlot));
+        out.adminLog = Array.isArray(d.adminLog) ? d.adminLog.slice(-50).map(String) : [];
+        if (d.fx && typeof d.fx === 'object') Object.keys(out.fx).forEach(function (k) { out.fx[k] = !!d.fx[k]; });
+        return out;
+    }
+
+    var memoryCopy = null, storageOk = true;
+    function load() {
+        try { var raw = localStorage.getItem(STORE_KEY); if (raw) return normalize(JSON.parse(raw)); }
+        catch (e) { storageOk = false; }
+        return memoryCopy ? normalize(memoryCopy) : fresh();
+    }
+    var state = load();
+
+    function persist() {
+        memoryCopy = state;
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); storageOk = true; setStatus('Saved ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })); }
+        catch (e) { storageOk = false; setStatus('Saved for this visit only'); }
+    }
+    function active() { return state.slots[state.activeSlot] || null; }
+    function commit(rerender) {
+        var s = active(); if (s) s.updated = Date.now();
+        persist();
+        if (rerender !== false) render();
+    }
+    function bestScore(s) { return s && s.runs.length ? Math.max.apply(null, s.runs.map(function (r) { return r.score; })) : 0; }
+    function totalCoins(s) { return s ? s.runs.reduce(function (n, r) { return n + r.coins; }, 0) : 0; }
+    function unlockCount(s) { return s ? Object.keys(s.unlocks).length : 0; }
+    function level(s) { return Math.min(MAX_LEVEL, 1 + Math.floor(s.xp / XP_PER_LEVEL)); }
+    function allVehicles() {
+        var out = [];
+        VEHICLE_GROUPS.forEach(function (g) { UNLOCKS[g].forEach(function (v) { out.push({ group: g, name: v, key: g + '|' + v }); }); });
+        return out;
+    }
+    function ownedVehicles(s) { return [STARTER].concat(allVehicles().filter(function (v) { return s.unlocks[v.key]; }).map(function (v) { return v.name; })); }
+    function addXp(s, amt) { var before = level(s); s.xp = Math.min((MAX_LEVEL - 1) * XP_PER_LEVEL, s.xp + amt); return level(s) - before; }
+    function stars(n) { var h = ''; for (var i = 0; i < 5; i++) h += i < n ? '<b>★</b>' : '★'; return '<span class="sv-stars" aria-label="' + n + ' of 5 stars">' + h + '</span>'; }
+    function pips(n) { var h = ''; for (var i = 0; i < MAX_ITEM; i++) h += '<i' + (i < n ? ' class="f"' : '') + '></i>'; return '<span class="sv-pips" aria-label="level ' + n + ' of ' + MAX_ITEM + '">' + h + '</span>'; }
+    function setStatus(t) { var el = $('sv-status'); if (el) el.textContent = t; }
+
+    /* ---------------- Player panel ---------------- */
+    var tab = 'profile';
+    var panel = $('sv-panel'), body = $('sv-body');
+
+    function render() {
+        var s = active();
+        $('sv-slotlabel').textContent = s ? 'Slot ' + (state.activeSlot + 1) + ' · ' + s.name : 'No save loaded';
+        document.querySelectorAll('.sv-tabs button').forEach(function (b) { b.classList.toggle('on', b.dataset.tab === tab); });
+        if (panel.hidden) return;
+        body.innerHTML = ({ profile: viewProfile, garage: viewGarage, runs: viewRuns, unlocks: viewUnlocks, backup: viewBackup })[tab]();
+    }
+
+    function viewSlots() {
+        return '<div class="sv-slots">' + state.slots.map(function (sl, i) {
+            if (!sl) return '<div class="sv-slot empty"><div class="sv-slot-n">Slot ' + (i + 1) + '</div><small>Empty</small><button class="sv-btn sm" data-act="create" data-i="' + i + '">New save</button></div>';
+            var on = i === state.activeSlot;
+            return '<div class="sv-slot' + (on ? ' on' : '') + '"><div class="sv-slot-n">Slot ' + (i + 1) + '</div><b title="' + esc(sl.name) + '">' + esc(sl.name) + '</b><small>' + fmtTime(sl.playSeconds) + '</small>' +
+                (on ? '<em>Active</em>' : '<button class="sv-btn sm" data-act="use" data-i="' + i + '">Load</button>') + '</div>';
+        }).join('') + '</div>';
+    }
+
+    function viewProfile() {
+        var s = active(), h = viewSlots();
+        if (!s) return h + '<p class="sv-muted">Pick an empty slot and press <b>New save</b> to start tracking your progress.</p>';
+        h += '<div class="sv-field"><label for="sv-name">Player name</label><input id="sv-name" type="text" maxlength="24" value="' + esc(s.name) + '"></div>';
+        h += '<div class="sv-stats">' +
+            '<div class="sv-stat"><span>Play time</span><b id="sv-playtime">' + fmtTime(s.playSeconds) + '</b></div>' +
+            '<div class="sv-stat"><span>Best score</span><b>' + bestScore(s).toLocaleString() + '</b></div>' +
+            '<div class="sv-stat"><span>Runs logged</span><b>' + s.runs.length + '</b></div>' +
+            '<div class="sv-stat"><span>Unlocks</span><b>' + unlockCount(s) + ' / ' + UNLOCK_TOTAL + '</b></div>' +
+            '<div class="sv-stat"><span>Sessions</span><b>' + s.sessions + '</b></div>' +
+            '<div class="sv-stat"><span>Coins logged</span><b>' + totalCoins(s).toLocaleString() + '</b></div>' +
+            '</div>';
+        h += '<p class="sv-muted">Last played: ' + fmtDate(s.lastPlayed) + '. Play time counts while the game has focus.</p>';
+        h += '<div class="sv-field"><label for="sv-notes">Notes (combos, goals…)</label><textarea id="sv-notes" maxlength="2000">' + esc(s.notes) + '</textarea></div>';
+        h += '<div class="sv-row"><button class="sv-btn danger" data-act="delete-slot">Delete this save</button></div>';
+        return h;
+    }
+
+    function viewGarage() {
+        var s = active();
+        if (!s) return '<p class="sv-muted">Create a save on the Profile tab first.</p>';
+        var lv = level(s), xpIn = lv >= MAX_LEVEL ? XP_PER_LEVEL : s.xp % XP_PER_LEVEL;
+        var hpCls = s.god ? ' god' : s.health <= 25 ? ' low' : '';
+        var h = '<div class="sv-kv">Health <span>' + (s.god ? '<span class="sv-badge">GOD MODE</span>' : s.health + ' / 100') + '</span></div>' +
+            '<div class="sv-hp' + hpCls + '"><i style="width:' + Math.min(100, s.health) + '%"></i></div>';
+        h += '<div class="sv-stats">' +
+            '<div class="sv-stat"><span>Coins</span><b>' + s.coins.toLocaleString() + '</b></div>' +
+            '<div class="sv-stat"><span>Level</span><b>' + lv + (lv >= MAX_LEVEL ? ' (max)' : '') + '</b><div class="sv-bar" style="margin-top:4px"><i style="width:' + (xpIn / XP_PER_LEVEL * 100) + '%"></i></div></div>' +
+            '<div class="sv-stat"><span>Wanted level</span>' + stars(s.wanted) + '</div>' +
+            '<div class="sv-stat"><span>Vehicles owned</span><b>' + ownedVehicles(s).length + ' / ' + (allVehicles().length + 1) + '</b></div>' +
+            '</div>';
+        if (!s.god && s.health < 100) h += '<div class="sv-row" style="margin-bottom:12px"><button class="sv-btn" data-act="repair"' + (s.coins < 100 ? ' disabled' : '') + '>Repair to full · 100 coins</button></div>';
+        h += '<div class="sv-field"><label for="sv-vehicle">Driving</label><select id="sv-vehicle">' + ownedVehicles(s).map(function (v) {
+            return '<option' + (v === s.vehicle ? ' selected' : '') + '>' + esc(v) + '</option>';
+        }).join('') + '</select></div>';
+        h += '<h4><span>Collection</span></h4><div class="sv-vehs">' + [{ group: 'Default', name: STARTER, key: '' }].concat(allVehicles()).map(function (v) {
+            var owned = !v.key || s.unlocks[v.key];
+            return '<div class="sv-veh' + (owned ? '' : ' locked') + (v.name === s.vehicle ? ' sel' : '') + '">' + (owned ? '' : '🔒 ') + esc(v.name) + '<small>' + esc(v.group) + '</small></div>';
+        }).join('') + '</div>';
+        h += '<h4><span>Support items</span></h4>' + ITEMS.map(function (it) { return '<div class="sv-item">' + esc(it) + pips(s.items[it] || 0) + '</div>'; }).join('');
+        h += '<p class="sv-muted" style="margin-top:12px">Logging a run adds its coins to your balance and gives XP (1 XP per 10 score).</p>';
+        return h;
+    }
+
+    function viewRuns() {
+        var s = active();
+        if (!s) return '<p class="sv-muted">Create a save on the Profile tab first.</p>';
+        var h = '<form id="sv-runform"><div class="sv-grid2">' +
+            '<div class="sv-field"><label for="sv-r-score">Score / distance</label><input id="sv-r-score" type="number" min="0" required></div>' +
+            '<div class="sv-field"><label for="sv-r-coins">Coins</label><input id="sv-r-coins" type="number" min="0"></div>' +
+            '</div><div class="sv-field"><label for="sv-r-veh">Vehicle / character</label><input id="sv-r-veh" type="text" maxlength="40"></div>' +
+            '<div class="sv-field"><label for="sv-r-note">Note</label><input id="sv-r-note" type="text" maxlength="120"></div>' +
+            '<button class="sv-btn pri" type="submit">Log run</button></form>';
+        var best = bestScore(s);
+        h += '<h4><span>History</span><span>' + s.runs.length + '</span></h4>';
+        if (!s.runs.length) return h + '<p class="sv-muted">No runs yet.</p>';
+        h += '<ul class="sv-list">' + s.runs.slice().reverse().slice(0, 30).map(function (r) {
+            return '<li><div class="grow"><b>' + r.score.toLocaleString() + (r.score === best ? ' ★' : '') + '</b> · ' + r.coins.toLocaleString() + ' coins' +
+                '<small>' + esc([r.vehicle, r.note].filter(Boolean).join(' — ') || fmtDate(r.date)) + '</small></div>' +
+                '<button class="sv-btn sm" data-act="del-run" data-id="' + esc(r.id) + '" aria-label="Delete run">&times;</button></li>';
+        }).join('') + '</ul>';
+        return h;
+    }
+
+    function viewUnlocks() {
+        var s = active();
+        if (!s) return '<p class="sv-muted">Create a save on the Profile tab first.</p>';
+        return Object.keys(UNLOCKS).map(function (g) {
+            var items = UNLOCKS[g], got = items.filter(function (it) { return s.unlocks[g + '|' + it]; }).length;
+            return '<h4><span>' + esc(g) + '</span><span>' + got + '/' + items.length + '</span></h4>' +
+                '<div class="sv-bar"><i style="width:' + (got / items.length * 100) + '%"></i></div>' +
+                items.map(function (it) {
+                    var k = g + '|' + it;
+                    return '<label class="sv-check"><input type="checkbox" data-unlock="' + esc(k) + '"' + (s.unlocks[k] ? ' checked' : '') + '> ' + esc(it) + '</label>';
+                }).join('');
+        }).join('');
+    }
+
+    function viewBackup() {
+        var h = '<h4><span>Export</span></h4><p class="sv-muted">Copy this code to move your saves to another browser or device.</p>' +
+            '<textarea class="mono" id="sv-export" readonly>' + esc(encode({ er3: 1, data: state })) + '</textarea>' +
+            '<div class="sv-row" style="margin-top:8px"><button class="sv-btn pri" data-act="copy-export">Copy code</button><button class="sv-btn" data-act="download">Download .json</button></div>' +
+            '<h4><span>Import</span></h4><p class="sv-muted">Importing replaces all saves in this browser.</p>' +
+            '<textarea class="mono" id="sv-import" placeholder="Paste a save code"></textarea>' +
+            '<div class="sv-row" style="margin-top:8px"><button class="sv-btn pri" data-act="import-code">Import code</button>' +
+            '<label class="sv-btn" style="display:inline-block">Upload .json<input id="sv-file" type="file" accept="application/json,.json" hidden></label></div>';
+        if (!storageOk) h += '<p class="sv-muted" style="color:var(--sv-red)">Browser storage is blocked here, so saves will be lost when you leave. Export a code to keep them.</p>';
+        return h;
+    }
+
+    function importData(obj) {
+        var d = obj && obj.er3 && obj.data ? obj.data : obj;
+        if (!d || !Array.isArray(d.slots)) throw new Error('bad');
+        state = normalize(d); persist(); render(); toast('Saves imported');
+    }
+
+    /* ---------------- Admin panel ---------------- */
+    var adminOpen = false, adminUnlocked = false, pin = '', adminSel = 0;
+    var modal = $('sv-admin'), card = $('sv-admin-card');
+
+    function tries() { try { return JSON.parse(sessionStorage.getItem(ADMIN_KEY)) || { n: 0, until: 0 }; } catch (e) { return tries._m || { n: 0, until: 0 }; } }
+    function setTries(t) { tries._m = t; try { sessionStorage.setItem(ADMIN_KEY, JSON.stringify(t)); } catch (e) {} }
+    function log(msg) { state.adminLog.push(new Date().toISOString().slice(0, 19).replace('T', ' ') + '  ' + msg); state.adminLog = state.adminLog.slice(-50); }
+
+    function openAdmin() { adminOpen = true; modal.hidden = false; pin = ''; adminSel = state.activeSlot; renderAdmin(); }
+    function closeAdmin() { adminOpen = false; modal.hidden = true; }
+
+    function renderAdmin(err) {
+        if (!adminUnlocked) {
+            card.className = 'sv-modal-card small';
+            var t = tries(), locked = Date.now() < t.until;
+            card.innerHTML = '<div class="sv-modal-head"><strong>Admin access</strong><button class="sv-x" data-act="admin-close" aria-label="Close">&times;</button></div>' +
+                '<div class="sv-modal-body"><p class="sv-muted" style="text-align:center;margin:0 0 6px">Enter the 4-digit code</p>' +
+                '<div class="sv-pin' + (err ? ' err' : '') + '">' + [0, 1, 2, 3].map(function (i) { return '<i class="' + (i < pin.length ? 'f' : '') + '"></i>'; }).join('') + '</div>' +
+                '<div class="sv-keys">' + ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'C', '0', '⌫'].map(function (k) {
+                    return '<button data-act="key" data-k="' + k + '"' + (locked ? ' disabled' : '') + '>' + k + '</button>';
+                }).join('') + '</div>' +
+                '<div class="sv-msg" id="sv-pinmsg">' + (locked ? 'Too many attempts. Try again in ' + Math.ceil((t.until - Date.now()) / 1000) + 's.' : (err || '')) + '</div></div>';
+            if (locked) { clearTimeout(renderAdmin._t); renderAdmin._t = setTimeout(function () { if (adminOpen && !adminUnlocked) renderAdmin(); }, 1000); }
+            return;
+        }
+
+        card.className = 'sv-modal-card';
+        var sel = state.slots[adminSel];
+        var h = '<div class="sv-modal-head"><strong>Admin panel</strong><div class="sv-row"><button class="sv-btn sm" data-act="admin-lock">Lock</button><button class="sv-x" data-act="admin-close" aria-label="Close">&times;</button></div></div><div class="sv-modal-body">';
+
+        h += '<div class="sv-section"><h4><span>All save slots</span><span>' + (storageOk ? 'localStorage' : 'memory only') + '</span></h4>' +
+            '<table class="sv-table"><thead><tr><th>Slot</th><th>Name</th><th>Play time</th><th class="hide-sm">Runs</th><th>Best</th><th class="hide-sm">Unlocks</th><th class="hide-sm">Updated</th></tr></thead><tbody>' +
+            state.slots.map(function (s, i) {
+                return '<tr class="' + (i === adminSel ? 'sel' : '') + '" data-act="admin-select" data-i="' + i + '" style="cursor:pointer"><td>' + (i + 1) + (i === state.activeSlot ? ' ●' : '') + '</td>' +
+                    (s ? '<td>' + esc(s.name) + '</td><td>' + fmtTime(s.playSeconds) + '</td><td class="hide-sm">' + s.runs.length + '</td><td>' + bestScore(s).toLocaleString() + '</td><td class="hide-sm">' + unlockCount(s) + '/' + UNLOCK_TOTAL + '</td><td class="hide-sm">' + fmtDate(s.updated) + '</td>'
+                        : '<td colspan="6" class="sv-muted">Empty</td>') + '</tr>';
+            }).join('') + '</tbody></table><p class="sv-muted" style="margin:8px 0 0">Click a row to edit it. ● marks the player\'s active slot.</p></div>';
+
+        h += '<div class="sv-section"><h4><span>Edit slot ' + (adminSel + 1) + '</span></h4>';
+        if (!sel) {
+            h += '<p class="sv-muted">This slot is empty.</p><button class="sv-btn pri" data-act="admin-create">Create save here</button>';
+        } else {
+            h += '<div class="sv-grid2">' +
+                '<div class="sv-field"><label for="sv-a-name">Name</label><input id="sv-a-name" type="text" maxlength="24" value="' + esc(sel.name) + '"></div>' +
+                '<div class="sv-field"><label for="sv-a-play">Play time (seconds)</label><input id="sv-a-play" type="number" min="0" value="' + sel.playSeconds + '"></div>' +
+                '<div class="sv-field"><label for="sv-a-sess">Sessions</label><input id="sv-a-sess" type="number" min="0" value="' + sel.sessions + '"></div>' +
+                '<div class="sv-field"><label>&nbsp;</label><button class="sv-btn pri" data-act="admin-save-fields">Save changes</button></div></div>' +
+                '<div class="sv-row">' +
+                '<button class="sv-btn" data-act="admin-unlock-all">Unlock all</button>' +
+                '<button class="sv-btn" data-act="admin-lock-all">Lock all</button>' +
+                '<button class="sv-btn" data-act="admin-clear-runs">Clear runs</button>' +
+                '<button class="sv-btn" data-act="admin-reset-stats">Reset stats</button>' +
+                '<button class="sv-btn" data-act="admin-make-active">Make active</button>' +
+                '<button class="sv-btn danger" data-act="admin-delete">Delete slot</button></div>';
+        }
+        h += '</div>';
+
+        h += '<div class="sv-section"><h4><span>Raw save data</span></h4><textarea class="mono" id="sv-a-raw" rows="10">' + esc(JSON.stringify(state, null, 2)) + '</textarea>' +
+            '<div class="sv-row" style="margin-top:8px"><button class="sv-btn pri" data-act="admin-apply-raw">Apply JSON</button><button class="sv-btn" data-act="admin-export">Download backup</button><button class="sv-btn danger" data-act="admin-wipe">Wipe everything</button></div></div>';
+
+        h += '<div class="sv-section"><h4><span>Admin log</span><span>' + state.adminLog.length + '</span></h4><div class="sv-log">' +
+            (state.adminLog.length ? state.adminLog.slice().reverse().map(esc).join('<br>') : 'No admin actions yet.') + '</div></div>';
+
+        card.innerHTML = h + '</div>';
+    }
+
+    function pressKey(k) {
+        var t = tries();
+        if (Date.now() < t.until) return renderAdmin();
+        if (k === 'C') pin = '';
+        else if (k === '⌫') pin = pin.slice(0, -1);
+        else if (/^\d$/.test(k) && pin.length < 4) pin += k;
+        if (pin.length === 4) {
+            if (pin === ADMIN_CODE) {
+                adminUnlocked = true; pin = ''; setTries({ n: 0, until: 0 });
+                log('Admin unlocked'); persist(); renderAdmin(); return;
+            }
+            t.n += 1;
+            if (t.n >= MAX_TRIES) { t.until = Date.now() + LOCKOUT_MS; t.n = 0; }
+            setTries(t); pin = '';
+            return renderAdmin(t.until > Date.now() ? '' : 'Wrong code (' + (MAX_TRIES - t.n) + ' tries left)');
+        }
+        renderAdmin();
+    }
+
+    function adminAction(act) {
+        var sel = state.slots[adminSel], label = 'slot ' + (adminSel + 1);
+        switch (act) {
+            case 'admin-create':
+                state.slots[adminSel] = newSlot('Player ' + (adminSel + 1)); log('Created ' + label); break;
+            case 'admin-save-fields':
+                sel.name = ($('sv-a-name').value.trim() || 'Player').slice(0, 24);
+                sel.playSeconds = num($('sv-a-play').value);
+                sel.sessions = num($('sv-a-sess').value);
+                sel.updated = Date.now(); log('Edited ' + label); toast('Slot updated'); break;
+            case 'admin-unlock-all':
+                Object.keys(UNLOCKS).forEach(function (g) { UNLOCKS[g].forEach(function (it) { sel.unlocks[g + '|' + it] = true; }); });
+                log('Unlocked all on ' + label); break;
+            case 'admin-lock-all': sel.unlocks = {}; log('Locked all on ' + label); break;
+            case 'admin-clear-runs':
+                if (!confirm('Clear all runs on ' + label + '?')) return;
+                sel.runs = []; log('Cleared runs on ' + label); break;
+            case 'admin-reset-stats':
+                if (!confirm('Reset play time and sessions on ' + label + '?')) return;
+                sel.playSeconds = 0; sel.sessions = 0; sel.lastPlayed = null; log('Reset stats on ' + label); break;
+            case 'admin-make-active': state.activeSlot = adminSel; log('Set active to ' + label); break;
+            case 'admin-delete':
+                if (!confirm('Delete ' + label + ' (' + sel.name + ')? This cannot be undone.')) return;
+                state.slots[adminSel] = null; log('Deleted ' + label); break;
+            case 'admin-apply-raw':
+                try {
+                    var parsed = JSON.parse($('sv-a-raw').value);
+                    if (!Array.isArray(parsed.slots)) throw new Error();
+                    var keepLog = state.adminLog; state = normalize(parsed);
+                    state.adminLog = keepLog; log('Applied raw JSON'); toast('JSON applied');
+                } catch (e) { toast('Invalid JSON — nothing changed'); return; }
+                break;
+            case 'admin-export': download('escape-road-3-saves-' + new Date().toISOString().slice(0, 10) + '.json', state); log('Downloaded backup'); break;
+            case 'admin-wipe':
+                if (prompt('Type WIPE to delete every save slot.') !== 'WIPE') return;
+                state = fresh(); log('Wiped all saves'); break;
+            default: return;
+        }
+        persist(); render(); renderAdmin();
+    }
+
+    /* ---------------- Events ---------------- */
+    $('sv-fab').addEventListener('click', function () { panel.hidden = !panel.hidden; render(); });
+
+    document.addEventListener('click', function (e) {
+        var tabBtn = e.target.closest('.sv-tabs button');
+        if (tabBtn) { tab = tabBtn.dataset.tab; render(); return; }
+        if (e.target === modal) { closeAdmin(); return; }
+
+        var el = e.target.closest('[data-act]'); if (!el) return;
+        var act = el.dataset.act, s = active();
+
+        if (act.indexOf('admin-') === 0 && act !== 'admin-close' && act !== 'admin-lock' && act !== 'admin-select') {
+            if (adminUnlocked) adminAction(act); return;
+        }
+        switch (act) {
+            case 'close': panel.hidden = true; break;
+            case 'create':
+                var i = num(el.dataset.i), nm = (prompt('Name for this save:', 'Player') || '').trim();
+                if (!nm) return;
+                state.slots[i] = newSlot(nm.slice(0, 24)); state.activeSlot = i; sessionCounted = false;
+                commit(); toast('Save created'); break;
+            case 'use': state.activeSlot = num(el.dataset.i); sessionCounted = false; commit(); toast('Loaded slot ' + (state.activeSlot + 1)); break;
+            case 'delete-slot':
+                if (s && confirm('Delete "' + s.name + '"? This cannot be undone.')) { state.slots[state.activeSlot] = null; persist(); render(); toast('Save deleted'); }
+                break;
+            case 'del-run':
+                if (!s) return;
+                s.runs = s.runs.filter(function (r) { return r.id !== el.dataset.id; }); commit(); break;
+            case 'copy-export':
+                var ta = $('sv-export'); ta.select();
+                (navigator.clipboard ? navigator.clipboard.writeText(ta.value) : Promise.reject()).then(
+                    function () { toast('Code copied'); },
+                    function () { try { document.execCommand('copy'); toast('Code copied'); } catch (err) { toast('Select the code and copy it manually'); } });
+                break;
+            case 'download': download('escape-road-3-saves.json', { er3: 1, data: state }); break;
+            case 'import-code':
+                var code = $('sv-import').value; if (!code.trim()) return;
+                if (!confirm('Replace all saves in this browser with the imported ones?')) return;
+                try { importData(decode(code)); } catch (err) { toast('That code isn\'t a valid save'); }
+                break;
+            case 'admin': openAdmin(); break;
+            case 'admin-close': closeAdmin(); break;
+            case 'admin-lock': adminUnlocked = false; pin = ''; renderAdmin(); break;
+            case 'admin-select': adminSel = num(el.dataset.i); renderAdmin(); break;
+            case 'key': pressKey(el.dataset.k); break;
+        }
+    });
+
+    document.addEventListener('change', function (e) {
+        var s = active();
+        if (e.target.id === 'sv-name' && s) { s.name = (e.target.value.trim() || 'Player').slice(0, 24); commit(); }
+        else if (e.target.dataset && e.target.dataset.unlock && s) {
+            if (e.target.checked) s.unlocks[e.target.dataset.unlock] = true; else delete s.unlocks[e.target.dataset.unlock];
+            commit();
+        } else if (e.target.id === 'sv-file' && e.target.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                if (!confirm('Replace all saves in this browser with this file?')) return;
+                try { importData(JSON.parse(reader.result)); } catch (err) { toast('That file isn\'t a valid save'); }
+            };
+            reader.readAsText(e.target.files[0]);
+        }
+    });
+
+    var notesTimer;
+    document.addEventListener('input', function (e) {
+        if (e.target.id !== 'sv-notes') return;
+        var s = active(); if (!s) return;
+        s.notes = e.target.value.slice(0, 2000);
+        clearTimeout(notesTimer); notesTimer = setTimeout(function () { commit(false); }, 600);
+    });
+
+    document.addEventListener('submit', function (e) {
+        if (e.target.id !== 'sv-runform') return;
+        e.preventDefault();
+        var s = active(); if (!s) return;
+        var prevBest = bestScore(s), score = num($('sv-r-score').value);
+        s.runs.push({ id: uid(), date: Date.now(), score: score, coins: num($('sv-r-coins').value), vehicle: $('sv-r-veh').value.trim().slice(0, 40), note: $('sv-r-note').value.trim().slice(0, 120) });
+        if (s.runs.length > 500) s.runs.shift();
+        commit(); toast(score > prevBest ? 'New best score!' : 'Run logged');
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (adminOpen && !adminUnlocked && /^[0-9]$/.test(e.key)) { pressKey(e.key); e.preventDefault(); }
+        else if (adminOpen && !adminUnlocked && e.key === 'Backspace') { pressKey('⌫'); e.preventDefault(); }
+        else if (e.key === 'Escape') { if (adminOpen) closeAdmin(); else if (!panel.hidden) { panel.hidden = true; } }
+    });
+
+    // Keep tabs in sync if the page is open twice
+    window.addEventListener('storage', function (e) { if (e.key === STORE_KEY) { state = load(); render(); if (adminOpen) renderAdmin(); } });
+
+    /* ---------------- Play-time tracking ---------------- */
+    var frame = $('iframehtml5'), sessionCounted = false, ticks = 0;
+    setInterval(function () {
+        var s = active();
+        if (!s || document.visibilityState !== 'visible' || document.activeElement !== frame) return;
+        if (!sessionCounted) { s.sessions += 1; sessionCounted = true; }
+        s.playSeconds += 1; s.lastPlayed = Date.now(); ticks += 1;
+        var pt = $('sv-playtime'); if (pt) pt.textContent = fmtTime(s.playSeconds);
+        if (ticks % 10 === 0) persist();
+    }, 1000);
+    function flush() { if (ticks) persist(); }
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') flush(); });
+    window.addEventListener('pagehide', flush);
+
+    render();
+    setStatus(storageOk ? '' : 'Storage blocked');
+})();
+</script>
+<!-- =================== END SAVE SYSTEM =================== -->
+
+<footer>
+    <script src="rs/js/jquery-3.4.1.min.js"></script>
+    <script src="rs/js/footer.js"></script>
+</footer>
+</body>
+</html>
