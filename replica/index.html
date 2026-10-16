@@ -22,6 +22,8 @@
         [hidden] { display: none !important; }
         :root {
             --red: #1d4ed8; --red-dark: #1e3a8a;
+            --grad: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%); --head-grad: linear-gradient(90deg, #0b1220 0%, #172a6b 55%, #3b2a9e 100%);
+            --glow1: rgba(59,130,246,.18); --glow2: rgba(168,85,247,.16); --glow-shadow: rgba(37,99,235,.30);
             --pg-bg: #f3f4f6; --pg-card: #ffffff; --pg-text: #1a1a1a; --pg-muted: #6b7280; --pg-border: #e5e7eb;
             --pg-stripe: #f8f9fa; --pg-link: #1d4ed8; --pg-head: #0b1220;
             --sv-red: #1d4ed8; --sv-red-dark: #1e3a8a; --sv-bg: #ffffff; --sv-surface: #f6f7f9; --sv-tint: #eff6ff;
@@ -34,24 +36,24 @@
         }
         *, *::before, *::after { box-sizing: border-box; }
         html { -webkit-text-size-adjust: 100%; }
-        body { margin: 0; background: var(--pg-bg); color: var(--pg-text); font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 16px; line-height: 1.6; }
+        body { margin: 0; background: radial-gradient(900px 520px at 0% 0%, var(--glow1), transparent 70%), radial-gradient(900px 520px at 100% 8%, var(--glow2), transparent 70%), var(--pg-bg); color: var(--pg-text); font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 16px; line-height: 1.6; }
         a { color: var(--pg-link); }
         .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
 
         /* Header */
-        .site-header { position: sticky; top: 0; z-index: 50; background: var(--pg-head); color: #fff; }
+        .site-header { position: sticky; top: 0; z-index: 50; background: var(--pg-head); background-image: var(--head-grad); color: #fff; box-shadow: 0 2px 18px rgba(0,0,0,.25); }
         .header-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 56px; }
         .logo { display: inline-flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 800; font-size: 19px; }
-        .logo-mark { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: var(--red); font-size: 13px; letter-spacing: .02em; }
-        .header-note { color: #9ca3af; font-size: 14px; font-weight: 600; }
+        .logo-mark { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px; background: var(--grad); box-shadow: 0 2px 10px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.25); font-size: 13px; letter-spacing: .02em; }
+        .header-note { padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.1); color: #e5e7eb; font-size: 13px; font-weight: 700; }
 
         /* Game */
         .main { padding: 20px 0 32px; }
-        .game-card { background: #000; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 28px rgba(0,0,0,.18); }
+        .game-card { background: #000; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 40px var(--glow-shadow), 0 2px 8px rgba(0,0,0,.12); }
         .game-frame { position: relative; height: 600px; max-height: calc(100vh - 150px); min-height: 320px; background: #1f2937; }
         .game-frame canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; background: transparent; touch-action: none; user-select: none; -webkit-user-select: none; }
-        .game-overlay { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(5,10,20,.5); }
-        .go-card { width: 100%; max-width: 400px; max-height: 100%; overflow-y: auto; padding: 22px 20px; border-radius: 16px; background: rgba(15,23,42,.94); color: #e5e7eb; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.4); }
+        .game-overlay { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(5,10,20,.28); }
+        .go-card { width: 100%; max-width: 400px; max-height: 100%; overflow-y: auto; padding: 22px 20px; border-radius: 16px; background: rgba(15,23,42,.9); border: 1px solid rgba(255,255,255,.1); color: #e5e7eb; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.4); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
         .go-card h2 { margin: 0 0 6px; font-size: 28px; font-weight: 800; color: #fff; line-height: 1.2; }
         .go-card p { margin: 0 0 10px; font-size: 14px; color: #cbd5e1; }
         .go-card a { color: #93c5fd; }
@@ -64,18 +66,18 @@
         .go-card p.go-good { color: #86efac; font-weight: 800; }
         .go-card p.go-warn { color: #fca5a5; font-weight: 700; }
         .go-card p.go-hint { margin: 12px 0 0; font-size: 12px; color: #94a3b8; }
-        .go-btn { padding: 12px 30px; border: 0; border-radius: 999px; background: var(--red); color: #fff; font: inherit; font-size: 16px; font-weight: 800; cursor: pointer; }
-        .go-btn:hover { background: var(--red-dark); }
+        .go-btn { padding: 12px 30px; border: 0; border-radius: 999px; background: var(--grad); color: #fff; font: inherit; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px var(--glow-shadow); }
+        .go-btn:hover { filter: brightness(1.12); }
         .tool:disabled { opacity: .45; cursor: default; }
         kbd { display: inline-block; min-width: 22px; padding: 0 5px; border: 1px solid var(--pg-border); border-bottom-width: 2px; border-radius: 5px; background: var(--pg-card); color: var(--pg-text); font: inherit; font-size: 12px; font-weight: 700; line-height: 18px; text-align: center; }
-        .game-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: #161616; color: #fff; }
+        .game-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: #161616; color: #fff; border-top: 3px solid; border-image: var(--grad) 1; }
         .game-bar h1 { margin: 0; font-size: 18px; font-weight: 800; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .game-tools { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
         .tool { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid #333; background: #242424; color: #fff; font: inherit; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; white-space: nowrap; }
         .tool:hover { background: #303030; }
         .tool svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
-        .tool.saves { background: var(--red); border-color: var(--red); color: #fff; }
-        .tool.saves:hover { background: var(--red-dark); }
+        .tool.saves { background: var(--grad); border-color: transparent; color: #fff; }
+        .tool.saves:hover { filter: brightness(1.1); }
         .tool[aria-pressed="true"] { background: #fff; border-color: #fff; color: #111; }
         .game-help { margin: 10px 2px 0; font-size: 14px; color: var(--pg-muted); }
         body.theater { overflow: hidden; }
@@ -87,20 +89,21 @@
         .game-card:-webkit-full-screen .game-frame { flex: 1 1 auto; height: auto; max-height: none; min-height: 0; }
 
         /* Article */
-        .content { margin-top: 24px; padding: 6px 28px 28px; background: var(--pg-card); border: 1px solid var(--pg-border); border-radius: 14px; }
+        .content { margin-top: 24px; padding: 6px 28px 28px; background: var(--pg-card); border: 1px solid var(--pg-border); border-radius: 16px; box-shadow: 0 6px 24px rgba(15,23,42,.06); }
         .breadcrumb { padding-top: 14px; font-size: 14px; color: var(--pg-muted); }
         .breadcrumb a { color: var(--pg-muted); text-decoration: none; }
         .breadcrumb a:hover { color: var(--pg-link); }
-        .content h2 { margin: 30px 0 10px; font-size: 24px; line-height: 1.25; }
+        .content h2 { margin: 30px 0 10px; padding-left: 12px; border-left: 5px solid; border-image: var(--grad) 1; font-size: 24px; line-height: 1.25; }
         .content h3 { margin: 22px 0 6px; font-size: 18px; line-height: 1.3; }
         .content h4 { margin: 16px 0 4px; font-size: 16px; }
         .content p { margin: 0 0 12px; }
         .content ul { margin: 0 0 12px; padding-left: 22px; }
         .content li { margin: 6px 0; }
+        .content li::marker { color: var(--red); }
         .content img { display: block; max-width: 100%; height: auto; border-radius: 12px; margin: 16px 0; }
         .er-table-wrap { overflow-x: auto; margin: 20px 0; }
         .er-table { width: 100%; min-width: 500px; border-collapse: separate; border-spacing: 0; background: var(--pg-card); border: 1px solid var(--pg-border); border-radius: 10px; overflow: hidden; }
-        .er-table th { padding: 12px 10px; text-align: left; font-size: 15px; font-weight: 700; background: var(--red); color: #fff; }
+        .er-table th { padding: 12px 10px; text-align: left; font-size: 15px; font-weight: 700; background: var(--red); background-image: var(--grad); color: #fff; }
         .er-table td { padding: 10px; text-align: left; font-size: 15px; color: var(--pg-text); border-top: 1px solid var(--pg-border); vertical-align: top; }
         .er-table td:first-child { font-weight: 700; }
         .er-table tr:nth-child(odd) td { background: var(--pg-stripe); }
@@ -123,12 +126,12 @@
         .sv, .sv * { box-sizing: border-box; font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
         .sv button { font: inherit; cursor: pointer; }
         .sv button:disabled { cursor: not-allowed; opacity: .5; }
-        .sv-fab { position: fixed; right: 18px; bottom: 18px; z-index: 9998; display: flex; align-items: center; gap: 8px; padding: 12px 18px; border: none; border-radius: 999px; background: var(--sv-red); color: #fff; font-weight: 700; font-size: 15px; box-shadow: var(--sv-shadow); }
-        .sv-fab:hover { background: var(--sv-red-dark); }
+        .sv-fab { position: fixed; right: 18px; bottom: 18px; z-index: 9998; display: flex; align-items: center; gap: 8px; padding: 12px 18px; border: none; border-radius: 999px; background: var(--grad); color: #fff; font-weight: 700; font-size: 15px; box-shadow: var(--sv-shadow); }
+        .sv-fab:hover { filter: brightness(1.1); }
         .sv-fab svg { width: 18px; height: 18px; fill: currentColor; }
 
         .sv-panel { position: fixed; right: 18px; bottom: 76px; z-index: 9999; width: 380px; max-width: calc(100vw - 32px); max-height: 640px; max-height: min(640px, calc(100vh - 100px)); display: flex; flex-direction: column; background: var(--sv-bg); color: var(--sv-text); border-radius: 14px; box-shadow: var(--sv-shadow); overflow: hidden; }
-        .sv-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: var(--sv-red); color: #fff; }
+        .sv-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: var(--grad); color: #fff; }
         .sv-head strong { font-size: 16px; }
         .sv-status { font-size: 12px; opacity: .85; margin-left: auto; }
         .sv-x { background: none; border: none; color: inherit; font-size: 22px; line-height: 1; padding: 0 4px; }
@@ -150,8 +153,8 @@
 
         .sv-btn { padding: 7px 12px; border-radius: 8px; border: 1px solid var(--sv-border); background: var(--sv-bg); color: var(--sv-text); font-weight: 600; font-size: 13px; }
         .sv-btn:hover { border-color: #c8ccd4; }
-        .sv-btn.pri { background: var(--sv-red); border-color: var(--sv-red); color: #fff; }
-        .sv-btn.pri:hover { background: var(--sv-red-dark); }
+        .sv-btn.pri { background: var(--grad); border-color: transparent; color: #fff; }
+        .sv-btn.pri:hover { filter: brightness(1.1); }
         .sv-btn.danger { color: var(--sv-red); border-color: #f1c4c4; }
         .sv-btn.sm { padding: 4px 8px; font-size: 12px; }
         .sv-btn.on { background: var(--sv-text); border-color: var(--sv-text); color: var(--sv-bg); }
@@ -214,7 +217,7 @@
         .sv-atabs button.on { color: #fff; border-bottom-color: var(--sv-red); }
         .sv-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
         .sv-chip { padding: 6px 12px; border-radius: 99px; border: 1px solid var(--sv-border); background: var(--sv-bg); color: var(--sv-text); font-weight: 600; font-size: 13px; }
-        .sv-chip.on { background: var(--sv-red); border-color: var(--sv-red); color: #fff; }
+        .sv-chip.on { background: var(--grad); border-color: transparent; color: #fff; }
         .sv-pin { display: flex; justify-content: center; gap: 12px; margin: 8px 0 16px; }
         .sv-pin i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #9ca3af; }
         .sv-pin i.f { background: var(--sv-text); border-color: var(--sv-text); }
@@ -384,11 +387,11 @@
             <button class="sv-x" type="button" data-act="close" aria-label="Close">&times;</button>
         </div>
         <div class="sv-tabs" role="tablist">
-            <button type="button" data-tab="profile" class="on">Profile</button>
-            <button type="button" data-tab="garage">Garage</button>
-            <button type="button" data-tab="runs">Runs</button>
-            <button type="button" data-tab="unlocks">Unlocks</button>
-            <button type="button" data-tab="backup">Backup</button>
+            <button type="button" role="tab" data-tab="profile" class="on">Profile</button>
+            <button type="button" role="tab" data-tab="garage">Garage</button>
+            <button type="button" role="tab" data-tab="runs">Runs</button>
+            <button type="button" role="tab" data-tab="unlocks">Unlocks</button>
+            <button type="button" role="tab" data-tab="backup">Backup</button>
         </div>
         <div id="sv-body" class="sv-body"></div>
         <div class="sv-foot">
@@ -426,7 +429,9 @@
         'Environments reached': ['City', 'Suburbs', 'Desert', 'Ocean/Beach', 'Snowy Mountains', 'Forest', 'Industrial Zone'],
         'Vehicle types': ['Boat', 'Airplane', 'Glider', 'Jet Ski']
     };
-    var UNLOCK_TOTAL = Object.keys(UNLOCKS).reduce(function (n, g) { return n + UNLOCKS[g].length; }, 0);
+    var UNLOCK_KEYS = {};
+    Object.keys(UNLOCKS).forEach(function (g) { UNLOCKS[g].forEach(function (it) { UNLOCK_KEYS[g + '|' + it] = true; }); });
+    var UNLOCK_TOTAL = Object.keys(UNLOCK_KEYS).length;
     var VEHICLE_GROUPS = ['Mythic vehicles', 'Legendary upgrades', 'Vehicle types'];
     var STARTER = 'Starter Car';
     var ITEMS = ['Health Pack', 'Shield', 'Nitro Boost', 'Oil Slick', 'Smoke Screen', 'EMP Burst', 'Repair Kit', 'Mega Magnet'];
@@ -493,7 +498,7 @@
             r = r || {};
             return { id: String(r.id || uid()), date: num(r.date) || Date.now(), score: num(r.score), coins: num(r.coins), vehicle: String(r.vehicle || '').slice(0, 40), note: String(r.note || '').slice(0, 120) };
         }) : [];
-        if (s.unlocks && typeof s.unlocks === 'object') Object.keys(s.unlocks).forEach(function (k) { if (s.unlocks[k]) n.unlocks[k] = true; });
+        if (s.unlocks && typeof s.unlocks === 'object') Object.keys(s.unlocks).forEach(function (k) { if (s.unlocks[k] && UNLOCK_KEYS[k]) n.unlocks[k] = true; });
         n.health = s.health == null ? 100 : Math.min(MAX_HP, num(s.health));
         n.god = !!s.god;
         n.coins = Math.min(MAX_COINS, num(s.coins));
@@ -590,7 +595,10 @@
         var s = active();
         $('sv-slotlabel').textContent = s ? 'Slot ' + (state.activeSlot + 1) + ' · ' + s.name : 'No save loaded';
         var tabs = document.querySelectorAll('.sv-tabs button');
-        for (var i = 0; i < tabs.length; i++) tabs[i].classList.toggle('on', tabs[i].getAttribute('data-tab') === tab);
+        for (var i = 0; i < tabs.length; i++) {
+            var isOn = tabs[i].getAttribute('data-tab') === tab;
+            tabs[i].classList.toggle('on', isOn); tabs[i].setAttribute('aria-selected', isOn ? 'true' : 'false');
+        }
         if (game.mode === 'menu') showMenu();
         if (panel.hidden) return;
         body.innerHTML = ({ profile: viewProfile, garage: viewGarage, runs: viewRuns, unlocks: viewUnlocks, backup: viewBackup })[tab]();
