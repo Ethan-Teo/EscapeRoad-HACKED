@@ -69,6 +69,8 @@
         .go-btn { padding: 12px 30px; border: 0; border-radius: 999px; background: var(--grad); color: #fff; font: inherit; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px var(--glow-shadow); }
         .go-btn:hover { filter: brightness(1.12); }
         .tool:disabled { opacity: .45; cursor: default; }
+        .nitro-btn { position: absolute; right: 14px; bottom: 14px; z-index: 2; width: 84px; height: 84px; border: 3px solid rgba(255,255,255,.7); border-radius: 50%; background: linear-gradient(135deg, #f97316, #facc15); color: #fff; font: inherit; font-size: 14px; font-weight: 800; letter-spacing: .04em; text-shadow: 0 1px 2px rgba(0,0,0,.4); box-shadow: 0 6px 18px rgba(0,0,0,.35); touch-action: none; user-select: none; -webkit-user-select: none; }
+        .nitro-btn:active { transform: scale(.94); }
         kbd { display: inline-block; min-width: 22px; padding: 0 5px; border: 1px solid var(--pg-border); border-bottom-width: 2px; border-radius: 5px; background: var(--pg-card); color: var(--pg-text); font: inherit; font-size: 12px; font-weight: 700; line-height: 18px; text-align: center; }
         .game-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: #161616; color: #fff; border-top: 3px solid; border-image: var(--grad) 1; }
         .game-bar h1 { margin: 0; font-size: 18px; font-weight: 800; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -289,6 +291,7 @@
                 <div class="game-frame">
                     <canvas id="game-3d" aria-hidden="true"></canvas>
                     <canvas id="game-canvas" aria-label="Getaway game. Steer with the arrow keys or A and D, brake with the down arrow or S, pause with P."></canvas>
+                    <button type="button" class="nitro-btn" id="btn-nitro" hidden>NITRO</button>
                     <div class="game-overlay" id="game-overlay"><div class="go-card" id="go-card"></div></div>
                 </div>
                 <div class="game-bar">
@@ -300,7 +303,10 @@
                         <button class="tool" type="button" id="btn-pause" data-act="game-pause" title="Pause (P)" aria-label="Pause" disabled>
                             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg><span class="tool-label">Pause</span>
                         </button>
-                        <button class="tool" type="button" data-act="game-restart" title="Start a new run" aria-label="Start a new run">
+                        <button class="tool" type="button" id="btn-sound" data-act="game-sound" aria-pressed="false" title="Sound on/off (M)">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path class="snd-wave" d="M16.5 12a4.5 4.5 0 0 0-2.5-4.03v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06A9 9 0 0 0 14 3.23z"/><path class="snd-x" style="display:none" d="M16.6 8.2 15.2 9.6 17.6 12l-2.4 2.4 1.4 1.4 2.4-2.4 2.4 2.4 1.4-1.4-2.4-2.4 2.4-2.4-1.4-1.4-2.4 2.4z"/></svg><span class="tool-label">Sound</span>
+                        </button>
+                        <button class="tool" type="button" data-act="game-restart" title="Start a new run (R)" aria-label="Start a new run">
                             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg><span class="tool-label">Restart</span>
                         </button>
                         <button class="tool" type="button" id="btn-theater" data-act="game-theater" aria-pressed="false" title="Theater mode (Esc to exit)">
@@ -312,7 +318,7 @@
                     </div>
                 </div>
             </section>
-            <p class="game-help">Steer with <kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd>, brake with <kbd>↓</kbd> or <kbd>S</kbd>, pause with <kbd>P</kbd>. On a phone, hold the left or right side of the game to steer, and both sides to brake.</p>
+            <p class="game-help">Steer with <kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd>, brake with <kbd>↓</kbd> or <kbd>S</kbd>, nitro with <kbd>Shift</kbd>, restart with <kbd>R</kbd>, pause with <kbd>P</kbd>, mute with <kbd>M</kbd>. On a phone, hold the left or right side of the game to steer, both sides to brake, and the NITRO button to boost.</p>
 
             <article class="content">
                 <nav class="breadcrumb" aria-label="Breadcrumb"><a href="./">Getaway Arcade</a> › <span>Getaway</span></nav>
@@ -325,9 +331,11 @@
 <ul>
 <li><strong>Steer:</strong> left and right arrow keys, or A and D. On touch screens, hold the left or right half of the game.</li>
 <li><strong>Brake and reverse:</strong> down arrow or S, or hold both sides of the screen. Handy for tight corners and getting unstuck.</li>
-<li><strong>Pause:</strong> P or the space bar. The game also pauses while the admin panel is open.</li>
+<li><strong>Nitro:</strong> hold Shift (or the NITRO button on a phone) for a burst of speed. The orange meter above your health refills while you're not boosting.</li>
+<li><strong>Restart, pause and sound:</strong> R starts a new run, P or the space bar pauses, and M mutes. The game also pauses while the admin panel is open.</li>
 <li><strong>Score:</strong> you score points for distance driven. Coins you pick up go straight into your save.</li>
 <li><strong>Watch the traffic:</strong> civilian cars drive along the roads. Hitting them damages your car, and wrecked cars stay where they stop.</li>
+<li><strong>Heat:</strong> your wanted level climbs every 25 seconds. From 3 stars, heavy SWAT trucks join the chase: they're slower but hit much harder.</li>
 <li><strong>Don't get boxed in:</strong> if two police cars trap you while you're stopped, you have about two seconds to get moving before you're busted.</li>
 </ul>
 
@@ -1177,7 +1185,7 @@
     function placeCop(c, r) {
         var p = offscreenPoint(r);
         c.x = p.x; c.y = p.y; c.vx = c.vy = 0; c.a = Math.atan2(r.p.y - p.y, r.p.x - p.x);
-        c.stun = 0; c.rev = 0; c.stuck = 0; c.hitCd = 0; c.wx = null;
+        c.stun = 0; c.rev = 0; c.stuck = 0; c.hitCd = 0; c.wx = null; c.nav = null; c.navT = 0;
     }
     function onScreen(x, y, margin) {
         if (R3) return R3.onScreen(x, y, margin * game.sc);
@@ -1210,7 +1218,36 @@
         a.vx -= nx * j / ma; a.vy -= ny * j / ma; b.vx += nx * j / mb; b.vy += ny * j / mb;
         return rel;
     }
-    function spawnCop(r) { var c = newCar(0, 0, 0, { len: 36, wid: 18 }); placeCop(c, r); return c; }
+    // From 3 stars, every third police car is a heavier SWAT truck.
+    function spawnCop(r) {
+        var s = active(), swat = s && s.wanted >= 3 && r.cops.length % 3 === 2;
+        var c = newCar(0, 0, 0, swat ? { len: 44, wid: 22 } : { len: 36, wid: 18 });
+        c.kind = swat ? 'swat' : 'police'; placeCop(c, r);
+        return c;
+    }
+    // Is the straight line from (ax, ay) to (bx, by) clear of buildings, with some clearance?
+    function clearPath(ax, ay, bx, by, pad) {
+        var dx = bx - ax, dy = by - ay, n = Math.ceil(Math.hypot(dx, dy) / 30);
+        for (var k = 1; k < n; k++) {
+            var x = ax + dx * k / n, y = ay + dy * k / n, b = blockRect(Math.floor(x / BLOCK), Math.floor(y / BLOCK));
+            if (b && x > b.x - pad && x < b.x + b.w + pad && y > b.y - pad && y < b.y + b.h + pad) return false;
+        }
+        return true;
+    }
+    // Police follow the street grid: straight at the target when the road is clear,
+    // otherwise towards whichever neighbouring junction gets them closest to it.
+    function navTarget(c, tx, ty) {
+        if (clearPath(c.x, c.y, tx, ty, 10)) return { x: tx, y: ty, direct: true };
+        var ci = Math.round(c.x / BLOCK), cj = Math.round(c.y / BLOCK), best = null, bestCost = Infinity;
+        for (var di = -1; di <= 1; di++) for (var dj = -1; dj <= 1; dj++) {
+            if (di && dj) continue;
+            var jx = (ci + di) * BLOCK, jy = (cj + dj) * BLOCK, d = Math.hypot(jx - c.x, jy - c.y);
+            if (d < 40 || !clearPath(c.x, c.y, jx, jy, 10)) continue;
+            var cost = d + Math.hypot(tx - jx, ty - jy);
+            if (cost < bestCost) { bestCost = cost; best = { x: jx, y: jy, direct: false }; }
+        }
+        return best || { x: tx, y: ty, direct: true };
+    }
     function stun(c, t, spin) { c.stun = Math.max(c.stun, t); c.spin = spin === 0 ? 0 : (Math.random() < 0.5 ? -1 : 1) * (4 + Math.random() * 3); }
     function puff(x, y, n, color, speed, size, life) {
         for (var i = 0; i < n; i++) {
@@ -1221,6 +1258,7 @@
     function flash(msg) { if (run) { run.msg = msg; run.msgT = 2.2; } }
 
     function hurt(s, dmg) {
+        if (dmg > 0) sfx.crash(clamp(dmg / 20, 0.2, 1));
         if (s.god || run.fx.shield > 0 || dmg <= 0) return;
         s.health = Math.max(0, s.health - Math.ceil(dmg)); run.hitT = 0.35;
         if (s.health <= 0) run.dead = 'Wrecked';
@@ -1243,6 +1281,7 @@
             case 'Mega Magnet': fx.magnet = Math.max(fx.magnet, 6 * f); break;
         }
         flash(ITEM_ICON[it] + ' ' + it + (L ? ' · Lv ' + L : ''));
+        sfx.item();
     }
 
     function ensureSlot() {
@@ -1260,8 +1299,9 @@
             else { s.health = 50; toast('A mechanic patched up your car for free (50 HP)'); }
         }
         var st = vstats(s.vehicle);
+        sfx.init();
         run = { p: newCar(0, 0, -Math.PI / 2, st), st: st, vehicle: s.vehicle, cops: [], traffic: [], coins: [], items: [], parts: [], rings: [],
-            fx: { shield: 0, nitro: 0, smoke: 0, regen: 0, magnet: 0 }, regenRate: 0, regenAcc: 0,
+            fx: { shield: 0, nitro: 0, smoke: 0, regen: 0, magnet: 0 }, regenRate: 0, regenAcc: 0, charge: 1, boosting: false, siren: 0,
             dist: 0, got: 0, wantedT: 0, spawnT: 0, itemT: 3, bustT: 0, hitT: 0, msg: '', msgT: 0, zone: -1, dead: null,
             best: bestScore(s), lv: level(s) };
         game.cam.x = 0; game.cam.y = 0;
@@ -1272,7 +1312,7 @@
     }
 
     function endRun(reason, quiet) {
-        var r = run, s = active(); run = null; game.ghost = r; game.mode = 'over'; setPaused(false);
+        var r = run, s = active(); run = null; game.ghost = r; game.mode = 'over'; setPaused(false); keys.boost = false;
         $('btn-pause').disabled = true;
         if (!s) { showMenu(); return; }
         var score = Math.floor(r.dist / 8);
@@ -1282,6 +1322,7 @@
         s.wanted = 0;
         commit();
         if (quiet) return;
+        sfx.over();
         goCard.innerHTML = '<h2>' + (reason === 'Busted' ? '🚓 Busted!' : '💥 Wrecked!') + '</h2>' +
             '<div class="go-stats"><div><span>Score</span><b>' + score.toLocaleString() + '</b></div><div><span>Coins</span><b>+' + r.got.toLocaleString() + '</b></div><div><span>Best</span><b>' + Math.max(score, r.best).toLocaleString() + '</b></div></div>' +
             (record ? '<p class="go-good">New best score!</p>' : '') + (ups ? '<p class="go-good">Level up! You\'re level ' + level(s) + '</p>' : '') +
@@ -1302,7 +1343,7 @@
             (pk.length ? '<p class="go-perks">' + esc(pk.join(' · ')) + '</p>' : '') +
             (s && !s.god && s.health < 1 ? '<p class="go-warn">Your car is wrecked. Starting will repair it.</p>' : s && !s.god && s.health <= 25 ? '<p class="go-warn">Low health. Repair it in the Garage first.</p>' : '') +
             '<button type="button" class="go-btn" data-act="game-start">Start run</button>' +
-            '<p class="go-hint">' + (matchMedia('(pointer: coarse)').matches ? 'Hold the left or right side to steer. Hold both to brake.' : 'Arrow keys or A/D to steer, ↓ or S to brake, P to pause.') + '</p>';
+            '<p class="go-hint">' + (matchMedia('(pointer: coarse)').matches ? 'Hold the left or right side to steer, both to brake. Tap NITRO to boost.' : 'Arrow keys or A/D to steer, ↓ or S to brake, Shift for nitro, P to pause.') + '</p>';
         goWrap.hidden = false;
     }
 
@@ -1310,6 +1351,7 @@
         game.paused = !!p && game.mode === 'run';
         var b = $('btn-pause');
         b.disabled = game.mode !== 'run';
+        $('btn-nitro').hidden = !(game.mode === 'run' && !game.paused && matchMedia('(pointer: coarse)').matches);
         b.querySelector('.tool-label').textContent = game.paused ? 'Resume' : 'Pause';
         b.setAttribute('aria-label', game.paused ? 'Resume' : 'Pause');
         if (game.paused) {
@@ -1336,7 +1378,12 @@
         var steer = (keys.right ? 1 : 0) - (keys.left ? 1 : 0), brake = !!keys.down, tl = 0, tr = 0;
         for (var id in touches) { if (touches[id] < 0) tl = 1; else tr = 1; }
         if (tl && tr) brake = true; else steer = clamp(steer + tr - tl, -1, 1);
-        drive(P, true, steer, brake, dt, 340 * st.spd * (fx.nitro > 0 ? 1.6 : 1), 3.1 * st.turn, 9, fx.nitro > 0 ? 1100 : 560);
+        // Nitro: hold Shift (or the NITRO button) to burn the meter; it refills while you're not boosting.
+        var manual = keys.boost && r.charge > 0.02 && fx.nitro <= 0, boost = manual || fx.nitro > 0;
+        if (manual) r.charge = Math.max(0, r.charge - dt / 2.5); else if (!keys.boost) r.charge = Math.min(1, r.charge + dt / 12);
+        if (boost && !r.boosting) sfx.nitro();
+        r.boosting = boost;
+        drive(P, true, steer, brake, dt, 340 * st.spd * (boost ? 1.6 : 1), 3.1 * st.turn, 9, boost ? 1100 : 560);
         r.dist += Math.hypot(P.vx, P.vy) * dt;
         if (!st.fly) hitBuildings(P, function (imp) {
             if (imp > 150) { hurt(s, (imp - 150) * 0.06 / st.armor); puff(P.x, P.y, 8, '#fbbf24', 220, 3, 0.4); }
@@ -1346,7 +1393,7 @@
             if (r.regenAcc >= 1) { s.health = Math.min(100, s.health + Math.floor(r.regenAcc)); r.regenAcc %= 1; }
         }
         if (fx.smoke > 0 && Math.random() < dt * 30) puff(P.x - Math.cos(P.a) * 20, P.y - Math.sin(P.a) * 20, 1, '#cbd5e1', 40, 16, 1.6);
-        if (fx.nitro > 0 && Math.random() < dt * 40) puff(P.x - Math.cos(P.a) * P.len / 2, P.y - Math.sin(P.a) * P.len / 2, 1, '#fb923c', 60, 5, 0.3);
+        if (boost && Math.random() < dt * 40) puff(P.x - Math.cos(P.a) * P.len / 2, P.y - Math.sin(P.a) * P.len / 2, 1, '#fb923c', 60, 5, 0.3);
 
         // Areas
         var z = zoneAt(P.x, P.y);
@@ -1359,7 +1406,7 @@
 
         // Wanted level rises over time; each star brings two more police cars.
         r.wantedT += dt;
-        if (r.wantedT >= (st.stealth ? 40 : 25)) { r.wantedT = 0; if (s.wanted < 5) { s.wanted += 1; flash('Wanted level ' + s.wanted + '★'); } }
+        if (r.wantedT >= (st.stealth ? 40 : 25)) { r.wantedT = 0; if (s.wanted < 5) { s.wanted += 1; flash('Wanted level ' + s.wanted + '★'); sfx.alert(); } }
         var target = 1 + s.wanted * 2;
         r.spawnT -= dt;
         if (r.cops.length < target && r.spawnT <= 0) { r.cops.push(spawnCop(r)); r.spawnT = 0.8; }
@@ -1384,12 +1431,16 @@
                 c.wx = null;
                 var lead = Math.min(0.9, d / 450); tx = P.x + P.vx * lead; ty = P.y + P.vy * lead;
             }
+            c.navT -= dt;
+            if (!c.nav || c.navT <= 0 || (!c.nav.direct && Math.hypot(c.nav.x - c.x, c.nav.y - c.y) < 50)) { c.nav = navTarget(c, tx, ty); c.navT = 0.2; }
+            var turning = false;
+            if (!c.nav.direct) { tx = c.nav.x; ty = c.nav.y; turning = Math.hypot(tx - c.x, ty - c.y) < 150; }
             var diff = wrapAng(Math.atan2(ty - c.y, tx - c.x) - c.a), sp = Math.hypot(c.vx, c.vy);
             if (c.rev > 0) { c.rev -= dt; drive(c, false, diff > 0 ? -1 : 1, true, dt, copMax, 2.9, 7, 600); }
             else {
                 c.stuck = sp < 40 ? c.stuck + dt : 0;
                 if (c.stuck > 1.2) { c.rev = 0.8; c.stuck = 0; }
-                drive(c, true, clamp(diff * 2.5, -1, 1), Math.abs(diff) > 2.2 && sp > 200, dt, copMax * (lost ? 0.6 : 1), 2.9, 7, 600);
+                drive(c, true, clamp(diff * 2.5, -1, 1), Math.abs(diff) > 2.2 && sp > 200, dt, copMax * (lost ? 0.6 : 1) * (turning ? 0.55 : 1) * (c.kind === 'swat' ? 0.9 : 1), 2.9, 7, 600);
             }
             hitBuildings(c);
         });
@@ -1400,16 +1451,19 @@
 
         // Player vs police
         var near = 0, mP = st.ram ? 3 : 1;
-        r.cops.forEach(function (c) {
+        if (!st.fly) r.cops.forEach(function (c) {
             if (c.stun <= 0 && dist(c, P) < c.r + P.r + 14) near++;
-            var rel = bump(P, c, mP, 1);
+            var heavy = c.kind === 'swat', rel = bump(P, c, mP, heavy ? 2 : 1);
             if (c.hitCd > 0 || rel < 50) return;
             c.hitCd = 0.6;
-            var dmg = (6 + rel * 0.04) / st.armor;
+            var dmg = (6 + rel * 0.04) / st.armor * (heavy ? 1.5 : 1);
             if (st.ram || fx.shield > 0) { stun(c, 1.6); dmg *= 0.4; }
             hurt(s, dmg);
             puff((P.x + c.x) / 2, (P.y + c.y) / 2, 10, '#fde047', 240, 3, 0.4);
         });
+        var nearest = Infinity;
+        r.cops.forEach(function (c) { if (c.stun <= 0) nearest = Math.min(nearest, dist(c, P)); });
+        r.siren = clamp(1 - (nearest - 150) / 750, 0, 1);
         if (!s.god && near >= 2 && Math.hypot(P.vx, P.vy) < 60) { r.bustT += dt; if (r.bustT > 2) r.dead = 'Busted'; }
         else r.bustT = Math.max(0, r.bustT - dt * 2);
 
@@ -1424,7 +1478,7 @@
                 hitBuildings(t);
             } else if (t.wreck) { t.vx = t.vy = 0; }
             else { t.vx = Math.cos(t.a) * t.spd; t.vy = Math.sin(t.a) * t.spd; t.x += t.vx * dt; t.y += t.vy * dt; }
-            var rel = bump(P, t, mP, 0.8);
+            var rel = st.fly ? 0 : bump(P, t, mP, 0.8);
             if (rel > 0) {
                 if (rel > 40) knock(t);
                 if (rel > 80 && t.hitCd <= 0) { t.hitCd = 0.6; if (!st.ram) hurt(s, (4 + rel * 0.03) / st.armor); puff((P.x + t.x) / 2, (P.y + t.y) / 2, 8, '#fde047', 220, 3, 0.4); }
@@ -1438,7 +1492,7 @@
             var d = dist(c, P);
             if (d > 1500) return false;
             if (fx.magnet > 0 && d < 280) { c.x += (P.x - c.x) / d * 600 * dt; c.y += (P.y - c.y) / d * 600 * dt; }
-            if (d < P.r + 12) { s.coins = Math.min(MAX_COINS, s.coins + coinVal); r.got += coinVal; return false; }
+            if (d < P.r + 12) { s.coins = Math.min(MAX_COINS, s.coins + coinVal); r.got += coinVal; sfx.coin(); return false; }
             return true;
         });
         while (r.coins.length < 40) r.coins.push(roadPoint(P.x, P.y, 500, 1300));
@@ -1533,7 +1587,7 @@
             g.fillText(ITEM_ICON[it.it], 0, 1); g.restore();
         });
         r.traffic.forEach(function (t) { drawCar(t, t.color, false, false); });
-        r.cops.forEach(function (c) { drawCar(c, '#f8fafc', true, false); });
+        r.cops.forEach(function (c) { drawCar(c, c.kind === 'swat' ? '#1e293b' : '#f8fafc', true, false); });
         var P = r.p, fx = r.fx;
         drawCar(P, r.st.color, false, r.st.fly);
         if (fx.shield > 0) { g.strokeStyle = 'rgba(56,189,248,' + (0.5 + Math.sin(game.t * 10) * 0.3) + ')'; g.lineWidth = 4; g.beginPath(); g.arc(P.x, P.y, P.len * 0.75, 0, Math.PI * 2); g.stroke(); }
@@ -1559,8 +1613,12 @@
         pill(w - 10, 10, stars, 'right');
         var fxs = Object.keys(FX_ICON).filter(function (k) { return r.fx[k] > 0; }).map(function (k) { return FX_ICON[k] + ' ' + Math.ceil(r.fx[k]); });
         if (fxs.length) pill(10, 78, fxs.join('  '));
-        // Health bar
+        // Health and nitro bars
         var bw = Math.min(220, w * 0.45), by = h - 38;
+        g.fillStyle = 'rgba(15,23,42,.72)'; rr(10, by - 26, bw + 16, 22, 11); g.fill();
+        g.fillStyle = 'rgba(255,255,255,.15)'; rr(18, by - 19, bw, 8, 4); g.fill();
+        g.fillStyle = r.boosting ? (Math.floor(game.t * 12) % 2 ? '#fde047' : '#fb923c') : r.charge > 0.02 ? '#f97316' : '#64748b';
+        rr(18, by - 19, Math.max(8, bw * (r.fx.nitro > 0 ? 1 : r.charge)), 8, 4); g.fill();
         g.fillStyle = 'rgba(15,23,42,.72)'; rr(10, by, bw + 16, 28, 14); g.fill();
         g.fillStyle = 'rgba(255,255,255,.15)'; rr(18, by + 8, bw, 12, 6); g.fill();
         g.fillStyle = s.god ? '#facc15' : s.health <= 25 ? '#ef4444' : '#22c55e';
@@ -1610,7 +1668,9 @@
     function loop(ts) {
         var dt = Math.min(0.05, Math.max(0, (ts - (game.last || ts)) / 1000)); game.last = ts;
         game.t += dt;
-        if (run && !game.paused && !adminOpen && dlg.hidden) { update(dt); if (run && run.dead) endRun(run.dead); }
+        var live = run && !game.paused && !adminOpen && dlg.hidden;
+        if (live) { update(dt); if (run && run.dead) endRun(run.dead); }
+        sfx.update(run ? Math.hypot(run.p.vx, run.p.vy) : 0, run ? run.siren : 0, live && !!run);
         try { draw(); } catch (e) { if (window.console) console.error(e); }
         requestAnimationFrame(loop);
     }
@@ -1717,7 +1777,11 @@
                 var k = i + ',' + j; keep[k] = 1;
                 if (!cells[k]) { cells[k] = buildCell(i, j); scene.add(cells[k]); }
             }
-            for (var key in cells) if (!keep[key]) { scene.remove(cells[key]); delete cells[key]; }
+            for (var key in cells) if (!keep[key]) {
+                scene.remove(cells[key]);
+                if (cells[key].userData.mats) cells[key].userData.mats.forEach(function (m) { m.dispose(); });
+                delete cells[key];
+            }
         }
         // Fade any building standing between the camera and the player's car.
         function fadeBlockers(P, dt) {
@@ -1736,28 +1800,32 @@
         }
 
         function carMesh(st, kind) {
-            var gr = new T.Group(), inner = new T.Group(), L = st.len, W = st.wid, police = kind === 'police';
-            var body = box(L, 9, W, police ? '#f8fafc' : st.color, 0, 8, 0, inner, true);
-            box(L * 0.5, 8, W * 0.86, '#0f172a', -L * 0.06, 16.5, 0, inner, true);
-            if (police) { box(L * 0.2, 9.4, W + 0.4, '#111827', L * 0.4, 8, 0, inner); box(L * 0.16, 9.4, W + 0.4, '#111827', -L * 0.42, 8, 0, inner); }
+            var gr = new T.Group(), inner = new T.Group(), L = st.len, W = st.wid, swat = kind === 'swat', police = kind === 'police' || swat;
+            var body = box(L, swat ? 12 : 9, W, swat ? '#1e293b' : police ? '#f8fafc' : st.color, 0, swat ? 9.5 : 8, 0, inner, true);
+            box(L * (swat ? 0.62 : 0.5), swat ? 10 : 8, W * 0.86, '#0f172a', -L * 0.06, swat ? 20 : 16.5, 0, inner, true);
+            if (swat) box(L + 0.4, 2, W + 0.4, '#f8fafc', 0, 9, 0, inner);
+            if (kind === 'police') { box(L * 0.2, 9.4, W + 0.4, '#111827', L * 0.4, 8, 0, inner); box(L * 0.16, 9.4, W + 0.4, '#111827', -L * 0.42, 8, 0, inner); }
             if (!st.fly) [[1, 1], [1, -1], [-1, 1], [-1, -1]].forEach(function (q) { box(8, 8, 3, '#111111', q[0] * L * 0.3, 4, q[1] * W / 2, inner); });
             box(1.5, 3, 4, '#fef08a', L / 2, 9, W * 0.3, inner); box(1.5, 3, 4, '#fef08a', L / 2, 9, -W * 0.3, inner);
             if (police) {
-                gr.userData.red = box(5, 3, W * 0.4, new T.MeshBasicMaterial({ color: 0xef4444 }), -L * 0.06, 22, -W * 0.22, inner);
-                gr.userData.blue = box(5, 3, W * 0.4, new T.MeshBasicMaterial({ color: 0x3b82f6 }), -L * 0.06, 22, W * 0.22, inner);
+                var lh = swat ? 26.5 : 22;
+                gr.userData.red = box(5, 3, W * 0.4, new T.MeshBasicMaterial({ color: 0xef4444 }), -L * 0.06, lh, -W * 0.22, inner);
+                gr.userData.blue = box(5, 3, W * 0.4, new T.MeshBasicMaterial({ color: 0x3b82f6 }), -L * 0.06, lh, W * 0.22, inner);
+                gr.userData.red.material.userData.own = gr.userData.blue.material.userData.own = true;
             }
             if (st.fly) {
                 box(L * 0.35, 2, W * 1.6, st.color, -L * 0.05, 11, 0, inner, true); box(L * 0.2, 6, 2, st.color, -L * 0.45, 16, 0, inner, true);
-                if (st.rotor) { var rot = new T.Group(); box(L * 1.5, 1, 3, '#1f2937', 0, 0, 0, rot); box(3, 1, L * 1.5, '#1f2937', 0, 0, 0, rot); rot.position.set(-L * 0.06, 22, 0); inner.add(rot); gr.userData.rotor = rot; rot.children.forEach(function (m) { m.material = m.material.clone(); m.material.depthTest = false; m.renderOrder = 60; }); }
+                if (st.rotor) { var rot = new T.Group(); box(L * 1.5, 1, 3, '#1f2937', 0, 0, 0, rot); box(3, 1, L * 1.5, '#1f2937', 0, 0, 0, rot); rot.position.set(-L * 0.06, 22, 0); inner.add(rot); gr.userData.rotor = rot; rot.children.forEach(function (m) { m.material = m.material.clone(); m.material.depthTest = false; m.material.userData.own = true; m.renderOrder = 60; }); }
                 var order = 20;
-                inner.children.forEach(function (m) { if (!m.isMesh) return; m.material = m.material.clone(); m.material.depthTest = false; m.renderOrder = order++; });
+                inner.children.forEach(function (m) { if (!m.isMesh) return; m.material = m.material.clone(); m.material.depthTest = false; m.material.userData.own = true; m.renderOrder = order++; });
             }
             var sh = new T.Mesh(DISC, shadowMat); sh.rotation.x = -Math.PI / 2; sh.scale.set(L * 0.62, W * 0.8, 1); sh.position.y = 0.8;
             gr.add(sh); gr.add(inner);
-            gr.userData.inner = inner; gr.userData.body = body; gr.userData.fly = !!st.fly;
+            gr.userData.inner = inner; gr.userData.body = body; gr.userData.fly = !!st.fly; gr.userData.kind = kind;
             return gr;
         }
-        var COP_ST = { len: 36, wid: 18 }, CIV_ST = { len: 34, wid: 18, color: '#f97316' };
+        function disposeOwn(obj) { obj.traverse(function (o) { if (o.material && o.material.userData.own) o.material.dispose(); }); }
+        var COP_ST = { len: 36, wid: 18 }, SWAT_ST = { len: 44, wid: 22 }, CIV_ST = { len: 34, wid: 18, color: '#f97316' };
         var playerMesh = null, playerKey = '', copMeshes = [], civMeshes = [], coinMeshes = [], itemMeshes = [], partMeshes = [], ringMeshes = [];
         var shield = new T.Mesh(BALL, new T.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.25, depthWrite: false, depthTest: false }));
         shield.renderOrder = 40;
@@ -1781,10 +1849,20 @@
             if (m.userData.rotor) m.userData.rotor.rotation.y = game.t * 25;
         }
 
-        var size = new T.Vector2(), v3 = new T.Vector3(), lastW = 1, lastH = 1, lastT = 0;
+        var size = new T.Vector2(), v3 = new T.Vector3(), lastW = 1, lastH = 1, lastT = 0, perf = { last: 0, sum: 0, n: 0, level: 0 };
         function render(r, w, h, dpr) {
             lastW = w; lastH = h;
-            var pr = Math.min(dpr, coarse ? 1.5 : 2);
+            var now = performance.now(), gap = now - perf.last;
+            perf.last = now;
+            if (gap < 200) { perf.sum += gap; perf.n++; }
+            if (perf.n >= 90) {
+                if (perf.sum / perf.n > 25 && perf.level < 2) {
+                    perf.level++;
+                    if (perf.level === 1) { sun.castShadow = false; ren.shadowMap.enabled = false; }
+                }
+                perf.sum = perf.n = 0;
+            }
+            var pr = Math.min(dpr, perf.level >= 2 ? 1 : coarse ? 1.5 : 2);
             if (ren.getPixelRatio() !== pr) ren.setPixelRatio(pr);
             ren.getSize(size); if (size.x !== w || size.y !== h) ren.setSize(w, h, false);
             cam.aspect = w / h;
@@ -1801,14 +1879,21 @@
             if (!r) r = { cops: [], traffic: [], coins: [], items: [], parts: [], rings: [], fx: {} };
             if (r.p) {
                 if (playerKey !== r.vehicle || !playerMesh) {
-                    if (playerMesh) scene.remove(playerMesh);
+                    if (playerMesh) { scene.remove(playerMesh); disposeOwn(playerMesh); }
                     playerMesh = carMesh(r.st, 'player'); scene.add(playerMesh); playerKey = r.vehicle;
                 }
                 playerMesh.visible = true; place(playerMesh, r.p, r.st.fly);
             } else if (playerMesh) playerMesh.visible = false;
             var on = Math.floor(game.t * 8) % 2 === 0;
-            pool(copMeshes, r.cops.length, function () { return carMesh(COP_ST, 'police'); });
-            r.cops.forEach(function (c, i) { var m = copMeshes[i]; place(m, c); m.userData.red.visible = on; m.userData.blue.visible = !on; });
+            r.cops.forEach(function (c, i) {
+                var m = copMeshes[i], kind = c.kind || 'police';
+                if (!m || m.userData.kind !== kind) {
+                    if (m) { scene.remove(m); disposeOwn(m); }
+                    m = copMeshes[i] = carMesh(kind === 'swat' ? SWAT_ST : COP_ST, kind); scene.add(m);
+                }
+                m.visible = true; place(m, c); m.userData.red.visible = on; m.userData.blue.visible = !on;
+            });
+            for (var ci = r.cops.length; ci < copMeshes.length; ci++) copMeshes[ci].visible = false;
             pool(civMeshes, r.traffic.length, function () { return carMesh(CIV_ST, 'civ'); });
             r.traffic.forEach(function (t, i) { var m = civMeshes[i]; place(m, t); m.userData.body.material = mat(t.color); });
             pool(coinMeshes, r.coins.length, function () { var m = new T.Mesh(COIN, coinMat); m.castShadow = true; return m; });
@@ -1851,14 +1936,82 @@
         return { render: render, toScreen: toScreen, onScreen: onScreen };
     }
 
+    /* ---- Sound: synthesised with Web Audio, so there are no files to download ---- */
+    var sfx = (function () {
+        var ac = null, master = null, engine, engGain, sirenGain, muted = false;
+        try { muted = localStorage.getItem('ga_muted') === '1'; } catch (e) {}
+        function vol() { return muted ? 0 : 0.5; }
+        // Browsers only allow audio to start from a click or key press, so this runs from startRun().
+        function init() {
+            if (ac) { if (ac.state === 'suspended') ac.resume(); return; }
+            var AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            try { ac = new AC(); } catch (e) { return; }
+            master = ac.createGain(); master.gain.value = vol(); master.connect(ac.destination);
+            engine = ac.createOscillator(); engine.type = 'sawtooth'; engine.frequency.value = 50;
+            var lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 320;
+            engGain = ac.createGain(); engGain.gain.value = 0;
+            engine.connect(lp); lp.connect(engGain); engGain.connect(master); engine.start();
+            var siren = ac.createOscillator(), lfo = ac.createOscillator(), depth = ac.createGain();
+            siren.type = 'triangle'; siren.frequency.value = 760; lfo.frequency.value = 0.9; depth.gain.value = 190;
+            lfo.connect(depth); depth.connect(siren.frequency);
+            sirenGain = ac.createGain(); sirenGain.gain.value = 0;
+            siren.connect(sirenGain); sirenGain.connect(master); siren.start(); lfo.start();
+        }
+        function tone(freq, dur, type, level, to, delay) {
+            if (!ac || muted) return;
+            var t = ac.currentTime + (delay || 0), o = ac.createOscillator(), gn = ac.createGain();
+            o.type = type || 'square'; o.frequency.setValueAtTime(freq, t);
+            if (to) o.frequency.exponentialRampToValueAtTime(to, t + dur);
+            gn.gain.setValueAtTime(level || 0.12, t); gn.gain.exponentialRampToValueAtTime(0.001, t + dur);
+            o.connect(gn); gn.connect(master); o.start(t); o.stop(t + dur + 0.05);
+        }
+        function noise(dur, level, cutoff) {
+            if (!ac || muted) return;
+            var n = Math.floor(ac.sampleRate * dur), buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0);
+            for (var i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+            var src = ac.createBufferSource(), f = ac.createBiquadFilter(), gn = ac.createGain();
+            src.buffer = buf; f.type = 'lowpass'; f.frequency.value = cutoff || 900; gn.gain.value = level;
+            src.connect(f); f.connect(gn); gn.connect(master); src.start();
+        }
+        return {
+            init: init,
+            muted: function () { return muted; },
+            toggle: function () {
+                muted = !muted;
+                try { localStorage.setItem('ga_muted', muted ? '1' : '0'); } catch (e) {}
+                if (master) master.gain.setValueAtTime(vol(), ac.currentTime);
+                return muted;
+            },
+            // Called every frame: engine pitch follows speed, siren volume follows the nearest police car.
+            update: function (speed, siren, active) {
+                if (!ac) return;
+                var t = ac.currentTime;
+                engine.frequency.setTargetAtTime(42 + speed * 0.22, t, 0.08);
+                engGain.gain.setTargetAtTime(active ? 0.05 : 0, t, 0.12);
+                sirenGain.gain.setTargetAtTime(active ? siren * 0.045 : 0, t, 0.2);
+            },
+            suspend: function () { if (ac && ac.state === 'running') ac.suspend(); },
+            resume: function () { if (ac && ac.state === 'suspended') ac.resume(); },
+            coin: function () { tone(988, 0.06, 'square', 0.05); tone(1319, 0.1, 'square', 0.05, null, 0.05); },
+            crash: function (power) { noise(0.25 + power * 0.2, 0.25 + power * 0.45, 600 + power * 900); tone(110, 0.2, 'sawtooth', 0.08 * power, 50); },
+            item: function () { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, 0.12, 'triangle', 0.09, null, i * 0.06); }); },
+            nitro: function () { noise(0.5, 0.18, 2400); tone(200, 0.45, 'sawtooth', 0.05, 600); },
+            alert: function () { tone(880, 0.14, 'square', 0.06); tone(660, 0.18, 'square', 0.06, null, 0.15); },
+            over: function () { [392, 330, 262, 196].forEach(function (f, i) { tone(f, 0.25, 'triangle', 0.1, null, i * 0.16); }); }
+        };
+    })();
+
     /* ---- Input ---- */
-    var KEYMAP = { ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right', ArrowDown: 'down', s: 'down', S: 'down', ArrowUp: 'up', w: 'up', W: 'up' };
+    var KEYMAP = { ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right', ArrowDown: 'down', s: 'down', S: 'down', ArrowUp: 'up', w: 'up', W: 'up', Shift: 'boost' };
     function typing(t) { return t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable); }
     document.addEventListener('keydown', function (e) {
         if (adminOpen || !dlg.hidden || typing(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
         var k = KEYMAP[e.key];
         if (k) { keys[k] = true; if (game.mode === 'run' && !game.paused) e.preventDefault(); return; }
         if (game.mode === 'run' && (e.key === 'p' || e.key === 'P' || e.key === ' ')) { e.preventDefault(); setPaused(!game.paused); return; }
+        if (e.key === 'm' || e.key === 'M') { sfx.toggle(); setSoundLabel(); return; }
+        if ((e.key === 'r' || e.key === 'R') && game.mode !== 'menu') { e.preventDefault(); startRun(); return; }
         if (game.mode !== 'run' && (e.key === 'Enter' || e.key === ' ') && (e.target === document.body || e.target === cv)) { e.preventDefault(); startRun(); }
     });
     document.addEventListener('keyup', function (e) { var k = KEYMAP[e.key]; if (k) keys[k] = false; });
@@ -1873,7 +2026,21 @@
     cv.addEventListener('pointermove', function (e) { if (e.pointerId in touches) touches[e.pointerId] = touchSide(e); });
     ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (ev) { cv.addEventListener(ev, function (e) { delete touches[e.pointerId]; }); });
     cv.addEventListener('contextmenu', function (e) { e.preventDefault(); });
-    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden' && game.mode === 'run') setPaused(true); });
+    document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'hidden') { sfx.suspend(); if (game.mode === 'run') setPaused(true); }
+        else sfx.resume();
+    });
+    var nitroBtn = $('btn-nitro');
+    nitroBtn.addEventListener('pointerdown', function (e) { e.preventDefault(); keys.boost = true; try { nitroBtn.setPointerCapture(e.pointerId); } catch (err) {} });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (ev) { nitroBtn.addEventListener(ev, function () { keys.boost = false; }); });
+    nitroBtn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    function setSoundLabel() {
+        var b = $('btn-sound'), m = sfx.muted();
+        b.setAttribute('aria-pressed', m ? 'true' : 'false');
+        b.querySelector('.tool-label').textContent = m ? 'Muted' : 'Sound';
+        b.querySelector('.snd-wave').style.display = m ? 'none' : '';
+        b.querySelector('.snd-x').style.display = m ? '' : 'none';
+    }
 
     function fillVehicleTable() {
         var tb = $('veh-table'); if (!tb) return;
@@ -1912,6 +2079,7 @@
             case 'game-restart': startRun(); break;
             case 'game-resume': setPaused(false); break;
             case 'game-pause': if (game.mode === 'run') setPaused(!game.paused); break;
+            case 'game-sound': sfx.toggle(); setSoundLabel(); break;
             case 'open-garage': e.preventDefault(); tab = 'garage'; togglePanel(true); break;
             case 'buy-veh':
                 var bv = allVehicles().filter(function (x) { return x.key === v; })[0];
@@ -2052,6 +2220,7 @@
     fillVehicleTable();
     R3 = init3D();
     if (!R3) cv3.hidden = true;
+    setSoundLabel();
     showMenu();
     requestAnimationFrame(loop);
 })();
