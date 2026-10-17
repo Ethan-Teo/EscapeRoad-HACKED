@@ -33,6 +33,7 @@
             --pg-bg: #0e1014; --pg-card: #171a21; --pg-text: #e5e7eb; --pg-muted: #9ca3af; --pg-border: #2a2f3a;
             --pg-stripe: #1c2029; --pg-link: #f87171; --pg-head: #000000;
             --sv-bg: #171a21; --sv-surface: #1f232c; --sv-tint: #2a1618; --sv-border: #2f3542; --sv-text: #e5e7eb; --sv-muted: #9ca3af;
+            --sv-red: #f87171;
         }
         *, *::before, *::after { box-sizing: border-box; }
         html { -webkit-text-size-adjust: 100%; }
@@ -49,7 +50,7 @@
 
         /* Game */
         .main { padding: 20px 0 32px; }
-        .game-card { background: #000; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 40px var(--glow-shadow), 0 2px 8px rgba(0,0,0,.12); }
+        .game-card { scroll-margin-top: 72px; background: #000; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 40px var(--glow-shadow), 0 2px 8px rgba(0,0,0,.12); }
         .game-frame { position: relative; height: 600px; max-height: calc(100vh - 150px); min-height: 320px; background: #000; }
         .game-frame iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; display: block; background: #000; }
         .game-loading { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px; background: #0b0b0b; color: #e5e7eb; text-align: center; font-weight: 600; }
@@ -120,6 +121,7 @@
         .sv button:disabled { cursor: not-allowed; opacity: .5; }
         .sv-fab { position: fixed; right: 18px; bottom: 18px; z-index: 9998; display: flex; align-items: center; gap: 8px; padding: 12px 18px; border: none; border-radius: 999px; background: var(--grad); color: #fff; font-weight: 700; font-size: 15px; box-shadow: var(--sv-shadow); }
         .sv-fab:hover { filter: brightness(1.1); }
+        body.theater .sv-fab, .game-card:fullscreen .sv-fab, .game-card:-webkit-full-screen .sv-fab { display: none; }
         .sv-fab svg { width: 18px; height: 18px; fill: currentColor; }
 
         .sv-panel { position: fixed; right: 18px; bottom: 76px; z-index: 9999; width: 380px; max-width: calc(100vw - 32px); max-height: 640px; max-height: min(640px, calc(100vh - 100px)); display: flex; flex-direction: column; background: var(--sv-bg); color: var(--sv-text); border-radius: 14px; box-shadow: var(--sv-shadow); overflow: hidden; }
@@ -487,7 +489,7 @@
         'Environments reached': ['City', 'Suburbs', 'Desert', 'Ocean/Beach', 'Snowy Mountains', 'Forest', 'Industrial Zone'],
         'Vehicle types': ['Boat', 'Airplane', 'Glider', 'Jet Ski']
     };
-    var UNLOCK_KEYS = {};
+    var UNLOCK_KEYS = Object.create(null);
     Object.keys(UNLOCKS).forEach(function (g) { UNLOCKS[g].forEach(function (it) { UNLOCK_KEYS[g + '|' + it] = true; }); });
     var UNLOCK_TOTAL = Object.keys(UNLOCK_KEYS).length;
     var VEHICLE_GROUPS = ['Mythic vehicles', 'Legendary upgrades', 'Vehicle types'];
@@ -595,6 +597,7 @@
     function active() { return state.slots[state.activeSlot] || null; }
     function commit(rerender) {
         var s = active(); if (s) s.updated = Date.now();
+        undoStack = [];
         persist();
         if (rerender !== false) render();
     }
@@ -754,10 +757,10 @@
         h += '<h4 style="margin-top:0"><span>Export</span></h4><p class="sv-muted">Copy this code to move your saves to another browser or device.</p>' +
             '<textarea class="mono" id="sv-export" readonly>' + esc(encode({ er3: 1, data: state })) + '</textarea>' +
             '<div class="sv-row" style="margin-top:8px"><button type="button" class="sv-btn pri" data-act="copy-export">Copy code</button><button type="button" class="sv-btn" data-act="download">Download .json</button></div>' +
-            '<h4><span>Import</span></h4><p class="sv-muted">Importing replaces all saves in this browser.</p>' +
+            '<h4><span>Import</span></h4><p class="sv-muted">Importing replaces all saves in this browser. You can paste a save code or the contents of a backup file.</p>' +
             '<textarea class="mono" id="sv-import" placeholder="Paste a save code"></textarea>' +
             '<div class="sv-row" style="margin-top:8px"><button type="button" class="sv-btn pri" data-act="import-code">Import code</button>' +
-            '<label class="sv-btn" style="display:inline-block;cursor:pointer">Upload .json<input id="sv-file" type="file" accept="application/json,.json" hidden></label></div>';
+            '<button type="button" class="sv-btn" data-act="upload">Upload .json</button><input id="sv-file" type="file" accept="application/json,.json" hidden></div>';
         return h;
     }
 
@@ -978,7 +981,7 @@
 
     function adminConfirm(act, v) {
         var sel = state.slots[adminSel], label = 'slot ' + (adminSel + 1);
-        if (act === 'admin-delete' && sel) return { title: 'Delete ' + label + '?', text: '"' + sel.name + '" will be removed. You can still press Undo until you reload the page.', ok: 'Delete' };
+        if (act === 'admin-delete' && sel) return { title: 'Delete ' + label + '?', text: '"' + sel.name + '" will be removed. You can press Undo straight after, before you play or change anything else.', ok: 'Delete' };
         if (act === 'admin-copy') { var j = num(v); if (state.slots[j]) return { title: 'Overwrite slot ' + (j + 1) + '?', text: '"' + state.slots[j].name + '" will be replaced with a copy of ' + label + '.', ok: 'Overwrite' }; }
         if (act === 'admin-wipe') return { title: 'Wipe every save?', text: 'This deletes all ' + SLOT_COUNT + ' slots. Type WIPE to confirm.', input: { placeholder: 'WIPE', maxlength: 10 }, require: 'WIPE', ok: 'Wipe everything' };
         return null;
@@ -1146,13 +1149,17 @@
     /* ---------------- Events ---------------- */
     var LOCAL_ADMIN = { 'admin-close': 1, 'admin-lock': 1, 'admin-select': 1, 'admin-tab': 1 };
 
+    // Backdrops close the panel only if the press also started on them (not a drag out of a text field).
+    var downTarget = null;
+    document.addEventListener('pointerdown', function (e) { downTarget = e.target; }, true);
+
     document.addEventListener('click', function (e) {
         var t = e.target;
         if (!t || !t.closest) return;
-        if (t === dlg) { closeDialog(); return; }
+        if (t === dlg && downTarget === dlg) { closeDialog(); return; }
         var tabBtn = t.closest('.sv-tabs button');
         if (tabBtn) { tab = tabBtn.getAttribute('data-tab'); render(); return; }
-        if (t === modal) { closeAdmin(); return; }
+        if (t === modal && downTarget === modal) { closeAdmin(); return; }
 
         var el = t.closest('[data-act]'); if (!el) return;
         var act = el.getAttribute('data-act'), v = el.getAttribute('data-v'), s = active();
@@ -1205,10 +1212,13 @@
                 else fallbackCopy();
                 break;
             case 'download': download('escape-road-3-saves.json', { er3: 1, data: state }); break;
+            case 'upload': $('sv-file').click(); break;
             case 'import-code':
                 var code = $('sv-import').value, parsedCode;
                 if (!code.trim()) { toast('Paste a save code first'); return; }
-                try { parsedCode = decode(code); } catch (err) { toast('That code isn\'t a valid save'); return; }
+                try { parsedCode = decode(code); } catch (err) {
+                    try { parsedCode = JSON.parse(code); } catch (err2) { toast('That code isn\'t a valid save'); return; }
+                }
                 ask({ title: 'Replace all saves?', text: 'Importing replaces every save slot in this browser.', ok: 'Import' }, function () {
                     try { importData(parsedCode); } catch (err) { toast('That code isn\'t a valid save'); }
                 });
@@ -1224,7 +1234,11 @@
 
     document.addEventListener('change', function (e) {
         var s = active(), t = e.target;
-        if (t.id === 'sv-name' && s) { s.name = (t.value.trim() || 'Player').slice(0, 24); commit(); }
+        if (t.id === 'sv-name' && s) {
+            s.name = (t.value.trim() || 'Player').slice(0, 24); commit(false);
+            $('sv-slotlabel').textContent = 'Slot ' + (state.activeSlot + 1) + ' · ' + s.name;
+            var nameEl = body.querySelector('.sv-slot.on b'); if (nameEl) { nameEl.textContent = s.name; nameEl.title = s.name; }
+        }
         else if (t.id === 'sv-vehicle' && s) { s.vehicle = t.value; commit(); toast('Now driving: ' + s.vehicle); }
         else if (t.getAttribute && t.getAttribute('data-unlock') && s) {
             var k = t.getAttribute('data-unlock');
@@ -1272,7 +1286,7 @@
             else if (e.key === 'Enter' && e.target && e.target.id === 'sv-dlg-input') { e.preventDefault(); submitDialog(); }
             return;
         }
-        if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); if (adminOpen) closeAdmin(); else openAdmin(); return; }
+        if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); if (e.repeat) return; if (adminOpen) closeAdmin(); else openAdmin(); return; }
         if (adminOpen && !adminUnlocked && /^[0-9]$/.test(e.key)) { e.preventDefault(); pressKey(e.key); return; }
         if (adminOpen && !adminUnlocked && e.key === 'Backspace') { e.preventDefault(); pressKey('⌫'); return; }
         if (e.key === 'Enter' && e.target && e.target.id === 'sv-name') { e.target.blur(); return; }
@@ -1284,15 +1298,15 @@
     });
 
     // Keep two open tabs in sync.
-    window.addEventListener('storage', function (e) { if (e.key === STORE_KEY) { state = load(); render(); applyFx(); if (adminOpen) renderAdmin(); } });
+    window.addEventListener('storage', function (e) { if (e.key === STORE_KEY) { state = load(); undoStack = []; render(); applyFx(); if (adminOpen) renderAdmin(); } });
 
     /* ---------------- Play-time tracking ---------------- */
     var sessionCounted = false, ticks = 0;
     setInterval(function () {
         var s = active();
-        if (!s || document.visibilityState !== 'visible' || document.activeElement !== frame) return;
+        if (!s || document.visibilityState !== 'visible' || !document.hasFocus() || document.activeElement !== frame) return;
         if (!sessionCounted) { s.sessions += 1; sessionCounted = true; }
-        s.playSeconds += 1; s.lastPlayed = Date.now(); ticks += 1;
+        s.playSeconds += 1; s.lastPlayed = Date.now(); ticks += 1; undoStack = [];
         var pt = $('sv-playtime'); if (pt) pt.textContent = fmtTime(s.playSeconds);
         if (ticks % 10 === 0) persist();
     }, 1000);

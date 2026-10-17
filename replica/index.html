@@ -33,6 +33,7 @@
             --pg-bg: #0e1014; --pg-card: #171a21; --pg-text: #e5e7eb; --pg-muted: #9ca3af; --pg-border: #2a2f3a;
             --pg-stripe: #1c2029; --pg-link: #60a5fa; --pg-head: #000000;
             --sv-bg: #171a21; --sv-surface: #1f232c; --sv-tint: #16203a; --sv-border: #2f3542; --sv-text: #e5e7eb; --sv-muted: #9ca3af;
+            --sv-red: #60a5fa;
         }
         *, *::before, *::after { box-sizing: border-box; }
         html { -webkit-text-size-adjust: 100%; }
@@ -49,7 +50,7 @@
 
         /* Game */
         .main { padding: 20px 0 32px; }
-        .game-card { background: #000; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 40px var(--glow-shadow), 0 2px 8px rgba(0,0,0,.12); }
+        .game-card { scroll-margin-top: 72px; background: #000; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 40px var(--glow-shadow), 0 2px 8px rgba(0,0,0,.12); }
         .game-frame { position: relative; height: 600px; max-height: calc(100vh - 150px); min-height: 320px; background: #1f2937; }
         .game-frame canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; background: transparent; touch-action: none; user-select: none; -webkit-user-select: none; }
         .game-overlay { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(5,10,20,.28); }
@@ -130,6 +131,7 @@
         .sv button:disabled { cursor: not-allowed; opacity: .5; }
         .sv-fab { position: fixed; right: 18px; bottom: 18px; z-index: 9998; display: flex; align-items: center; gap: 8px; padding: 12px 18px; border: none; border-radius: 999px; background: var(--grad); color: #fff; font-weight: 700; font-size: 15px; box-shadow: var(--sv-shadow); }
         .sv-fab:hover { filter: brightness(1.1); }
+        body.theater .sv-fab, .game-card:fullscreen .sv-fab, .game-card:-webkit-full-screen .sv-fab { display: none; }
         .sv-fab svg { width: 18px; height: 18px; fill: currentColor; }
 
         .sv-panel { position: fixed; right: 18px; bottom: 76px; z-index: 9999; width: 380px; max-width: calc(100vw - 32px); max-height: 640px; max-height: min(640px, calc(100vh - 100px)); display: flex; flex-direction: column; background: var(--sv-bg); color: var(--sv-text); border-radius: 14px; box-shadow: var(--sv-shadow); overflow: hidden; }
@@ -437,7 +439,7 @@
         'Environments reached': ['City', 'Suburbs', 'Desert', 'Ocean/Beach', 'Snowy Mountains', 'Forest', 'Industrial Zone'],
         'Vehicle types': ['Boat', 'Airplane', 'Glider', 'Jet Ski']
     };
-    var UNLOCK_KEYS = {};
+    var UNLOCK_KEYS = Object.create(null);
     Object.keys(UNLOCKS).forEach(function (g) { UNLOCKS[g].forEach(function (it) { UNLOCK_KEYS[g + '|' + it] = true; }); });
     var UNLOCK_TOTAL = Object.keys(UNLOCK_KEYS).length;
     var VEHICLE_GROUPS = ['Mythic vehicles', 'Legendary upgrades', 'Vehicle types'];
@@ -513,6 +515,7 @@
         n.xp = Math.min((MAX_LEVEL - 1) * XP_PER_LEVEL, num(s.xp));
         n.wanted = Math.min(5, num(s.wanted));
         n.vehicle = String(s.vehicle || STARTER).slice(0, 40);
+        n.running = !!s.running;
         if (s.items && typeof s.items === 'object') ITEMS.forEach(function (it) { var lv = Math.min(MAX_ITEM, num(s.items[it])); if (lv) n.items[it] = lv; });
         if (ownedVehicles(n).indexOf(n.vehicle) < 0) n.vehicle = STARTER;
         return n;
@@ -545,6 +548,7 @@
     function active() { return state.slots[state.activeSlot] || null; }
     function commit(rerender) {
         var s = active(); if (s) s.updated = Date.now();
+        undoStack = [];
         persist();
         if (rerender !== false) render();
     }
@@ -596,6 +600,7 @@
         var open = typeof force === 'boolean' ? force : panel.hidden;
         panel.hidden = !open;
         $('sv-fab').setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open && game.mode === 'run' && !game.paused && matchMedia('(max-width: 520px)').matches) setPaused(true);
         render();
     }
 
@@ -607,6 +612,7 @@
             var isOn = tabs[i].getAttribute('data-tab') === tab;
             tabs[i].classList.toggle('on', isOn); tabs[i].setAttribute('aria-selected', isOn ? 'true' : 'false');
         }
+        if (run && !s) dropRun();
         if (game.mode === 'menu') showMenu();
         if (panel.hidden) return;
         body.innerHTML = ({ profile: viewProfile, garage: viewGarage, runs: viewRuns, unlocks: viewUnlocks, backup: viewBackup })[tab]();
@@ -687,16 +693,17 @@
         return h;
     }
 
+    function earnedOnly(group) { return VEHICLE_GROUPS.indexOf(group) >= 0 || group === 'Environments reached'; }
     function viewUnlocks() {
         var s = active();
         if (!s) return '<p class="sv-muted">Create a save on the Profile tab first.</p>';
-        return Object.keys(UNLOCKS).map(function (g) {
-            var items = UNLOCKS[g], got = items.filter(function (it) { return s.unlocks[g + '|' + it]; }).length;
+        return '<p class="sv-note">Vehicles are bought in the Garage and areas unlock when you drive there. Mini-games can be ticked off here.</p>' + Object.keys(UNLOCKS).map(function (g) {
+            var items = UNLOCKS[g], locked = earnedOnly(g), got = items.filter(function (it) { return s.unlocks[g + '|' + it]; }).length;
             return '<h4><span>' + esc(g) + '</span><span>' + got + '/' + items.length + '</span></h4>' +
                 '<div class="sv-bar"><i style="width:' + (got / items.length * 100) + '%"></i></div>' +
                 items.map(function (it) {
                     var k = g + '|' + it;
-                    return '<label class="sv-check"><input type="checkbox" data-unlock="' + esc(k) + '"' + (s.unlocks[k] ? ' checked' : '') + '> ' + esc(it) + '</label>';
+                    return '<label class="sv-check"><input type="checkbox" data-unlock="' + esc(k) + '"' + (s.unlocks[k] ? ' checked' : '') + (locked ? ' disabled' : '') + '> ' + esc(it) + '</label>';
                 }).join('');
         }).join('');
     }
@@ -707,16 +714,17 @@
         h += '<h4 style="margin-top:0"><span>Export</span></h4><p class="sv-muted">Copy this code to move your saves to another browser or device.</p>' +
             '<textarea class="mono" id="sv-export" readonly>' + esc(encode({ er3: 1, data: state })) + '</textarea>' +
             '<div class="sv-row" style="margin-top:8px"><button type="button" class="sv-btn pri" data-act="copy-export">Copy code</button><button type="button" class="sv-btn" data-act="download">Download .json</button></div>' +
-            '<h4><span>Import</span></h4><p class="sv-muted">Importing replaces all saves in this browser.</p>' +
+            '<h4><span>Import</span></h4><p class="sv-muted">Importing replaces all saves in this browser. You can paste a save code or the contents of a backup file.</p>' +
             '<textarea class="mono" id="sv-import" placeholder="Paste a save code"></textarea>' +
             '<div class="sv-row" style="margin-top:8px"><button type="button" class="sv-btn pri" data-act="import-code">Import code</button>' +
-            '<label class="sv-btn" style="display:inline-block;cursor:pointer">Upload .json<input id="sv-file" type="file" accept="application/json,.json" hidden></label></div>';
+            '<button type="button" class="sv-btn" data-act="upload">Upload .json</button><input id="sv-file" type="file" accept="application/json,.json" hidden></div>';
         return h;
     }
 
     function importData(obj) {
         var d = obj && obj.er3 && obj.data ? obj.data : obj;
         if (!d || !Array.isArray(d.slots)) throw new Error('bad');
+        stopRun();
         state = normalize(d); persist(); render(); applyFx(); toast('Saves imported');
     }
 
@@ -931,7 +939,7 @@
 
     function adminConfirm(act, v) {
         var sel = state.slots[adminSel], label = 'slot ' + (adminSel + 1);
-        if (act === 'admin-delete' && sel) return { title: 'Delete ' + label + '?', text: '"' + sel.name + '" will be removed. You can still press Undo until you reload the page.', ok: 'Delete' };
+        if (act === 'admin-delete' && sel) return { title: 'Delete ' + label + '?', text: '"' + sel.name + '" will be removed. You can press Undo straight after, before you play or change anything else.', ok: 'Delete' };
         if (act === 'admin-copy') { var j = num(v); if (state.slots[j]) return { title: 'Overwrite slot ' + (j + 1) + '?', text: '"' + state.slots[j].name + '" will be replaced with a copy of ' + label + '.', ok: 'Overwrite' }; }
         if (act === 'admin-wipe') return { title: 'Wipe every save?', text: 'This deletes all ' + SLOT_COUNT + ' slots. Type WIPE to confirm.', input: { placeholder: 'WIPE', maxlength: 10 }, require: 'WIPE', ok: 'Wipe everything' };
         return null;
@@ -944,6 +952,7 @@
             log('Undo'); toast('Undone');
             persist(); render(); renderAdmin(); applyFx(); return;
         }
+        if (act === 'admin-make-active' || act === 'admin-apply-raw' || act === 'admin-wipe') stopRun();
         var sel = state.slots[adminSel], label = 'slot ' + (adminSel + 1), snap = JSON.stringify(state);
         if (!sel && !NEEDS_NO_SLOT[act]) return;
         switch (act) {
@@ -1284,6 +1293,14 @@
         sfx.item();
     }
 
+    // The save a run was using has been deleted or wiped: drop the run and reset the controls.
+    function dropRun() {
+        run = null; game.ghost = null; keys = {}; touches = {}; game.cam.x = game.cam.y = 0;
+        game.mode = 'menu'; setPaused(false);
+    }
+    // End the current run (logged to the save it was played on) before another save becomes active.
+    function stopRun(reason) { if (run) { endRun(reason || 'Switched save', true); showMenu(); } }
+
     function ensureSlot() {
         var s = active(); if (s) return s;
         state.slots[state.activeSlot] = newSlot('Player ' + (state.activeSlot + 1)); sessionCounted = false;
@@ -1294,6 +1311,7 @@
     function startRun() {
         if (run) endRun('Restarted', true);
         var s = ensureSlot();
+        s.running = true;
         if (s.health < 1 && !s.god) {
             if (s.coins >= 100) { s.coins -= 100; s.health = 100; toast('Your wrecked car was repaired for 100 coins'); }
             else { s.health = 50; toast('A mechanic patched up your car for free (50 HP)'); }
@@ -1315,11 +1333,14 @@
         var r = run, s = active(); run = null; game.ghost = r; game.mode = 'over'; setPaused(false); keys.boost = false;
         $('btn-pause').disabled = true;
         if (!s) { showMenu(); return; }
-        var score = Math.floor(r.dist / 8);
-        s.runs.push({ id: uid(), date: Date.now(), score: score, coins: r.got, vehicle: r.vehicle, note: reason });
-        if (s.runs.length > 500) s.runs.shift();
-        var ups = addXp(s, Math.floor(score / 10)), record = score > r.best && r.best > 0;
-        s.wanted = 0;
+        var score = Math.floor(r.dist / 8), ups = 0, record = false;
+        // Don't fill the history with empty runs from restarting straight away.
+        if (!(quiet && score === 0 && r.got === 0)) {
+            s.runs.push({ id: uid(), date: Date.now(), score: score, coins: r.got, vehicle: r.vehicle, note: reason });
+            if (s.runs.length > 500) s.runs.shift();
+            ups = addXp(s, Math.floor(score / 10)); record = score > r.best && r.best > 0;
+        }
+        s.wanted = 0; s.running = false;
         commit();
         if (quiet) return;
         sfx.over();
@@ -1352,6 +1373,7 @@
         var b = $('btn-pause');
         b.disabled = game.mode !== 'run';
         $('btn-nitro').hidden = !(game.mode === 'run' && !game.paused && matchMedia('(pointer: coarse)').matches);
+        $('sv-fab').hidden = !$('btn-nitro').hidden;
         b.querySelector('.tool-label').textContent = game.paused ? 'Resume' : 'Pause';
         b.setAttribute('aria-label', game.paused ? 'Resume' : 'Pause');
         if (game.paused) {
@@ -1363,13 +1385,14 @@
 
     function update(dt) {
         var s = active();
-        if (!s) { run = null; game.ghost = null; showMenu(); return; }
+        if (!s) { dropRun(); showMenu(); return; }
         var r = run, P = r.p, fx = r.fx;
         if (s.vehicle !== r.vehicle) {
             r.vehicle = s.vehicle; r.st = vstats(s.vehicle);
             P.len = r.st.len; P.wid = r.st.wid; P.r = r.st.wid / 2 + 5; flash('Now driving: ' + s.vehicle);
         }
         var st = r.st;
+        if (!s.god && s.health <= 0) { r.dead = 'Wrecked'; return; }
         for (var k in fx) if (fx[k] > 0) fx[k] = Math.max(0, fx[k] - dt);
         if (r.hitT > 0) r.hitT -= dt;
         if (r.msgT > 0) r.msgT -= dt;
@@ -1440,7 +1463,7 @@
             else {
                 c.stuck = sp < 40 ? c.stuck + dt : 0;
                 if (c.stuck > 1.2) { c.rev = 0.8; c.stuck = 0; }
-                drive(c, true, clamp(diff * 2.5, -1, 1), Math.abs(diff) > 2.2 && sp > 200, dt, copMax * (lost ? 0.6 : 1) * (turning ? 0.55 : 1) * (c.kind === 'swat' ? 0.9 : 1), 2.9, 7, 600);
+                drive(c, true, clamp(diff * 2.5, -1, 1), Math.abs(diff) > 2.2 && sp > 200, dt, copMax * (lost ? 0.6 : Math.hypot(P.vx, P.vy) < 80 ? clamp((d - 30) / 170, 0.05, 1) : 1) * (turning ? 0.55 : 1) * (c.kind === 'swat' ? 0.9 : 1), 2.9, 7, 600);
             }
             hitBuildings(c);
         });
@@ -1451,7 +1474,7 @@
 
         // Player vs police
         var near = 0, mP = st.ram ? 3 : 1;
-        if (!st.fly) r.cops.forEach(function (c) {
+        r.cops.forEach(function (c) {
             if (c.stun <= 0 && dist(c, P) < c.r + P.r + 14) near++;
             var heavy = c.kind === 'swat', rel = bump(P, c, mP, heavy ? 2 : 1);
             if (c.hitCd > 0 || rel < 50) return;
@@ -1691,7 +1714,7 @@
 
         var scene = new T.Scene(), cam = new T.PerspectiveCamera(42, 1, 10, 6000);
         var sky = new T.Color(ZONE_STYLE[0].sky), skyTarget = new T.Color();
-        scene.background = sky; scene.fog = new T.Fog(sky, 1000, 2400);
+        scene.background = sky; scene.fog = new T.Fog(sky, 1000, 2400); scene.fog.color = sky;
         scene.add(new T.HemisphereLight(0xffffff, 0x7d8ca3, 0.72));
         var sun = new T.DirectionalLight(0xfff1d6, 1.0);
         sun.position.set(-300, 700, 250); scene.add(sun); scene.add(sun.target);
@@ -1748,7 +1771,7 @@
             var grp = new T.Group(), z = zoneAt((i + 0.5) * BLOCK, (j + 0.5) * BLOCK), zs = ZONE_STYLE[z];
             var cx = (i + 0.5) * BLOCK, cz = (j + 0.5) * BLOCK, bs = BLOCK - ROAD;
             var tile = new T.Mesh(TILE, roadMats[z]);
-            tile.rotation.x = -Math.PI / 2; tile.position.set(cx, 0, cz); tile.receiveShadow = true; grp.add(tile);
+            tile.rotation.x = -Math.PI / 2; tile.position.set(cx - ROAD / 2, 0, cz - ROAD / 2); tile.receiveShadow = true; grp.add(tile);
             box(bs, 6, bs, zs.walk, cx, 3, cz, grp);
             var b = blockRect(i, j);
             if (!b) {
@@ -1854,8 +1877,8 @@
             lastW = w; lastH = h;
             var now = performance.now(), gap = now - perf.last;
             perf.last = now;
-            if (gap < 200) { perf.sum += gap; perf.n++; }
-            if (perf.n >= 90) {
+            if (gap < 2000) { perf.sum += Math.min(gap, 250); perf.n++; }
+            if (perf.n >= 90 || perf.sum >= 5000) {
                 if (perf.sum / perf.n > 25 && perf.level < 2) {
                     perf.level++;
                     if (perf.level === 1) { sun.castShadow = false; ren.shadowMap.enabled = false; }
@@ -2009,13 +2032,14 @@
         if (adminOpen || !dlg.hidden || typing(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
         var k = KEYMAP[e.key];
         if (k) { keys[k] = true; if (game.mode === 'run' && !game.paused) e.preventDefault(); return; }
+        if (e.repeat) return;
         if (game.mode === 'run' && (e.key === 'p' || e.key === 'P' || e.key === ' ')) { e.preventDefault(); setPaused(!game.paused); return; }
         if (e.key === 'm' || e.key === 'M') { sfx.toggle(); setSoundLabel(); return; }
         if ((e.key === 'r' || e.key === 'R') && game.mode !== 'menu') { e.preventDefault(); startRun(); return; }
         if (game.mode !== 'run' && (e.key === 'Enter' || e.key === ' ') && (e.target === document.body || e.target === cv)) { e.preventDefault(); startRun(); }
     });
     document.addEventListener('keyup', function (e) { var k = KEYMAP[e.key]; if (k) keys[k] = false; });
-    window.addEventListener('blur', function () { keys = {}; touches = {}; });
+    window.addEventListener('blur', function () { keys = {}; touches = {}; if (game.mode === 'run' && !game.paused) setPaused(true); });
     function touchSide(e) { var rc = cv.getBoundingClientRect(); return e.clientX - rc.left < rc.width / 2 ? -1 : 1; }
     cv.addEventListener('pointerdown', function (e) {
         if (game.mode !== 'run' || game.paused) return;
@@ -2053,13 +2077,17 @@
     /* ---------------- Events ---------------- */
     var LOCAL_ADMIN = { 'admin-close': 1, 'admin-lock': 1, 'admin-select': 1, 'admin-tab': 1 };
 
+    // Backdrops close the panel only if the press also started on them (not a drag out of a text field).
+    var downTarget = null;
+    document.addEventListener('pointerdown', function (e) { downTarget = e.target; }, true);
+
     document.addEventListener('click', function (e) {
         var t = e.target;
         if (!t || !t.closest) return;
-        if (t === dlg) { closeDialog(); return; }
+        if (t === dlg && downTarget === dlg) { closeDialog(); return; }
         var tabBtn = t.closest('.sv-tabs button');
         if (tabBtn) { tab = tabBtn.getAttribute('data-tab'); render(); return; }
-        if (t === modal) { closeAdmin(); return; }
+        if (t === modal && downTarget === modal) { closeAdmin(); return; }
 
         var el = t.closest('[data-act]'); if (!el) return;
         var act = el.getAttribute('data-act'), v = el.getAttribute('data-v'), s = active();
@@ -2099,11 +2127,13 @@
             case 'create':
                 var ci = num(el.getAttribute('data-i'));
                 if (ci >= SLOT_COUNT || state.slots[ci]) return;
+                stopRun();
                 state.slots[ci] = newSlot('Player ' + (ci + 1)); state.activeSlot = ci; sessionCounted = false;
                 tab = 'profile'; commit(); toast('Save created! Type your name below.');
                 setTimeout(function () { var n = $('sv-name'); if (n) { n.focus(); n.select(); } }, 30);
                 break;
             case 'use':
+                stopRun();
                 state.activeSlot = num(el.getAttribute('data-i')); sessionCounted = false;
                 commit(); toast('Loaded slot ' + (state.activeSlot + 1)); break;
             case 'delete-slot':
@@ -2129,10 +2159,13 @@
                 else fallbackCopy();
                 break;
             case 'download': download('getaway-arcade-saves.json', { er3: 1, data: state }); break;
+            case 'upload': $('sv-file').click(); break;
             case 'import-code':
                 var code = $('sv-import').value, parsedCode;
                 if (!code.trim()) { toast('Paste a save code first'); return; }
-                try { parsedCode = decode(code); } catch (err) { toast('That code isn\'t a valid save'); return; }
+                try { parsedCode = decode(code); } catch (err) {
+                    try { parsedCode = JSON.parse(code); } catch (err2) { toast('That code isn\'t a valid save'); return; }
+                }
                 ask({ title: 'Replace all saves?', text: 'Importing replaces every save slot in this browser.', ok: 'Import' }, function () {
                     try { importData(parsedCode); } catch (err) { toast('That code isn\'t a valid save'); }
                 });
@@ -2148,10 +2181,15 @@
 
     document.addEventListener('change', function (e) {
         var s = active(), t = e.target;
-        if (t.id === 'sv-name' && s) { s.name = (t.value.trim() || 'Player').slice(0, 24); commit(); }
+        if (t.id === 'sv-name' && s) {
+            s.name = (t.value.trim() || 'Player').slice(0, 24); commit(false);
+            $('sv-slotlabel').textContent = 'Slot ' + (state.activeSlot + 1) + ' · ' + s.name;
+            var nameEl = body.querySelector('.sv-slot.on b'); if (nameEl) { nameEl.textContent = s.name; nameEl.title = s.name; }
+        }
         else if (t.id === 'sv-vehicle' && s) { s.vehicle = t.value; commit(); toast('Now driving: ' + s.vehicle); }
         else if (t.getAttribute && t.getAttribute('data-unlock') && s) {
             var k = t.getAttribute('data-unlock');
+            if (earnedOnly(k.split('|')[0])) { t.checked = !!s.unlocks[k]; return; }
             if (t.checked) s.unlocks[k] = true; else delete s.unlocks[k];
             if (ownedVehicles(s).indexOf(s.vehicle) < 0) s.vehicle = STARTER;
             commit();
@@ -2183,7 +2221,7 @@
             else if (e.key === 'Enter' && e.target && e.target.id === 'sv-dlg-input') { e.preventDefault(); submitDialog(); }
             return;
         }
-        if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); if (adminOpen) closeAdmin(); else openAdmin(); return; }
+        if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); if (e.repeat) return; if (adminOpen) closeAdmin(); else openAdmin(); return; }
         if (adminOpen && !adminUnlocked && /^[0-9]$/.test(e.key)) { e.preventDefault(); pressKey(e.key); return; }
         if (adminOpen && !adminUnlocked && e.key === 'Backspace') { e.preventDefault(); pressKey('⌫'); return; }
         if (e.key === 'Enter' && e.target && e.target.id === 'sv-name') { e.target.blur(); return; }
@@ -2196,24 +2234,29 @@
     });
 
     // Keep two open tabs in sync.
-    window.addEventListener('storage', function (e) { if (e.key === STORE_KEY) { state = load(); render(); applyFx(); if (adminOpen) renderAdmin(); } });
+    window.addEventListener('storage', function (e) { if (e.key === STORE_KEY) { state = load(); undoStack = []; render(); applyFx(); if (adminOpen) renderAdmin(); } });
 
     /* ---------------- Play-time tracking ---------------- */
     var sessionCounted = false, ticks = 0;
     setInterval(function () {
         var s = active();
-        if (!panel.hidden && tab === 'garage' && run && !panel.contains(document.activeElement)) render();
-        if (!s || !run || game.paused || adminOpen || document.visibilityState !== 'visible') return;
+        if (!panel.hidden && tab === 'garage' && run && !body.contains(document.activeElement)) render();
+        if (!s || !run || game.paused || adminOpen || !dlg.hidden || document.visibilityState !== 'visible') return;
         if (!sessionCounted) { s.sessions += 1; sessionCounted = true; }
-        s.playSeconds += 1; s.lastPlayed = Date.now(); ticks += 1;
+        s.playSeconds += 1; s.lastPlayed = Date.now(); ticks += 1; undoStack = [];
         var pt = $('sv-playtime'); if (pt) pt.textContent = fmtTime(s.playSeconds);
         if (ticks % 10 === 0) persist();
     }, 1000);
     function flush() { if (ticks) persist(); }
     document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') flush(); });
-    window.addEventListener('pagehide', flush);
+    window.addEventListener('pagehide', function () { if (run) { endRun('Left the game', true); showMenu(); } flush(); });
 
     /* ---------------- Start ---------------- */
+    // A run that was never finished (tab closed or discarded mid-run) shouldn't leave its wanted level behind.
+    if (state.slots.some(function (sl) { return sl && sl.running; })) {
+        state.slots.forEach(function (sl) { if (sl && sl.running) { sl.wanted = 0; sl.running = false; } });
+        persist();
+    }
     render();
     applyFx();
     setStatus(storageOk ? '' : 'Saved for this visit only');
