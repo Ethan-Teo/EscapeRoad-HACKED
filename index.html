@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="content-language" content="en">
-    <title>Escape Road 3</title>
-    <meta name="keywords" content="escape road 3">
-    <meta name="news_keywords" content="escape road 3">
-    <meta name="description" content="Escape Road 3 is a high-speed driving action game combining survival mechanics, where you play as a fugitive escaping police in a crowded city filled with unexpected obstacles.">
-    <meta name="theme-color" content="#111111">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23b40202'/%3E%3Ctext x='32' y='42' font-size='26' text-anchor='middle' fill='white' font-family='Arial,sans-serif' font-weight='bold'%3EER%3C/text%3E%3C/svg%3E">
+    <title>Getaway Arcade</title>
+    <meta name="keywords" content="getaway, police chase game, driving game">
+    <meta name="news_keywords" content="getaway arcade">
+    <meta name="description" content="Getaway is a free 3D police chase game. Outrun the cops, collect coins, unlock vehicles and upgrade power-ups, with save slots and an admin cheat panel.">
+    <meta name="theme-color" content="#0b1220">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d4ed8'/%3E%3Ctext x='32' y='42' font-size='26' text-anchor='middle' fill='white' font-family='Arial,sans-serif' font-weight='bold'%3EGA%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -21,48 +21,84 @@
            ========================================================= */
         [hidden] { display: none !important; }
         :root {
-            --red: #b40202; --red-dark: #8a0101;
+            --red: #1d4ed8; --red-dark: #1e3a8a;
+            --grad: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%); --head-grad: linear-gradient(90deg, #0b1220 0%, #172a6b 55%, #3b2a9e 100%);
+            --glow1: rgba(59,130,246,.18); --glow2: rgba(168,85,247,.16); --glow-shadow: rgba(37,99,235,.30);
             --pg-bg: #f3f4f6; --pg-card: #ffffff; --pg-text: #1a1a1a; --pg-muted: #6b7280; --pg-border: #e5e7eb;
-            --pg-stripe: #f8f9fa; --pg-link: #b40202; --pg-head: #111111;
-            --sv-red: #b40202; --sv-red-dark: #8a0101; --sv-bg: #ffffff; --sv-surface: #f6f7f9; --sv-tint: #fff5f5;
+            --pg-stripe: #f8f9fa; --pg-link: #1d4ed8; --pg-head: #0b1220;
+            --sv-red: #1d4ed8; --sv-red-dark: #1e3a8a; --sv-bg: #ffffff; --sv-surface: #f6f7f9; --sv-tint: #eff6ff;
             --sv-border: #e3e5ea; --sv-text: #1a1a1a; --sv-muted: #6b7280; --sv-shadow: 0 12px 40px rgba(0,0,0,.22);
         }
         body.fx-night {
             --pg-bg: #0e1014; --pg-card: #171a21; --pg-text: #e5e7eb; --pg-muted: #9ca3af; --pg-border: #2a2f3a;
-            --pg-stripe: #1c2029; --pg-link: #f87171; --pg-head: #000000;
-            --sv-bg: #171a21; --sv-surface: #1f232c; --sv-tint: #2a1618; --sv-border: #2f3542; --sv-text: #e5e7eb; --sv-muted: #9ca3af;
+            --pg-stripe: #1c2029; --pg-link: #60a5fa; --pg-head: #000000;
+            --sv-bg: #171a21; --sv-surface: #1f232c; --sv-tint: #16203a; --sv-border: #2f3542; --sv-text: #e5e7eb; --sv-muted: #9ca3af;
+            --sv-red: #60a5fa;
+        }
+        /* Follow the viewer's light/dark setting (same palette as the Night mode effect) */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+            --pg-bg: #0e1014; --pg-card: #171a21; --pg-text: #e5e7eb; --pg-muted: #9ca3af; --pg-border: #2a2f3a;
+            --pg-stripe: #1c2029; --pg-link: #60a5fa; --pg-head: #000000;
+            --sv-bg: #171a21; --sv-surface: #1f232c; --sv-tint: #16203a; --sv-border: #2f3542; --sv-text: #e5e7eb; --sv-muted: #9ca3af;
+            --sv-red: #60a5fa;
+            color-scheme: dark;
+            }
+        }
+        :root[data-theme="dark"] {
+            --pg-bg: #0e1014; --pg-card: #171a21; --pg-text: #e5e7eb; --pg-muted: #9ca3af; --pg-border: #2a2f3a;
+            --pg-stripe: #1c2029; --pg-link: #60a5fa; --pg-head: #000000;
+            --sv-bg: #171a21; --sv-surface: #1f232c; --sv-tint: #16203a; --sv-border: #2f3542; --sv-text: #e5e7eb; --sv-muted: #9ca3af;
+            --sv-red: #60a5fa;
+            color-scheme: dark;
         }
         *, *::before, *::after { box-sizing: border-box; }
         html { -webkit-text-size-adjust: 100%; }
-        body { margin: 0; background: var(--pg-bg); color: var(--pg-text); font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 16px; line-height: 1.6; }
+        body { margin: 0; background: radial-gradient(900px 520px at 0% 0%, var(--glow1), transparent 70%), radial-gradient(900px 520px at 100% 8%, var(--glow2), transparent 70%), var(--pg-bg); color: var(--pg-text); font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 16px; line-height: 1.6; }
         a { color: var(--pg-link); }
         .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
 
         /* Header */
-        .site-header { position: sticky; top: 0; z-index: 50; background: var(--pg-head); color: #fff; }
+        .site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: var(--pg-head); background-image: var(--head-grad); color: #fff; box-shadow: 0 2px 18px rgba(0,0,0,.25); }
+        body::before { content: ""; position: fixed; top: 0; right: 0; left: 0; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--pg-head); }
         .header-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 56px; }
         .logo { display: inline-flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 800; font-size: 19px; }
-        .logo-mark { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: var(--red); font-size: 13px; letter-spacing: .02em; }
-        .header-note { color: #9ca3af; font-size: 14px; font-weight: 600; }
+        .logo-mark { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px; background: var(--grad); box-shadow: 0 2px 10px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.25); font-size: 13px; letter-spacing: .02em; }
+        .header-note { padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.1); color: #e5e7eb; font-size: 13px; font-weight: 700; }
 
         /* Game */
         .main { padding: 20px 0 32px; }
-        .game-card { background: #000; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 28px rgba(0,0,0,.18); }
-        .game-frame { position: relative; height: 600px; max-height: calc(100vh - 150px); min-height: 320px; background: #000; }
-        .game-frame iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; display: block; background: #000; }
-        .game-loading { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px; background: #0b0b0b; color: #e5e7eb; text-align: center; font-weight: 600; }
-        .game-loading p { margin: 0; max-width: 420px; }
-        .game-loading-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-        .spinner { width: 38px; height: 38px; border-radius: 50%; border: 4px solid rgba(255,255,255,.18); border-top-color: var(--red); animation: er-spin .9s linear infinite; }
-        @keyframes er-spin { to { transform: rotate(360deg); } }
-        .game-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: #161616; color: #fff; }
+        .game-card { scroll-margin-top: 72px; background: #000; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 40px var(--glow-shadow), 0 2px 8px rgba(0,0,0,.12); }
+        .game-frame { position: relative; height: 600px; max-height: calc(100vh - 150px); min-height: 320px; background: #1f2937; }
+        .game-frame canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; background: transparent; touch-action: none; user-select: none; -webkit-user-select: none; }
+        .game-overlay { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(5,10,20,.28); }
+        .go-card { width: 100%; max-width: 400px; max-height: 100%; overflow-y: auto; padding: 22px 20px; border-radius: 16px; background: rgba(15,23,42,.9); border: 1px solid rgba(255,255,255,.1); color: #e5e7eb; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.4); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+        .go-card h2 { margin: 0 0 6px; font-size: 28px; font-weight: 800; color: #fff; line-height: 1.2; }
+        .go-card p { margin: 0 0 10px; font-size: 14px; color: #cbd5e1; }
+        .go-card a { color: #93c5fd; }
+        .go-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
+        .go-stats div { min-width: 0; padding: 8px 4px; border-radius: 10px; background: rgba(255,255,255,.07); }
+        .go-stats span { display: block; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .05em; }
+        .go-stats b { display: block; font-size: 19px; color: #fff; overflow-wrap: anywhere; }
+        .go-stats b.sm { font-size: 14px; line-height: 1.3; padding-top: 3px; }
+        .go-card p.go-perks { color: #93c5fd; font-weight: 700; font-size: 13px; }
+        .go-card p.go-good { color: #86efac; font-weight: 800; }
+        .go-card p.go-warn { color: #fca5a5; font-weight: 700; }
+        .go-card p.go-hint { margin: 12px 0 0; font-size: 12px; color: #94a3b8; }
+        .go-btn { padding: 12px 30px; border: 0; border-radius: 999px; background: var(--grad); color: #fff; font: inherit; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px var(--glow-shadow); }
+        .go-btn:hover { filter: brightness(1.12); }
+        .tool:disabled { opacity: .45; cursor: default; }
+        .nitro-btn { position: absolute; right: 14px; bottom: 14px; z-index: 2; width: 84px; height: 84px; border: 3px solid rgba(255,255,255,.7); border-radius: 50%; background: linear-gradient(135deg, #f97316, #facc15); color: #fff; font: inherit; font-size: 14px; font-weight: 800; letter-spacing: .04em; text-shadow: 0 1px 2px rgba(0,0,0,.4); box-shadow: 0 6px 18px rgba(0,0,0,.35); touch-action: none; user-select: none; -webkit-user-select: none; }
+        .nitro-btn:active { transform: scale(.94); }
+        kbd { display: inline-block; min-width: 22px; padding: 0 5px; border: 1px solid var(--pg-border); border-bottom-width: 2px; border-radius: 5px; background: var(--pg-card); color: var(--pg-text); font: inherit; font-size: 12px; font-weight: 700; line-height: 18px; text-align: center; }
+        .game-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: #161616; color: #fff; border-top: 3px solid; border-image: var(--grad) 1; }
         .game-bar h1 { margin: 0; font-size: 18px; font-weight: 800; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .game-tools { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
         .tool { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid #333; background: #242424; color: #fff; font: inherit; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; white-space: nowrap; }
         .tool:hover { background: #303030; }
         .tool svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
-        .tool.saves { background: var(--red); border-color: var(--red); color: #fff; }
-        .tool.saves:hover { background: var(--red-dark); }
+        .tool.saves { background: var(--grad); border-color: transparent; color: #fff; }
+        .tool.saves:hover { filter: brightness(1.1); }
         .tool[aria-pressed="true"] { background: #fff; border-color: #fff; color: #111; }
         .game-help { margin: 10px 2px 0; font-size: 14px; color: var(--pg-muted); }
         body.theater { overflow: hidden; }
@@ -74,20 +110,21 @@
         .game-card:-webkit-full-screen .game-frame { flex: 1 1 auto; height: auto; max-height: none; min-height: 0; }
 
         /* Article */
-        .content { margin-top: 24px; padding: 6px 28px 28px; background: var(--pg-card); border: 1px solid var(--pg-border); border-radius: 14px; }
+        .content { margin-top: 24px; padding: 6px 28px 28px; background: var(--pg-card); border: 1px solid var(--pg-border); border-radius: 16px; box-shadow: 0 6px 24px rgba(15,23,42,.06); }
         .breadcrumb { padding-top: 14px; font-size: 14px; color: var(--pg-muted); }
         .breadcrumb a { color: var(--pg-muted); text-decoration: none; }
         .breadcrumb a:hover { color: var(--pg-link); }
-        .content h2 { margin: 30px 0 10px; font-size: 24px; line-height: 1.25; }
+        .content h2 { margin: 30px 0 10px; padding-left: 12px; border-left: 5px solid; border-image: var(--grad) 1; font-size: 24px; line-height: 1.25; }
         .content h3 { margin: 22px 0 6px; font-size: 18px; line-height: 1.3; }
         .content h4 { margin: 16px 0 4px; font-size: 16px; }
         .content p { margin: 0 0 12px; }
         .content ul { margin: 0 0 12px; padding-left: 22px; }
         .content li { margin: 6px 0; }
+        .content li::marker { color: var(--red); }
         .content img { display: block; max-width: 100%; height: auto; border-radius: 12px; margin: 16px 0; }
         .er-table-wrap { overflow-x: auto; margin: 20px 0; }
         .er-table { width: 100%; min-width: 500px; border-collapse: separate; border-spacing: 0; background: var(--pg-card); border: 1px solid var(--pg-border); border-radius: 10px; overflow: hidden; }
-        .er-table th { padding: 12px 10px; text-align: left; font-size: 15px; font-weight: 700; background: var(--red); color: #fff; }
+        .er-table th { padding: 12px 10px; text-align: left; font-size: 15px; font-weight: 700; background: var(--red); background-image: var(--grad); color: #fff; }
         .er-table td { padding: 10px; text-align: left; font-size: 15px; color: var(--pg-text); border-top: 1px solid var(--pg-border); vertical-align: top; }
         .er-table td:first-child { font-weight: 700; }
         .er-table tr:nth-child(odd) td { background: var(--pg-stripe); }
@@ -110,12 +147,13 @@
         .sv, .sv * { box-sizing: border-box; font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
         .sv button { font: inherit; cursor: pointer; }
         .sv button:disabled { cursor: not-allowed; opacity: .5; }
-        .sv-fab { position: fixed; right: 18px; bottom: 18px; z-index: 9998; display: flex; align-items: center; gap: 8px; padding: 12px 18px; border: none; border-radius: 999px; background: var(--sv-red); color: #fff; font-weight: 700; font-size: 15px; box-shadow: var(--sv-shadow); }
-        .sv-fab:hover { background: var(--sv-red-dark); }
+        .sv-fab { position: fixed; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 9998; display: flex; align-items: center; gap: 8px; padding: 12px 18px; border: none; border-radius: 999px; background: var(--grad); color: #fff; font-weight: 700; font-size: 15px; box-shadow: var(--sv-shadow); }
+        .sv-fab:hover { filter: brightness(1.1); }
+        body.theater .sv-fab, .game-card:fullscreen .sv-fab, .game-card:-webkit-full-screen .sv-fab { display: none; }
         .sv-fab svg { width: 18px; height: 18px; fill: currentColor; }
 
-        .sv-panel { position: fixed; right: 18px; bottom: 76px; z-index: 9999; width: 380px; max-width: calc(100vw - 32px); max-height: 640px; max-height: min(640px, calc(100vh - 100px)); display: flex; flex-direction: column; background: var(--sv-bg); color: var(--sv-text); border-radius: 14px; box-shadow: var(--sv-shadow); overflow: hidden; }
-        .sv-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: var(--sv-red); color: #fff; }
+        .sv-panel { position: fixed; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(76px + env(safe-area-inset-bottom, 0px)); z-index: 9999; width: 380px; max-width: calc(100vw - 32px); max-height: 640px; max-height: min(640px, calc(100vh - 100px)); display: flex; flex-direction: column; background: var(--sv-bg); color: var(--sv-text); border-radius: 14px; box-shadow: var(--sv-shadow); overflow: hidden; }
+        .sv-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: var(--grad); color: #fff; }
         .sv-head strong { font-size: 16px; }
         .sv-status { font-size: 12px; opacity: .85; margin-left: auto; }
         .sv-x { background: none; border: none; color: inherit; font-size: 22px; line-height: 1; padding: 0 4px; }
@@ -137,8 +175,8 @@
 
         .sv-btn { padding: 7px 12px; border-radius: 8px; border: 1px solid var(--sv-border); background: var(--sv-bg); color: var(--sv-text); font-weight: 600; font-size: 13px; }
         .sv-btn:hover { border-color: #c8ccd4; }
-        .sv-btn.pri { background: var(--sv-red); border-color: var(--sv-red); color: #fff; }
-        .sv-btn.pri:hover { background: var(--sv-red-dark); }
+        .sv-btn.pri { background: var(--grad); border-color: transparent; color: #fff; }
+        .sv-btn.pri:hover { filter: brightness(1.1); }
         .sv-btn.danger { color: var(--sv-red); border-color: #f1c4c4; }
         .sv-btn.sm { padding: 4px 8px; font-size: 12px; }
         .sv-btn.on { background: var(--sv-text); border-color: var(--sv-text); color: var(--sv-bg); }
@@ -182,6 +220,8 @@
         .sv-veh small { display: block; color: var(--sv-muted); font-weight: 500; font-size: 10px; }
         .sv-veh.locked { opacity: .45; border-style: dashed; }
         .sv-veh.sel { border-color: var(--sv-red); background: var(--sv-tint); }
+        .sv-veh .sv-btn { display: block; width: 100%; margin-top: 5px; }
+        .sv-veh.locked:has(.sv-btn) { opacity: 1; }
         .sv-item { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 4px 0; font-size: 13px; }
         .sv-pips { display: inline-flex; gap: 3px; }
         .sv-pips i { width: 10px; height: 10px; border-radius: 2px; background: var(--sv-border); }
@@ -199,7 +239,7 @@
         .sv-atabs button.on { color: #fff; border-bottom-color: var(--sv-red); }
         .sv-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
         .sv-chip { padding: 6px 12px; border-radius: 99px; border: 1px solid var(--sv-border); background: var(--sv-bg); color: var(--sv-text); font-weight: 600; font-size: 13px; }
-        .sv-chip.on { background: var(--sv-red); border-color: var(--sv-red); color: #fff; }
+        .sv-chip.on { background: var(--grad); border-color: transparent; color: #fff; }
         .sv-pin { display: flex; justify-content: center; gap: 12px; margin: 8px 0 16px; }
         .sv-pin i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #9ca3af; }
         .sv-pin i.f { background: var(--sv-text); border-color: var(--sv-text); }
@@ -229,7 +269,7 @@
         .sv-dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
         .sv-dialog-card .sv-msg { text-align: left; margin-top: 6px; }
 
-        .sv-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 10004; max-width: calc(100vw - 32px); background: #1a1a1a; color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 14px; box-shadow: var(--sv-shadow); text-align: center; }
+        .sv-toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 10004; max-width: calc(100vw - 32px); background: #1a1a1a; color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 14px; box-shadow: var(--sv-shadow); text-align: center; }
 
         /* Page effects */
         #sv-siren { position: fixed; top: 0; right: 0; bottom: 0; left: 0; pointer-events: none; z-index: 9997; animation: sv-siren .8s steps(1) infinite; }
@@ -249,8 +289,8 @@
 
         @media (max-width: 520px) {
             .sv-cheat, .sv-grid2, .sv-grid3 { grid-template-columns: 1fr; }
-            .sv-panel { right: 0; left: 0; bottom: 0; width: 100%; max-width: 100%; border-radius: 14px 14px 0 0; max-height: 85vh; }
-            .sv-fab { right: 14px; bottom: 14px; padding: 10px 14px; }
+            .sv-panel { right: 0; left: 0; bottom: 0; width: 100%; max-width: 100%; border-radius: 14px 14px 0 0; max-height: 85vh; padding-bottom: env(safe-area-inset-bottom, 0px); }
+            .sv-fab { right: calc(14px + env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); padding: 10px 14px; }
             .sv-table .hide-sm { display: none; }
         }
     </style>
@@ -260,34 +300,34 @@
 <div id="page">
     <header class="site-header">
         <div class="wrap header-bar">
-            <a class="logo" href="./"><span class="logo-mark" aria-hidden="true">ER</span>Escape Road 3</a>
+            <a class="logo" href="./"><span class="logo-mark" aria-hidden="true">GA</span>Getaway Arcade</a>
             <span class="header-note">Free to play in your browser</span>
         </div>
     </header>
 
     <main class="main">
         <div class="wrap">
-            <section class="game-card" id="game-card" aria-label="Escape Road 3 game">
+            <section class="game-card" id="game-card" aria-label="Getaway game">
                 <div class="game-frame">
-                    <iframe id="iframehtml5" title="Escape Road 3" src="https://gamea.azgame.io/escape-road-3/" allow="autoplay; fullscreen; gamepad; accelerometer; gyroscope" allowfullscreen scrolling="no" onload="this.setAttribute('data-loaded','1');if(window.erGameLoaded){window.erGameLoaded();}"></iframe>
-                    <div class="game-loading" id="game-loading">
-                        <div class="spinner" aria-hidden="true"></div>
-                        <p id="game-loading-text">Loading game…</p>
-                        <div class="game-loading-actions" id="game-loading-actions" hidden>
-                            <a class="tool saves" href="https://gamea.azgame.io/escape-road-3/" target="_blank" rel="noopener">Open in a new tab</a>
-                            <button class="tool" type="button" data-act="game-reload">Try again</button>
-                            <button class="tool" type="button" data-act="game-dismiss">Hide this</button>
-                        </div>
-                    </div>
+                    <canvas id="game-3d" aria-hidden="true"></canvas>
+                    <canvas id="game-canvas" aria-label="Getaway game. Steer with the arrow keys or A and D, brake with the down arrow or S, pause with P."></canvas>
+                    <button type="button" class="nitro-btn" id="btn-nitro" hidden>NITRO</button>
+                    <div class="game-overlay" id="game-overlay"><div class="go-card" id="go-card"></div></div>
                 </div>
                 <div class="game-bar">
-                    <h1>Escape Road 3</h1>
+                    <h1>Getaway</h1>
                     <div class="game-tools">
                         <button class="tool saves" type="button" data-act="toggle-panel" title="Open your saves">
                             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4zm-5 16a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm3-10H5V5h10v4z"/></svg><span class="tool-label">Saves</span>
                         </button>
-                        <button class="tool" type="button" data-act="game-reload" title="Reload the game" aria-label="Reload the game">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg><span class="tool-label">Reload</span>
+                        <button class="tool" type="button" id="btn-pause" data-act="game-pause" title="Pause (P)" aria-label="Pause" disabled>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg><span class="tool-label">Pause</span>
+                        </button>
+                        <button class="tool" type="button" id="btn-sound" data-act="game-sound" aria-pressed="false" title="Sound on/off (M)">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path class="snd-wave" d="M16.5 12a4.5 4.5 0 0 0-2.5-4.03v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06A9 9 0 0 0 14 3.23z"/><path class="snd-x" style="display:none" d="M16.6 8.2 15.2 9.6 17.6 12l-2.4 2.4 1.4 1.4 2.4-2.4 2.4 2.4 1.4-1.4-2.4-2.4 2.4-2.4-1.4-1.4-2.4 2.4z"/></svg><span class="tool-label">Sound</span>
+                        </button>
+                        <button class="tool" type="button" data-act="game-restart" title="Start a new run (R)" aria-label="Start a new run">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg><span class="tool-label">Restart</span>
                         </button>
                         <button class="tool" type="button" id="btn-theater" data-act="game-theater" aria-pressed="false" title="Theater mode (Esc to exit)">
                             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm0 10H5V8h14v8z"/></svg><span class="tool-label">Theater</span>
@@ -298,127 +338,66 @@
                     </div>
                 </div>
             </section>
-            <p class="game-help">Game not loading? <a href="https://gamea.azgame.io/escape-road-3/" target="_blank" rel="noopener">Open it in a new tab</a>. Some school and office networks block it.</p>
+            <p class="game-help">Steer with <kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd>, brake with <kbd>↓</kbd> or <kbd>S</kbd>, nitro with <kbd>Shift</kbd>, restart with <kbd>R</kbd>, pause with <kbd>P</kbd>, mute with <kbd>M</kbd>. On a phone, hold the left or right side of the game to steer, both sides to brake, and the NITRO button to boost.</p>
 
             <article class="content">
-                <nav class="breadcrumb" aria-label="Breadcrumb"><a href="./">Home</a> › <span>Escape Road 3</span></nav>
+                <nav class="breadcrumb" aria-label="Breadcrumb"><a href="./">Getaway Arcade</a> › <span>Getaway</span></nav>
 
-<h2>About Escape Road 3</h2>
-<p><strong>Escape Road 3 puts you in a thrilling high-speed getaway driving game where every sharp turn, near miss, and last-second escape keeps the sirens just behind you.</strong></p>
+<h2>About Getaway</h2>
+<p><strong>Getaway</strong> is a low-poly 3D police chase in the style of Escape Road. Your car drives itself forward, and your job is to steer it through an endless city, grab coins and power-ups, and stay ahead of the police for as long as you can. The longer you survive, the higher your wanted level climbs and the more patrol cars join the chase.</p>
+<p>A run ends when your car is <strong>wrecked</strong> (health hits zero) or you get <strong>busted</strong> (stopped with two police cars pinning you in). Every run is saved to your current save slot automatically.</p>
 
-<h2>What is Escape Road 3?</h2>
-<p>Escape Road 3 is a <strong>high-speed driving action game combining survival mechanics</strong>, where you play as a fugitive escaping police in a crowded city filled with unexpected obstacles.</p>
-<div class="er-table-wrap">
-<table class="er-table">
-<thead><tr><th style="width:33%">Category</th><th style="width:67%">Details</th></tr></thead>
-<tbody>
-<tr><td>Game Name</td><td>Escape Road 3</td></tr>
-<tr><td>Publisher</td><td>Azgames</td></tr>
-<tr><td>Release Date</td><td>April 6, 2026</td></tr>
-<tr><td>Genre</td><td>Driving, Action, Survival, Reflex</td></tr>
-<tr><td>Platform</td><td>Browser (Desktop, Mobile, Tablet)</td></tr>
-<tr><td>Game Mode</td><td>Single Player</td></tr>
-<tr><td>Key Features</td><td>Vehicle switching mid-run, swimming, on-foot escape, character + vehicle combo system, 30+ characters, Mythic vehicles, 8 support items, diverse mini-games</td></tr>
-</tbody>
-</table>
-</div>
-
-<h2>How to Play Escape Road 3</h2>
-<p>Your goal is simple: <strong>drive as far as possible, avoid obstacles, and don't let the police catch you</strong>. The city is extremely chaotic with all kinds of obstacles: trees, buildings, heavy traffic. One wrong crash can trap you and get you arrested immediately.</p>
-<h3>New Gameplay Mechanics</h3>
-<p>Beyond just driving on city streets like previous versions, Escape Road 3 introduces completely new mechanics:</p>
+<h2>How to play</h2>
 <ul>
-<li>Vehicle Switching: You can control boats, airplanes, and gliders mid-run. Fall into water? No problem, you can swim instead of dying like before.</li>
-<li>On-Foot Escape: When things get too hot, you can exit your vehicle and run. However, be careful, police can shoot at you.</li>
-<li>Combo System: Pairing a specific vehicle with a character or item creates special effects, giving you unique advantages.</li>
-<li>Diverse Mini-Games: Scattered throughout the game are mini-games like F1 racing, firefighting, zombie survival, underwater treasure hunting, complete them to earn rare vehicles and valuable rewards.</li>
-</ul>
-<h3>Effective Strategies</h3>
-<h4>Safe Play &ndash; Survive as long as possible:</h4>
-<p>Treat the city as a survival map. Use narrow alleys, sharp turns, and obstacles to shake off police. Prioritize smooth paths, avoid collisions, and extend your survival time. Don't risk cash pickups if they're not safe.</p>
-<h4>Aggressive Play &ndash; Turn every chase into an action movie:</h4>
-<p>If you love adrenaline, play aggressively. Brake late, take sharp cuts, make sudden direction changes to make police cars lose control. Risk picking up cash right in the line of fire. This style is shorter, crazier &ndash; but when it works, it's incredibly satisfying.</p>
-
-<h2>In-Game Controls</h2>
-<div class="er-table-wrap">
-<table class="er-table">
-<thead><tr><th style="width:25%">Key</th><th style="width:35%">Action</th><th style="width:40%">Notes</th></tr></thead>
-<tbody>
-<tr><td>WASD / Arrow Keys</td><td>Drive / Steer</td><td>Primary movement controls</td></tr>
-<tr><td>Shift</td><td>Nitro / Burst Speed</td><td>Use to break through police encirclements</td></tr>
-<tr><td>F</td><td>Use Legendary / Special Item</td><td>Activate powerful items mid-run</td></tr>
-<tr><td>Space</td><td>Enter / Exit Vehicle</td><td>Get out of vehicle when cornered</td></tr>
-<tr><td>E</td><td>Change Escape Route</td><td>Flexible route switching</td></tr>
-<tr><td>R</td><td>Restart Run</td><td>Quick reset</td></tr>
-<tr><td>P</td><td>Pause</td><td>Pause the game</td></tr>
-<tr><td>M</td><td>Mute / Unmute Sound</td><td>Audio settings</td></tr>
-</tbody>
-</table>
-</div>
-<img src="https://taproad.io/data/image/escape-road-3.png" alt="Escape Road 3" width="500" height="500" loading="lazy">
-
-<h2>Game Features</h2>
-<ul>
-<li><strong>Mythic Cars:</strong> F1 Racing Car, Zombie Slaying Truck, Firefighter Helicopter, Alien Hunter Ship</li>
-<li><strong>Legendary Car Upgrades:</strong> Bulldozer (reinforced bumper), Interceptor (police jammer), Stealth Coupe (active camouflage), Armored Tank (explosive shells)</li>
-<li><strong>Character System:</strong> 30+ characters with unique power stats: Speed Bonus, Handling Bonus, Durability Bonus, Item Efficiency, Coin Magnet, Police Evasion</li>
-<li><strong>Support Items (8 items total):</strong> Health Pack, Shield, Nitro Boost, Oil Slick, Smoke Screen, EMP Burst, Repair Kit, Mega Magnet (each can be upgraded)</li>
-<li><strong>Environments:</strong> City, Suburbs, Desert, Ocean/Beach, Snowy Mountains, Forest, Industrial Zone (each with unique obstacles)</li>
-<li><strong>Swimming Feature:</strong> Fall into water? You can swim to safety &ndash; police cannot follow you into deep water</li>
-<li><strong>Multi-Vehicle Control:</strong> Boats, airplanes, gliders, jet skis &ndash; switch between them mid-run</li>
-<li><strong>Mini-Games (Mythic Unlock):</strong> F1 Racing, Firefighting, Zombie Survival, Alien Invasion</li>
-<li><strong>Side Mini-Games:</strong> Underwater Treasure Hunt, Stop Alien Invasion, Bank Robbery Escape, Highway Patrol Challenge</li>
-<li><strong>Combo System:</strong> Car + Item or Car + Character creates special effects (e.g., Tank + Faster Gun destroys police cars faster; Bulldozer + Bumper pushes through any obstacle)</li>
-<li><strong>Low-End Device Support:</strong> Low Graphics Mode, Disable Weather Effects, Reduce Draw Distance, Simple Collision, 30 FPS Cap, Disable Background Animations</li>
+<li><strong>Steer:</strong> left and right arrow keys, or A and D. On touch screens, hold the left or right half of the game.</li>
+<li><strong>Brake and reverse:</strong> down arrow or S, or hold both sides of the screen. Handy for tight corners and getting unstuck.</li>
+<li><strong>Nitro:</strong> hold Shift (or the NITRO button on a phone) for a burst of speed. The orange meter above your health refills while you're not boosting.</li>
+<li><strong>Restart, pause and sound:</strong> R starts a new run, P or the space bar pauses, and M mutes. The game also pauses while the admin panel is open.</li>
+<li><strong>Score:</strong> you score points for distance driven. Coins you pick up go straight into your save.</li>
+<li><strong>Watch the traffic:</strong> civilian cars drive along the roads. Hitting them damages your car, and wrecked cars stay where they stop.</li>
+<li><strong>Heat:</strong> your wanted level climbs every 25 seconds. From 3 stars, heavy SWAT trucks join the chase: they're slower but hit much harder.</li>
+<li><strong>Don't get boxed in:</strong> if two police cars trap you while you're stopped, you have about two seconds to get moving before you're busted.</li>
 </ul>
 
-<h2>Tips &amp; Tricks for Escape Road 3</h2>
+<h2>Vehicles</h2>
+<p>Buy vehicles with coins in the <strong>Garage</strong> tab of the Saves panel, then pick one from the <em>Driving</em> menu. Flying vehicles pass over buildings; heavy vehicles knock police cars into a spin when you ram them.</p>
+<div class="er-table-wrap"><table class="er-table"><thead><tr><th>Vehicle</th><th>Speed</th><th>Handling</th><th>Armour</th><th>Perk</th><th>Price</th></tr></thead><tbody id="veh-table"></tbody></table></div>
+
+<h2>Power-ups</h2>
+<p>Glowing boxes appear on the road as you drive. Drive through one to use it straight away. Upgrade them in the Garage to make them last longer and hit harder.</p>
 <ul>
-<li>Use terrain against police. Narrow alleys, sharp turns, and obstacles can cut off police and create breathing room. Turn the city into your weapon instead of just reacting to it.</li>
-<li>Collect coins and items, but don't risk your run for every pickup. Treat cash as a bonus for good positioning, not something you must collect at all costs.</li>
-<li>Avoid crowded areas. More people and traffic mean more collisions and more chances to get cornered. Keep distance from high-traffic zones whenever possible.</li>
-<li>Use nitro at the right time. Don't waste it early. Save nitro for moments when you need to break out of police encirclement or escape a deadly trap.</li>
-<li>Master sharp turns. Sudden, razor-sharp turns can make police cars crash into obstacles. Practice this skill &ndash; it's one of the most effective escape techniques.</li>
-<li>Switch escape routes often. Don't run in a straight line. The harder you are to predict, the harder it is for police to catch you. Use the E key to change your route frequently.</li>
-<li>Don't stay outside your vehicle too long. On-foot escape is a good backup plan, but under police gunfire, you shouldn't stay outside for more than a few seconds.</li>
-<li>Experiment with combos. Every car + character pair has unique effects. Try different combinations to find the strongest setup for your playstyle.</li>
-<li>Swim to safety if you fall into water. Don't panic. Police cannot follow you into deep water. Use swimming to reach a new shore and continue your escape.</li>
-<li>Adjust graphics for low-end PCs. If the game feels laggy, go to Settings and enable Low Graphics Mode and 30 FPS Cap. You can also disable weather effects and background animations for smoother performance.</li>
+<li><strong>Health Pack:</strong> restores health.</li>
+<li><strong>Shield:</strong> no damage for a few seconds, and police cars that hit you spin out.</li>
+<li><strong>Nitro Boost:</strong> a burst of extra top speed.</li>
+<li><strong>Oil Slick:</strong> nearby police cars spin out.</li>
+<li><strong>Smoke Screen:</strong> the police lose track of you for a while.</li>
+<li><strong>EMP Burst:</strong> knocks out nearby police cars.</li>
+<li><strong>Repair Kit:</strong> repairs your car over a few seconds.</li>
+<li><strong>Mega Magnet:</strong> pulls in every coin nearby.</li>
 </ul>
 
-<h2>FAQs</h2>
-<h3>How do I escape police when cornered?</h3>
-<p>Press Space to exit your vehicle and run on foot. You can also find water areas to swim across to the other side &ndash; police cannot follow you into deep water.</p>
-<h3>Where can I play Escape Road 3 unblocked?</h3>
-<p>You can play Escape Road 3 unblocked on websites like KBH Games, Tap Road, Slopeio.org, or EscapeRoad2d.io. These sites are usually not blocked in school or office environments.</p>
-<h3>How do I unlock Mythic vehicles?</h3>
-<p>To unlock Mythic vehicles like the F1 Racing Car or Zombie Slaying Truck, you need to complete mini-games scattered throughout the game. Each mini-game offers a unique challenge and rewards exclusive vehicles.</p>
-<h3>What happens if I fall into water?</h3>
-<p>No need to worry anymore! In Escape Road 3, if your vehicle falls into water, you can swim to continue your escape. This is one of the biggest improvements over previous versions. Some characters even have Swim Speed Bonus stats.</p>
-<h3>How does the Combo system work?</h3>
-<p>Pairing a specific vehicle with a character (and sometimes support items) activates a special effect. For example, the Armored Tank combined with a Faster Gun character destroys police cars twice as fast. The Bulldozer combined with a Reinforced Bumper can push through any obstacle without slowing down. Experiment with different combinations to find your advantage.</p>
-<h3>What vehicles can I control besides cars?</h3>
-<p>A lot! Besides cars, you can control boats, airplanes, gliders, and jet skis &ndash; all switchable mid-run. Each vehicle type has unique handling characteristics and works best in specific environments.</p>
-<h3>How many characters are there?</h3>
-<p>There are 30+ characters, each with different power stats including Speed Bonus, Handling Bonus, Durability Bonus, Item Efficiency, Coin Magnet, and Police Evasion. Choose the character that best matches your playstyle.</p>
-<h3>What are the 8 support items?</h3>
-<p>The eight support items are: Health Pack (restores vehicle health), Shield (temporary damage immunity), Nitro Boost (instant speed burst), Oil Slick (causes police cars to spin out), Smoke Screen (blocks police vision), EMP Burst (disables nearby police electronics), Repair Kit (gradual health regeneration), and Mega Magnet (attracts all items and coins on screen). Each item can be upgraded for stronger effects.</p>
-<h3>Can I play on a low-end computer?</h3>
-<p>Yes! Escape Road 3 includes Low Graphics Mode, 30 FPS Cap, and other settings to help the game run smoothly on weak configurations. You can also disable weather effects, reduce draw distance, and turn off background animations.</p>
-<h3>How do I switch between selecting cars and characters in the garage?</h3>
-<p>Use Tab to toggle between Vehicle Selection and Character Selection. Then use WASD or Arrow Keys to navigate, and Space to confirm your choice.</p>
-<h3>What environments can I drive through?</h3>
-<p>Escape Road 3 features seven diverse environments: City (traffic jams, construction zones), Suburbs (parked cars, mailboxes), Desert (sand dunes, cacti), Ocean/Beach (waves, piers), Snowy Mountains (ice patches, falling rocks), Forest (fallen trees), and Industrial Zone (oil spills, cargo containers). Each environment has unique obstacles and difficulty levels.</p>
+<h2>Areas</h2>
+<p>The further you drive from the start, the more the city changes: <strong>City</strong>, <strong>Suburbs</strong>, <strong>Desert</strong>, <strong>Ocean/Beach</strong>, <strong>Snowy Mountains</strong>, <strong>Forest</strong> and finally the <strong>Industrial Zone</strong>. Reaching a new area ticks it off in the Unlocks tab.</p>
 
-<h2>Summary</h2>
-<p><strong>Escape Road 3</strong> isn't just a simple upgrade &ndash; it's a small revolution in browser-based chase games. From vehicle switching, swimming, on-foot escape, combo systems, 30+ unique characters, 8 support items, diverse environments, and rich mini-games &ndash; this game deserves to be a top choice for anyone who loves heart-pounding, adrenaline-fueled, and addictive gameplay.</p>
-<p>Scroll up, <a href="#game-card">hit the gas</a> &ndash; and see how long you can survive before the police sirens catch up!</p>
+<h2>Saves and cheats</h2>
+<p>Open <strong>Saves</strong> to manage up to three save slots. Each slot keeps its own health, coins, level, vehicles, item upgrades and run history. Damage carries over between runs, so repair your car in the Garage when it gets low. If you start a run with a wrecked car, it's repaired automatically for 100 coins, or patched up for free if you're broke.</p>
+<p>The <strong>admin panel</strong> (🔒 Admin in the Saves panel, or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd>) changes your save directly, so cheats work in the game straight away, even in the middle of a run: god mode, health, coins, level, wanted level, vehicles and item upgrades.</p>
+
+<h2>FAQ</h2>
+<h3>Where are my saves stored?</h3>
+<p>In this browser only. Use <em>Backup</em> in the Saves panel to copy a save code or download a file, then import it on another device.</p>
+<h3>Can I import saves from the <a href="escape-road-3/">Escape Road 3 page</a>?</h3>
+<p>Yes. Save codes and files from the original page use the same format, so they import here unchanged.</p>
+<h3>The police keep catching me. Any tips?</h3>
+<p>Take corners early, use the brake before tight turns, and save Smoke Screen and EMP for when you're surrounded. Faster vehicles like the Interceptor or F1 Racing Car make a big difference at high wanted levels.</p>
+
+<p>Scroll up, <a href="#game-card">hit the gas</a> &ndash; and see how long you can stay ahead of the sirens!</p>
             </article>
         </div>
     </main>
 
     <footer class="site-footer">
-        <div class="wrap">Escape Road 3 is published by Azgames. Your saves are stored in this browser only.</div>
+        <div class="wrap">Getaway Arcade · <a href="escape-road-3/">Escape Road 3 page</a> · Your saves are stored in this browser only.</div>
     </footer>
 </div>
 
@@ -436,11 +415,11 @@
             <button class="sv-x" type="button" data-act="close" aria-label="Close">&times;</button>
         </div>
         <div class="sv-tabs" role="tablist">
-            <button type="button" data-tab="profile" class="on">Profile</button>
-            <button type="button" data-tab="garage">Garage</button>
-            <button type="button" data-tab="runs">Runs</button>
-            <button type="button" data-tab="unlocks">Unlocks</button>
-            <button type="button" data-tab="backup">Backup</button>
+            <button type="button" role="tab" data-tab="profile" class="on">Profile</button>
+            <button type="button" role="tab" data-tab="garage">Garage</button>
+            <button type="button" role="tab" data-tab="runs">Runs</button>
+            <button type="button" role="tab" data-tab="unlocks">Unlocks</button>
+            <button type="button" role="tab" data-tab="backup">Backup</button>
         </div>
         <div id="sv-body" class="sv-body"></div>
         <div class="sv-foot">
@@ -460,17 +439,17 @@
     <div id="sv-toast" class="sv-toast" role="status" aria-live="polite" hidden></div>
 </div>
 
+<script src="vendor/three.min.js"></script>
 <script>
 (function () {
     'use strict';
 
     /* ---------------- Config ---------------- */
-    var STORE_KEY = 'er3_save_v1';
-    var ADMIN_KEY = 'er3_admin_try';
+    var STORE_KEY = 'ga_save_v1';
+    var ADMIN_KEY = 'ga_admin_try';
     var ADMIN_CODE = '4334';
     var MAX_TRIES = 5, LOCKOUT_MS = 30000;
     var SLOT_COUNT = 3;
-    var GAME_URL = 'https://gamea.azgame.io/escape-road-3/';
     var UNLOCKS = {
         'Mythic vehicles': ['F1 Racing Car', 'Zombie Slaying Truck', 'Firefighter Helicopter', 'Alien Hunter Ship'],
         'Legendary upgrades': ['Bulldozer', 'Interceptor', 'Stealth Coupe', 'Armored Tank'],
@@ -478,7 +457,9 @@
         'Environments reached': ['City', 'Suburbs', 'Desert', 'Ocean/Beach', 'Snowy Mountains', 'Forest', 'Industrial Zone'],
         'Vehicle types': ['Boat', 'Airplane', 'Glider', 'Jet Ski']
     };
-    var UNLOCK_TOTAL = Object.keys(UNLOCKS).reduce(function (n, g) { return n + UNLOCKS[g].length; }, 0);
+    var UNLOCK_KEYS = Object.create(null);
+    Object.keys(UNLOCKS).forEach(function (g) { UNLOCKS[g].forEach(function (it) { UNLOCK_KEYS[g + '|' + it] = true; }); });
+    var UNLOCK_TOTAL = Object.keys(UNLOCK_KEYS).length;
     var VEHICLE_GROUPS = ['Mythic vehicles', 'Legendary upgrades', 'Vehicle types'];
     var STARTER = 'Starter Car';
     var ITEMS = ['Health Pack', 'Shield', 'Nitro Boost', 'Oil Slick', 'Smoke Screen', 'EMP Burst', 'Repair Kit', 'Mega Magnet'];
@@ -519,7 +500,7 @@
     var svRoot = $('sv-root'), panel = $('sv-panel'), body = $('sv-body');
     var modal = $('sv-admin'), card = $('sv-admin-card');
     var dlg = $('sv-dialog'), dlgCard = $('sv-dialog-card');
-    var frame = $('iframehtml5'), gameCard = $('game-card'), loadingEl = $('game-loading');
+    var gameCard = $('game-card');
 
     /* ---------------- Data model ---------------- */
     function newSlot(name) {
@@ -545,13 +526,14 @@
             r = r || {};
             return { id: String(r.id || uid()), date: num(r.date) || Date.now(), score: num(r.score), coins: num(r.coins), vehicle: String(r.vehicle || '').slice(0, 40), note: String(r.note || '').slice(0, 120) };
         }) : [];
-        if (s.unlocks && typeof s.unlocks === 'object') Object.keys(s.unlocks).forEach(function (k) { if (s.unlocks[k]) n.unlocks[k] = true; });
+        if (s.unlocks && typeof s.unlocks === 'object') Object.keys(s.unlocks).forEach(function (k) { if (s.unlocks[k] && UNLOCK_KEYS[k]) n.unlocks[k] = true; });
         n.health = s.health == null ? 100 : Math.min(MAX_HP, num(s.health));
         n.god = !!s.god;
         n.coins = Math.min(MAX_COINS, num(s.coins));
         n.xp = Math.min((MAX_LEVEL - 1) * XP_PER_LEVEL, num(s.xp));
         n.wanted = Math.min(5, num(s.wanted));
         n.vehicle = String(s.vehicle || STARTER).slice(0, 40);
+        n.running = !!s.running;
         if (s.items && typeof s.items === 'object') ITEMS.forEach(function (it) { var lv = Math.min(MAX_ITEM, num(s.items[it])); if (lv) n.items[it] = lv; });
         if (ownedVehicles(n).indexOf(n.vehicle) < 0) n.vehicle = STARTER;
         return n;
@@ -584,6 +566,7 @@
     function active() { return state.slots[state.activeSlot] || null; }
     function commit(rerender) {
         var s = active(); if (s) s.updated = Date.now();
+        undoStack = [];
         persist();
         if (rerender !== false) render();
     }
@@ -635,6 +618,7 @@
         var open = typeof force === 'boolean' ? force : panel.hidden;
         panel.hidden = !open;
         $('sv-fab').setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open && game.mode === 'run' && !game.paused && matchMedia('(max-width: 520px)').matches) setPaused(true);
         render();
     }
 
@@ -642,7 +626,12 @@
         var s = active();
         $('sv-slotlabel').textContent = s ? 'Slot ' + (state.activeSlot + 1) + ' · ' + s.name : 'No save loaded';
         var tabs = document.querySelectorAll('.sv-tabs button');
-        for (var i = 0; i < tabs.length; i++) tabs[i].classList.toggle('on', tabs[i].getAttribute('data-tab') === tab);
+        for (var i = 0; i < tabs.length; i++) {
+            var isOn = tabs[i].getAttribute('data-tab') === tab;
+            tabs[i].classList.toggle('on', isOn); tabs[i].setAttribute('aria-selected', isOn ? 'true' : 'false');
+        }
+        if (run && !s) dropRun();
+        if (game.mode === 'menu') showMenu();
         if (panel.hidden) return;
         body.innerHTML = ({ profile: viewProfile, garage: viewGarage, runs: viewRuns, unlocks: viewUnlocks, backup: viewBackup })[tab]();
     }
@@ -668,7 +657,7 @@
             '<div class="sv-stat"><span>Sessions</span><b>' + s.sessions + '</b></div>' +
             '<div class="sv-stat"><span>Coins logged</span><b>' + totalCoins(s).toLocaleString() + '</b></div>' +
             '</div>';
-        h += '<p class="sv-muted">Last played: ' + fmtDate(s.lastPlayed) + '. Play time counts while the game has focus.</p>';
+        h += '<p class="sv-muted">Last played: ' + fmtDate(s.lastPlayed) + '. Play time counts while you\'re driving.</p>';
         h += '<div class="sv-field"><label for="sv-notes">Notes (combos, goals…)</label><textarea id="sv-notes" maxlength="2000">' + esc(s.notes) + '</textarea></div>';
         h += '<div class="sv-row"><button type="button" class="sv-btn danger" data-act="delete-slot">Delete this save</button></div>';
         return h;
@@ -691,24 +680,26 @@
         h += '<div class="sv-field"><label for="sv-vehicle">Driving</label><select id="sv-vehicle">' + ownedVehicles(s).map(function (v) {
             return '<option' + (v === s.vehicle ? ' selected' : '') + '>' + esc(v) + '</option>';
         }).join('') + '</select></div>';
+        var cur = vstats(s.vehicle);
+        h += '<p class="sv-muted" style="margin-top:-4px">Speed ' + cur.spd.toFixed(2) + '× · Handling ' + cur.turn.toFixed(2) + '× · Armour ' + cur.armor.toFixed(1) + '×' + (perks(cur).length ? ' · ' + esc(perks(cur).join(', ')) : '') + '</p>';
         h += '<h4><span>Collection</span></h4><div class="sv-vehs">' + [{ group: 'Default', name: STARTER, key: '' }].concat(allVehicles()).map(function (v) {
             var owned = !v.key || s.unlocks[v.key];
-            return '<div class="sv-veh' + (owned ? '' : ' locked') + (v.name === s.vehicle ? ' sel' : '') + '">' + (owned ? '' : '🔒 ') + esc(v.name) + '<small>' + esc(v.group) + '</small></div>';
+            return '<div class="sv-veh' + (owned ? '' : ' locked') + (v.name === s.vehicle ? ' sel' : '') + '">' + (owned ? '' : '🔒 ') + esc(v.name) + '<small>' + esc(v.group) + '</small>' +
+                (owned ? '' : '<button type="button" class="sv-btn sm" data-act="buy-veh" data-v="' + esc(v.key) + '">Buy · ' + vstats(v.name).price.toLocaleString() + '</button>') + '</div>';
         }).join('') + '</div>';
-        h += '<h4><span>Support items</span></h4>' + ITEMS.map(function (it) { return '<div class="sv-item">' + esc(it) + pips(s.items[it] || 0) + '</div>'; }).join('');
-        h += '<p class="sv-muted" style="margin-top:12px">Logging a run adds its coins to your balance and gives XP (1 XP per 10 score).</p>';
+        h += '<h4><span>Support items</span><span>upgrade with coins</span></h4>' + ITEMS.map(function (it) {
+            var lv = s.items[it] || 0;
+            return '<div class="sv-item"><span>' + ITEM_ICON[it] + ' ' + esc(it) + '</span><span class="sv-row">' + pips(lv) +
+                (lv < MAX_ITEM ? '<button type="button" class="sv-btn sm" data-act="upgrade-item" data-v="' + esc(it) + '">' + itemCost(lv).toLocaleString() + '</button>' : '<span class="sv-muted">Max</span>') + '</span></div>';
+        }).join('');
+        h += '<p class="sv-muted" style="margin-top:12px">Coins you pick up in the game land here straight away. Each run gives XP (1 XP per 10 score), and every 10 levels coins are worth more.</p>';
         return h;
     }
 
     function viewRuns() {
         var s = active();
         if (!s) return '<p class="sv-muted">Create a save on the Profile tab first.</p>';
-        var h = '<form id="sv-runform"><div class="sv-grid2">' +
-            '<div class="sv-field"><label for="sv-r-score">Score / distance</label><input id="sv-r-score" type="number" min="0" inputmode="numeric" required></div>' +
-            '<div class="sv-field"><label for="sv-r-coins">Coins</label><input id="sv-r-coins" type="number" min="0" inputmode="numeric"></div>' +
-            '</div><div class="sv-field"><label for="sv-r-veh">Vehicle / character</label><input id="sv-r-veh" type="text" maxlength="40"></div>' +
-            '<div class="sv-field"><label for="sv-r-note">Note</label><input id="sv-r-note" type="text" maxlength="120"></div>' +
-            '<button class="sv-btn pri" type="submit">Log run</button></form>';
+        var h = '<p class="sv-muted" style="margin-top:0">Runs are saved here automatically when you crash, get busted or restart.</p>';
         var best = bestScore(s);
         h += '<h4><span>History</span><span>' + s.runs.length + '</span></h4>';
         if (!s.runs.length) return h + '<p class="sv-muted">No runs yet.</p>';
@@ -720,16 +711,17 @@
         return h;
     }
 
+    function earnedOnly(group) { return VEHICLE_GROUPS.indexOf(group) >= 0 || group === 'Environments reached'; }
     function viewUnlocks() {
         var s = active();
         if (!s) return '<p class="sv-muted">Create a save on the Profile tab first.</p>';
-        return Object.keys(UNLOCKS).map(function (g) {
-            var items = UNLOCKS[g], got = items.filter(function (it) { return s.unlocks[g + '|' + it]; }).length;
+        return '<p class="sv-note">Vehicles are bought in the Garage and areas unlock when you drive there. Mini-games can be ticked off here.</p>' + Object.keys(UNLOCKS).map(function (g) {
+            var items = UNLOCKS[g], locked = earnedOnly(g), got = items.filter(function (it) { return s.unlocks[g + '|' + it]; }).length;
             return '<h4><span>' + esc(g) + '</span><span>' + got + '/' + items.length + '</span></h4>' +
                 '<div class="sv-bar"><i style="width:' + (got / items.length * 100) + '%"></i></div>' +
                 items.map(function (it) {
                     var k = g + '|' + it;
-                    return '<label class="sv-check"><input type="checkbox" data-unlock="' + esc(k) + '"' + (s.unlocks[k] ? ' checked' : '') + '> ' + esc(it) + '</label>';
+                    return '<label class="sv-check"><input type="checkbox" data-unlock="' + esc(k) + '"' + (s.unlocks[k] ? ' checked' : '') + (locked ? ' disabled' : '') + '> ' + esc(it) + '</label>';
                 }).join('');
         }).join('');
     }
@@ -740,16 +732,17 @@
         h += '<h4 style="margin-top:0"><span>Export</span></h4><p class="sv-muted">Copy this code to move your saves to another browser or device.</p>' +
             '<textarea class="mono" id="sv-export" readonly>' + esc(encode({ er3: 1, data: state })) + '</textarea>' +
             '<div class="sv-row" style="margin-top:8px"><button type="button" class="sv-btn pri" data-act="copy-export">Copy code</button><button type="button" class="sv-btn" data-act="download">Download .json</button></div>' +
-            '<h4><span>Import</span></h4><p class="sv-muted">Importing replaces all saves in this browser.</p>' +
+            '<h4><span>Import</span></h4><p class="sv-muted">Importing replaces all saves in this browser. You can paste a save code or the contents of a backup file.</p>' +
             '<textarea class="mono" id="sv-import" placeholder="Paste a save code"></textarea>' +
             '<div class="sv-row" style="margin-top:8px"><button type="button" class="sv-btn pri" data-act="import-code">Import code</button>' +
-            '<label class="sv-btn" style="display:inline-block;cursor:pointer">Upload .json<input id="sv-file" type="file" accept="application/json,.json" hidden></label></div>';
+            '<button type="button" class="sv-btn" data-act="upload">Upload .json</button><input id="sv-file" type="file" accept="application/json,.json" hidden></div>';
         return h;
     }
 
     function importData(obj) {
         var d = obj && obj.er3 && obj.data ? obj.data : obj;
         if (!d || !Array.isArray(d.slots)) throw new Error('bad');
+        stopRun();
         state = normalize(d); persist(); render(); applyFx(); toast('Saves imported');
     }
 
@@ -808,7 +801,7 @@
     function adminCheats(sel) {
         if (!sel) return emptySlot();
         var veh = allVehicles(), owned = veh.filter(function (v) { return sel.unlocks[v.key]; }).length;
-        var h = '<p class="sv-note">Cheats change the saves on this page (Garage, Profile, Unlocks). They can\'t reach inside the Azgames game itself.</p>';
+        var h = '<p class="sv-note">Cheats change this save directly, so they apply to the game straight away, even in the middle of a run. The game pauses while this panel is open.</p>';
         h += '<div class="sv-section"><h4><span>Quick cheats</span>' + (sel.god ? '<span class="sv-badge">GOD MODE</span>' : '') + '</h4>' +
             cheat('Health', sel.god ? '∞ HP' : sel.health + ' HP',
                 btn('admin-hp', '25', '+25') + btn('admin-hp', '100', '+100') + btn('admin-hp', '-25', '−25') + btn('admin-hp', 'max', 'Full heal') + btn('admin-god', '', 'God mode', sel.god)) +
@@ -918,7 +911,7 @@
         else if (!fx.siren && sir) sir.remove();
     }
     function confetti() {
-        var colors = ['#b40202', '#f59e0b', '#16a34a', '#2563eb', '#9333ea', '#ec4899', '#fde047'];
+        var colors = ['#1d4ed8', '#f59e0b', '#16a34a', '#2563eb', '#9333ea', '#ec4899', '#fde047'];
         for (var i = 0; i < 120; i++) {
             (function (c) {
                 c.className = 'sv-confetti';
@@ -964,7 +957,7 @@
 
     function adminConfirm(act, v) {
         var sel = state.slots[adminSel], label = 'slot ' + (adminSel + 1);
-        if (act === 'admin-delete' && sel) return { title: 'Delete ' + label + '?', text: '"' + sel.name + '" will be removed. You can still press Undo until you reload the page.', ok: 'Delete' };
+        if (act === 'admin-delete' && sel) return { title: 'Delete ' + label + '?', text: '"' + sel.name + '" will be removed. You can press Undo straight after, before you play or change anything else.', ok: 'Delete' };
         if (act === 'admin-copy') { var j = num(v); if (state.slots[j]) return { title: 'Overwrite slot ' + (j + 1) + '?', text: '"' + state.slots[j].name + '" will be replaced with a copy of ' + label + '.', ok: 'Overwrite' }; }
         if (act === 'admin-wipe') return { title: 'Wipe every save?', text: 'This deletes all ' + SLOT_COUNT + ' slots. Type WIPE to confirm.', input: { placeholder: 'WIPE', maxlength: 10 }, require: 'WIPE', ok: 'Wipe everything' };
         return null;
@@ -977,6 +970,7 @@
             log('Undo'); toast('Undone');
             persist(); render(); renderAdmin(); applyFx(); return;
         }
+        if (act === 'admin-make-active' || act === 'admin-apply-raw' || act === 'admin-wipe') stopRun();
         var sel = state.slots[adminSel], label = 'slot ' + (adminSel + 1), snap = JSON.stringify(state);
         if (!sel && !NEEDS_NO_SLOT[act]) return;
         switch (act) {
@@ -1070,7 +1064,7 @@
                 var keepLog = state.adminLog; state = normalize(parsed); state.adminLog = keepLog;
                 log('Applied raw JSON'); toast('JSON applied'); break;
             case 'admin-export':
-                download('escape-road-3-saves-' + new Date().toISOString().slice(0, 10) + '.json', { er3: 1, data: state }); return;
+                download('getaway-arcade-saves-' + new Date().toISOString().slice(0, 10) + '.json', { er3: 1, data: state }); return;
             case 'admin-wipe':
                 state = fresh(); log('Wiped all saves'); toast('All saves wiped'); break;
             default: return;
@@ -1110,35 +1104,1008 @@
     document.addEventListener('fullscreenchange', onFsChange);
     document.addEventListener('webkitfullscreenchange', onFsChange);
 
-    var loadTimer = null;
-    function startLoadTimer() {
-        clearTimeout(loadTimer);
-        loadTimer = setTimeout(function () {
-            if (frame.getAttribute('data-loaded')) return;
-            $('game-loading-text').textContent = 'The game is taking a long time to load. Your network might be blocking it.';
-            $('game-loading-actions').hidden = false;
-        }, 15000);
+    /* ---------------- Getaway: the game ---------------- */
+    // Everything the game reads or changes lives in the active save slot (active()),
+    // so Garage purchases and admin cheats apply instantly, even mid-run.
+    var BLOCK = 380, ROAD = 120, WALK = 14, ZONE_RING = 2600;
+    var ZONES = UNLOCKS['Environments reached'];
+    var ZONE_STYLE = [
+        { ground: '#475569', walk: '#eef2f7', park: '#22c55e', tree: '#15803d', builds: ['#3b82f6', '#ef4444', '#f59e0b', '#22c55e', '#8b5cf6', '#f97316', '#06b6d4', '#ec4899'], parks: 0.12, sky: '#5cc8ff', hmin: 90, hmax: 300 },
+        { ground: '#4b5563', walk: '#f5efe2', park: '#4ade80', tree: '#16a34a', builds: ['#fbbf24', '#f87171', '#60a5fa', '#a3e635', '#fb923c', '#f472b6'], parks: 0.35, sky: '#67d0ff', hmin: 40, hmax: 80 },
+        { ground: '#86704f', walk: '#f6d38d', park: '#f5c55f', tree: '#4d9a0f', builds: ['#f4a940', '#e0782f', '#f7c873', '#d4622b'], parks: 0.45, sky: '#ffcf6e', hmin: 30, hmax: 70 },
+        { ground: '#4f5d70', walk: '#fde9a8', park: '#0ea5e9', tree: null, builds: ['#ffffff', '#facc15', '#fb7185', '#22d3ee'], parks: 0.3, sky: '#38c4ff', hmin: 40, hmax: 120 },
+        { ground: '#5f6b80', walk: '#ffffff', park: '#f8fafc', tree: '#0f766e', builds: ['#7dd3fc', '#f9a8d4', '#a5b4fc', '#5eead4'], parks: 0.3, sky: '#bfe3ff', hmin: 40, hmax: 100 },
+        { ground: '#45563f', walk: '#b7cf96', park: '#16a34a', tree: '#065f46', builds: ['#d97706', '#c2410c', '#b45309', '#a16207'], parks: 0.55, sky: '#9be7b0', hmin: 30, hmax: 60 },
+        { ground: '#374151', walk: '#a8b0bd', park: '#a8a29e', tree: null, builds: ['#f59e0b', '#ef4444', '#0ea5e9', '#64748b', '#eab308'], parks: 0.08, sky: '#b7c3d3', hmin: 60, hmax: 140 }
+    ];
+    var VEHICLES = {
+        'Starter Car':            { spd: 1.00, turn: 1.00, armor: 1.0, color: '#2563eb', len: 34, wid: 18, price: 0 },
+        'F1 Racing Car':          { spd: 1.45, turn: 1.25, armor: 0.7, color: '#dc2626', len: 40, wid: 16, price: 25000 },
+        'Zombie Slaying Truck':   { spd: 1.10, turn: 0.90, armor: 2.0, color: '#4d7c0f', len: 44, wid: 24, price: 25000, ram: true },
+        'Firefighter Helicopter': { spd: 1.15, turn: 1.30, armor: 1.2, color: '#ea580c', len: 38, wid: 20, price: 25000, fly: true, rotor: true },
+        'Alien Hunter Ship':      { spd: 1.40, turn: 1.40, armor: 1.5, color: '#a855f7', len: 34, wid: 28, price: 25000, fly: true },
+        'Bulldozer':              { spd: 0.85, turn: 0.80, armor: 2.4, color: '#eab308', len: 42, wid: 26, price: 8000, ram: true },
+        'Interceptor':            { spd: 1.30, turn: 1.15, armor: 1.2, color: '#111827', len: 38, wid: 18, price: 8000 },
+        'Stealth Coupe':          { spd: 1.20, turn: 1.20, armor: 1.0, color: '#475569', len: 34, wid: 18, price: 8000, stealth: true },
+        'Armored Tank':           { spd: 0.75, turn: 0.75, armor: 3.2, color: '#3f6212', len: 46, wid: 28, price: 8000, ram: true },
+        'Boat':                   { spd: 1.10, turn: 0.95, armor: 1.1, color: '#0ea5e9', len: 40, wid: 18, price: 4000 },
+        'Airplane':               { spd: 1.55, turn: 0.70, armor: 0.9, color: '#e5e7eb', len: 44, wid: 40, price: 12000, fly: true },
+        'Glider':                 { spd: 1.05, turn: 1.10, armor: 0.6, color: '#f472b6', len: 30, wid: 36, price: 6000, fly: true },
+        'Jet Ski':                { spd: 1.30, turn: 1.35, armor: 0.8, color: '#22d3ee', len: 26, wid: 14, price: 4000 }
+    };
+    var ITEM_ICON = { 'Health Pack': '➕', 'Shield': '🛡️', 'Nitro Boost': '🔥', 'Oil Slick': '🛢️', 'Smoke Screen': '💨', 'EMP Burst': '⚡', 'Repair Kit': '🔧', 'Mega Magnet': '🧲' };
+    var FX_ICON = { shield: '🛡️', nitro: '🔥', smoke: '💨', regen: '🔧', magnet: '🧲' };
+
+    function vstats(name) { return VEHICLES[name] || VEHICLES[STARTER]; }
+    function perks(st) { return [st.fly && 'Flies over buildings', st.ram && 'Spins out police it rams', st.stealth && 'Harder for police to track'].filter(Boolean); }
+    function itemCost(lv) { return 400 * (lv + 1); }
+    function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+    function wrapAng(a) { while (a > Math.PI) a -= Math.PI * 2; while (a < -Math.PI) a += Math.PI * 2; return a; }
+    function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+    function hash(i, j, k) {
+        var h = (Math.imul(i, 374761393) + Math.imul(j, 668265263) + Math.imul(k, 1442695041)) | 0;
+        h = Math.imul(h ^ (h >>> 13), 1274126177);
+        return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
     }
-    function reloadGame() {
-        frame.removeAttribute('data-loaded');
-        $('game-loading-text').textContent = 'Loading game…';
-        $('game-loading-actions').hidden = true;
-        loadingEl.hidden = false;
-        frame.src = GAME_URL;
-        startLoadTimer();
+    function zoneAt(x, y) { return Math.min(ZONES.length - 1, Math.floor(Math.hypot(x, y) / ZONE_RING)); }
+    // Building footprint for city block (i, j), or null for a park.
+    function blockRect(i, j) {
+        if (hash(i, j, 1) < ZONE_STYLE[zoneAt((i + 0.5) * BLOCK, (j + 0.5) * BLOCK)].parks) return null;
+        return { x: i * BLOCK + ROAD / 2 + WALK, y: j * BLOCK + ROAD / 2 + WALK, w: BLOCK - ROAD - WALK * 2, h: BLOCK - ROAD - WALK * 2 };
     }
-    window.erGameLoaded = function () { clearTimeout(loadTimer); loadingEl.hidden = true; };
+
+    var cv = $('game-canvas'), g = cv.getContext('2d'), goWrap = $('game-overlay'), goCard = $('go-card');
+    var game = { mode: 'menu', paused: false, last: 0, t: 0, cam: { x: 0, y: 0 }, sc: 1, hw: 640, hh: 300, ghost: null };
+    var run = null, keys = {}, touches = {};
+
+    function newCar(x, y, a, st) { return { x: x, y: y, a: a, vx: 0, vy: 0, len: st.len, wid: st.wid, r: st.wid / 2 + 5 }; }
+
+    function drive(c, gas, steer, brake, dt, maxV, turn, grip, accel) {
+        var fx = Math.cos(c.a), fy = Math.sin(c.a);
+        var fwd = c.vx * fx + c.vy * fy, lat = -c.vx * fy + c.vy * fx;
+        c.a = wrapAng(c.a + steer * turn * dt * clamp(fwd / 120, -1, 1));
+        if (brake) fwd = fwd > 0 ? Math.max(0, fwd - 900 * dt) : Math.max(-140, fwd - 300 * dt);
+        else if (gas && fwd < maxV) fwd = Math.min(maxV, fwd + accel * dt);
+        if (fwd > maxV) fwd -= (fwd - maxV) * Math.min(1, 2.5 * dt);
+        fwd *= 1 - 0.1 * dt;
+        lat *= Math.exp(-grip * dt);
+        fx = Math.cos(c.a); fy = Math.sin(c.a);
+        c.vx = fwd * fx - lat * fy; c.vy = fwd * fy + lat * fx;
+        c.x += c.vx * dt; c.y += c.vy * dt;
+    }
+
+    // Push a car out of any building it overlaps; onHit gets the impact speed.
+    function hitBuildings(c, onHit) {
+        var ci = Math.floor(c.x / BLOCK), cj = Math.floor(c.y / BLOCK);
+        for (var i = ci - 1; i <= ci + 1; i++) for (var j = cj - 1; j <= cj + 1; j++) {
+            var b = blockRect(i, j); if (!b) continue;
+            var nx = clamp(c.x, b.x, b.x + b.w), ny = clamp(c.y, b.y, b.y + b.h);
+            var dx = c.x - nx, dy = c.y - ny, d2 = dx * dx + dy * dy;
+            if (d2 >= c.r * c.r) continue;
+            var d = Math.sqrt(d2), ux, uy, pen;
+            if (d > 0.001) { ux = dx / d; uy = dy / d; pen = c.r - d; }
+            else {
+                var l = c.x - b.x, rt = b.x + b.w - c.x, t = c.y - b.y, bt = b.y + b.h - c.y, m = Math.min(l, rt, t, bt);
+                ux = m === l ? -1 : m === rt ? 1 : 0; uy = ux ? 0 : m === t ? -1 : 1; pen = m + c.r;
+            }
+            c.x += ux * pen; c.y += uy * pen;
+            var vn = c.vx * ux + c.vy * uy;
+            if (vn < 0) { c.vx = (c.vx - ux * vn * 1.3) * 0.92; c.vy = (c.vy - uy * vn * 1.3) * 0.92; if (onHit) onHit(-vn); }
+        }
+    }
+
+    function roadPoint(x, y, minD, maxD) {
+        var a = Math.random() * Math.PI * 2, d = minD + Math.random() * (maxD - minD), off = (Math.random() - 0.5) * ROAD * 0.5;
+        var px = x + Math.cos(a) * d, py = y + Math.sin(a) * d;
+        var vert = Math.random() < 0.5;
+        if (vert) px = Math.round(px / BLOCK) * BLOCK + off; else py = Math.round(py / BLOCK) * BLOCK + off;
+        return { x: px, y: py, vert: vert };
+    }
+    function offscreenPoint(r) {
+        var p;
+        for (var n = 0; n < 12; n++) {
+            p = roadPoint(r.p.x, r.p.y, 700, 1150);
+            if (!onScreen(p.x, p.y, 60)) break;
+        }
+        return p;
+    }
+    function placeCop(c, r) {
+        var p = offscreenPoint(r);
+        c.x = p.x; c.y = p.y; c.vx = c.vy = 0; c.a = Math.atan2(r.p.y - p.y, r.p.x - p.x);
+        c.stun = 0; c.rev = 0; c.stuck = 0; c.hitCd = 0; c.wx = null; c.nav = null; c.navT = 0;
+    }
+    function onScreen(x, y, margin) {
+        if (R3) return R3.onScreen(x, y, margin * game.sc);
+        return Math.abs(x - game.cam.x) < game.hw + margin && Math.abs(y - game.cam.y) < game.hh + margin;
+    }
+    function toScreen(x, y, w, h) {
+        if (R3) return R3.toScreen(x, y);
+        return { x: w / 2 + (x - game.cam.x) * game.sc, y: h / 2 + (y - game.cam.y) * game.sc, z: 0 };
+    }
+    // Civilian traffic drives straight along its lane until something hits it.
+    var CIVIL = ['#f97316', '#10b981', '#e11d48', '#8b5cf6', '#f59e0b', '#14b8a6', '#64748b', '#ec4899', '#facc15'];
+    function placeTraffic(t, r) {
+        var p = offscreenPoint(r), d = Math.random() < 0.5 ? 1 : -1;
+        if (p.vert) { t.x = Math.round(p.x / BLOCK) * BLOCK - d * 28; t.y = p.y; t.a = d * Math.PI / 2; }
+        else { t.y = Math.round(p.y / BLOCK) * BLOCK + d * 28; t.x = p.x; t.a = d > 0 ? 0 : Math.PI; }
+        t.spd = 110 + Math.random() * 90; t.knock = 0; t.wreck = false; t.hitCd = 0;
+        t.vx = Math.cos(t.a) * t.spd; t.vy = Math.sin(t.a) * t.spd;
+        t.color = CIVIL[Math.floor(Math.random() * CIVIL.length)];
+    }
+    function knock(t) { t.knock = 1.5; t.wreck = true; t.spin = (Math.random() < 0.5 ? -1 : 1) * (3 + Math.random() * 3); }
+    // Push two cars apart and trade momentum; returns the closing speed (0 if they weren't colliding).
+    function bump(a, b, ma, mb) {
+        var dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy), mn = a.r + b.r;
+        if (d >= mn || d === 0) return 0;
+        var nx = dx / d, ny = dy / d, push = mn - d, sa = mb / (ma + mb);
+        a.x -= nx * push * sa; a.y -= ny * push * sa; b.x += nx * push * (1 - sa); b.y += ny * push * (1 - sa);
+        var rel = (a.vx - b.vx) * nx + (a.vy - b.vy) * ny;
+        if (rel <= 0) return 0;
+        var j = 1.3 * rel / (1 / ma + 1 / mb);
+        a.vx -= nx * j / ma; a.vy -= ny * j / ma; b.vx += nx * j / mb; b.vy += ny * j / mb;
+        return rel;
+    }
+    // From 3 stars, every third police car is a heavier SWAT truck.
+    function spawnCop(r) {
+        var s = active(), swat = s && s.wanted >= 3 && r.cops.length % 3 === 2;
+        var c = newCar(0, 0, 0, swat ? { len: 44, wid: 22 } : { len: 36, wid: 18 });
+        c.kind = swat ? 'swat' : 'police'; placeCop(c, r);
+        return c;
+    }
+    // Is the straight line from (ax, ay) to (bx, by) clear of buildings, with some clearance?
+    function clearPath(ax, ay, bx, by, pad) {
+        var dx = bx - ax, dy = by - ay, n = Math.ceil(Math.hypot(dx, dy) / 30);
+        for (var k = 1; k < n; k++) {
+            var x = ax + dx * k / n, y = ay + dy * k / n, b = blockRect(Math.floor(x / BLOCK), Math.floor(y / BLOCK));
+            if (b && x > b.x - pad && x < b.x + b.w + pad && y > b.y - pad && y < b.y + b.h + pad) return false;
+        }
+        return true;
+    }
+    // Police follow the street grid: straight at the target when the road is clear,
+    // otherwise towards whichever neighbouring junction gets them closest to it.
+    function navTarget(c, tx, ty) {
+        if (clearPath(c.x, c.y, tx, ty, 10)) return { x: tx, y: ty, direct: true };
+        var ci = Math.round(c.x / BLOCK), cj = Math.round(c.y / BLOCK), best = null, bestCost = Infinity;
+        for (var di = -1; di <= 1; di++) for (var dj = -1; dj <= 1; dj++) {
+            if (di && dj) continue;
+            var jx = (ci + di) * BLOCK, jy = (cj + dj) * BLOCK, d = Math.hypot(jx - c.x, jy - c.y);
+            if (d < 40 || !clearPath(c.x, c.y, jx, jy, 10)) continue;
+            var cost = d + Math.hypot(tx - jx, ty - jy);
+            if (cost < bestCost) { bestCost = cost; best = { x: jx, y: jy, direct: false }; }
+        }
+        return best || { x: tx, y: ty, direct: true };
+    }
+    function stun(c, t, spin) { c.stun = Math.max(c.stun, t); c.spin = spin === 0 ? 0 : (Math.random() < 0.5 ? -1 : 1) * (4 + Math.random() * 3); }
+    function puff(x, y, n, color, speed, size, life) {
+        for (var i = 0; i < n; i++) {
+            var a = Math.random() * Math.PI * 2, v = Math.random() * speed;
+            run.parts.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: life, max: life, color: color, size: size });
+        }
+    }
+    function flash(msg) { if (run) { run.msg = msg; run.msgT = 2.2; } }
+
+    function hurt(s, dmg) {
+        if (dmg > 0) sfx.crash(clamp(dmg / 20, 0.2, 1));
+        if (s.god || run.fx.shield > 0 || dmg <= 0) return;
+        s.health = Math.max(0, s.health - Math.ceil(dmg)); run.hitT = 0.35;
+        if (s.health <= 0) run.dead = 'Wrecked';
+    }
+
+    function useItem(it, s) {
+        var L = s.items[it] || 0, f = 1 + 0.3 * L, fx = run.fx, P = run.p;
+        switch (it) {
+            case 'Health Pack': if (s.health < 100) s.health = Math.min(100, s.health + 25 + 10 * L); break;
+            case 'Shield': fx.shield = Math.max(fx.shield, 4 * f); break;
+            case 'Nitro Boost': fx.nitro = Math.max(fx.nitro, 2.5 * f); break;
+            case 'Oil Slick':
+                run.cops.forEach(function (c) { if (dist(c, P) < 320 + 40 * L) stun(c, 2 * f); });
+                puff(P.x, P.y, 26, '#111827', 160, 14, 1.4); break;
+            case 'Smoke Screen': fx.smoke = Math.max(fx.smoke, 3.5 * f); break;
+            case 'EMP Burst':
+                run.cops.forEach(function (c) { if (dist(c, P) < 300 + 50 * L) stun(c, 3 * f, 0); });
+                run.rings.push({ x: P.x, y: P.y, r: 0, max: 300 + 50 * L, life: 0.5 }); break;
+            case 'Repair Kit': fx.regen = 6; run.regenRate = 4 + 2 * L; break;
+            case 'Mega Magnet': fx.magnet = Math.max(fx.magnet, 6 * f); break;
+        }
+        flash(ITEM_ICON[it] + ' ' + it + (L ? ' · Lv ' + L : ''));
+        sfx.item();
+    }
+
+    // The save a run was using has been deleted or wiped: drop the run and reset the controls.
+    function dropRun() {
+        run = null; game.ghost = null; keys = {}; touches = {}; game.cam.x = game.cam.y = 0;
+        game.mode = 'menu'; setPaused(false);
+    }
+    // End the current run (logged to the save it was played on) before another save becomes active.
+    function stopRun(reason) { if (run) { endRun(reason || 'Switched save', true); showMenu(); } }
+
+    function ensureSlot() {
+        var s = active(); if (s) return s;
+        state.slots[state.activeSlot] = newSlot('Player ' + (state.activeSlot + 1)); sessionCounted = false;
+        toast('Created a new save in slot ' + (state.activeSlot + 1));
+        return active();
+    }
+
+    function startRun() {
+        if (run) endRun('Restarted', true);
+        var s = ensureSlot();
+        s.running = true;
+        if (s.health < 1 && !s.god) {
+            if (s.coins >= 100) { s.coins -= 100; s.health = 100; toast('Your wrecked car was repaired for 100 coins'); }
+            else { s.health = 50; toast('A mechanic patched up your car for free (50 HP)'); }
+        }
+        var st = vstats(s.vehicle);
+        sfx.init();
+        run = { p: newCar(0, 0, -Math.PI / 2, st), st: st, vehicle: s.vehicle, cops: [], traffic: [], coins: [], items: [], parts: [], rings: [],
+            fx: { shield: 0, nitro: 0, smoke: 0, regen: 0, magnet: 0 }, regenRate: 0, regenAcc: 0, charge: 1, boosting: false, siren: 0,
+            dist: 0, got: 0, wantedT: 0, spawnT: 0, itemT: 3, bustT: 0, hitT: 0, msg: '', msgT: 0, zone: -1, dead: null,
+            best: bestScore(s), lv: level(s) };
+        game.cam.x = 0; game.cam.y = 0;
+        for (var i = 0; i < 40; i++) run.coins.push(roadPoint(0, 0, 150, 1300));
+        game.mode = 'run'; setPaused(false);
+        if (document.activeElement && document.activeElement.blur && document.activeElement !== document.body) document.activeElement.blur();
+        commit(false); render();
+    }
+
+    function endRun(reason, quiet) {
+        var r = run, s = active(); run = null; game.ghost = r; game.mode = 'over'; setPaused(false); keys.boost = false;
+        $('btn-pause').disabled = true;
+        if (!s) { showMenu(); return; }
+        var score = Math.floor(r.dist / 8), ups = 0, record = false;
+        // Don't fill the history with empty runs from restarting straight away.
+        if (!(quiet && score === 0 && r.got === 0)) {
+            s.runs.push({ id: uid(), date: Date.now(), score: score, coins: r.got, vehicle: r.vehicle, note: reason });
+            if (s.runs.length > 500) s.runs.shift();
+            ups = addXp(s, Math.floor(score / 10)); record = score > r.best && r.best > 0;
+        }
+        s.wanted = 0; s.running = false;
+        commit();
+        if (quiet) return;
+        sfx.over();
+        goCard.innerHTML = '<h2>' + (reason === 'Busted' ? '🚓 Busted!' : '💥 Wrecked!') + '</h2>' +
+            '<div class="go-stats"><div><span>Score</span><b>' + score.toLocaleString() + '</b></div><div><span>Coins</span><b>+' + r.got.toLocaleString() + '</b></div><div><span>Best</span><b>' + Math.max(score, r.best).toLocaleString() + '</b></div></div>' +
+            (record ? '<p class="go-good">New best score!</p>' : '') + (ups ? '<p class="go-good">Level up! You\'re level ' + level(s) + '</p>' : '') +
+            '<button type="button" class="go-btn" data-act="game-start">Drive again</button>' +
+            '<p class="go-hint">Run saved to slot ' + (state.activeSlot + 1) + '. Spend coins in <a href="#" data-act="open-garage">the Garage</a>.</p>';
+        goWrap.hidden = false;
+        if (ups || record) confetti();
+    }
+
+    function showMenu() {
+        if (run) return;
+        game.mode = 'menu';
+        var s = active(), v = s ? s.vehicle : STARTER, st = vstats(v), pk = perks(st);
+        if (!game.ghost || game.ghost.vehicle !== v) game.ghost = { p: newCar(0, 0, -Math.PI / 2, st), st: st, vehicle: v, cops: [], traffic: [], coins: [], items: [], parts: [], rings: [], fx: {} };
+        var hp = s ? (s.god ? '∞' : s.health) : 100;
+        goCard.innerHTML = '<h2>Getaway</h2><p>Outrun the police for as long as you can. Grab coins and power-ups, dodge buildings, and don\'t get boxed in.</p>' +
+            '<div class="go-stats"><div><span>Vehicle</span><b class="sm">' + esc(v) + '</b></div><div><span>Health</span><b>' + hp + '</b></div><div><span>Coins</span><b>' + (s ? s.coins : 0).toLocaleString() + '</b></div></div>' +
+            (pk.length ? '<p class="go-perks">' + esc(pk.join(' · ')) + '</p>' : '') +
+            (s && !s.god && s.health < 1 ? '<p class="go-warn">Your car is wrecked. Starting will repair it.</p>' : s && !s.god && s.health <= 25 ? '<p class="go-warn">Low health. Repair it in the Garage first.</p>' : '') +
+            '<button type="button" class="go-btn" data-act="game-start">Start run</button>' +
+            '<p class="go-hint">' + (matchMedia('(pointer: coarse)').matches ? 'Hold the left or right side to steer, both to brake. Tap NITRO to boost.' : 'Arrow keys or A/D to steer, ↓ or S to brake, Shift for nitro, P to pause.') + '</p>';
+        goWrap.hidden = false;
+    }
+
+    function setPaused(p) {
+        game.paused = !!p && game.mode === 'run';
+        var b = $('btn-pause');
+        b.disabled = game.mode !== 'run';
+        $('btn-nitro').hidden = !(game.mode === 'run' && !game.paused && matchMedia('(pointer: coarse)').matches);
+        $('sv-fab').hidden = !$('btn-nitro').hidden;
+        b.querySelector('.tool-label').textContent = game.paused ? 'Resume' : 'Pause';
+        b.setAttribute('aria-label', game.paused ? 'Resume' : 'Pause');
+        if (game.paused) {
+            goCard.innerHTML = '<h2>Paused</h2><p>Score ' + Math.floor(run.dist / 8).toLocaleString() + ' · +' + run.got.toLocaleString() + ' coins</p><button type="button" class="go-btn" data-act="game-resume">Resume</button>' +
+                '<p class="go-hint">Press P or space to resume.</p>';
+            goWrap.hidden = false;
+        } else if (game.mode === 'run') { goWrap.hidden = true; keys = {}; touches = {}; }
+    }
+
+    function update(dt) {
+        var s = active();
+        if (!s) { dropRun(); showMenu(); return; }
+        var r = run, P = r.p, fx = r.fx;
+        if (s.vehicle !== r.vehicle) {
+            r.vehicle = s.vehicle; r.st = vstats(s.vehicle);
+            P.len = r.st.len; P.wid = r.st.wid; P.r = r.st.wid / 2 + 5; flash('Now driving: ' + s.vehicle);
+        }
+        var st = r.st;
+        if (!s.god && s.health <= 0) { r.dead = 'Wrecked'; return; }
+        for (var k in fx) if (fx[k] > 0) fx[k] = Math.max(0, fx[k] - dt);
+        if (r.hitT > 0) r.hitT -= dt;
+        if (r.msgT > 0) r.msgT -= dt;
+
+        // Player
+        var steer = (keys.right ? 1 : 0) - (keys.left ? 1 : 0), brake = !!keys.down, tl = 0, tr = 0;
+        for (var id in touches) { if (touches[id] < 0) tl = 1; else tr = 1; }
+        if (tl && tr) brake = true; else steer = clamp(steer + tr - tl, -1, 1);
+        // Nitro: hold Shift (or the NITRO button) to burn the meter; it refills while you're not boosting.
+        var manual = keys.boost && r.charge > 0.02 && fx.nitro <= 0, boost = manual || fx.nitro > 0;
+        if (manual) r.charge = Math.max(0, r.charge - dt / 2.5); else if (!keys.boost) r.charge = Math.min(1, r.charge + dt / 12);
+        if (boost && !r.boosting) sfx.nitro();
+        r.boosting = boost;
+        drive(P, true, steer, brake, dt, 340 * st.spd * (boost ? 1.6 : 1), 3.1 * st.turn, 9, boost ? 1100 : 560);
+        r.dist += Math.hypot(P.vx, P.vy) * dt;
+        if (!st.fly) hitBuildings(P, function (imp) {
+            if (imp > 150) { hurt(s, (imp - 150) * 0.06 / st.armor); puff(P.x, P.y, 8, '#fbbf24', 220, 3, 0.4); }
+        });
+        if (fx.regen > 0 && s.health < 100) {
+            r.regenAcc += r.regenRate * dt;
+            if (r.regenAcc >= 1) { s.health = Math.min(100, s.health + Math.floor(r.regenAcc)); r.regenAcc %= 1; }
+        }
+        if (fx.smoke > 0 && Math.random() < dt * 30) puff(P.x - Math.cos(P.a) * 20, P.y - Math.sin(P.a) * 20, 1, '#cbd5e1', 40, 16, 1.6);
+        if (boost && Math.random() < dt * 40) puff(P.x - Math.cos(P.a) * P.len / 2, P.y - Math.sin(P.a) * P.len / 2, 1, '#fb923c', 60, 5, 0.3);
+
+        // Areas
+        var z = zoneAt(P.x, P.y);
+        if (z !== r.zone) {
+            var key = 'Environments reached|' + ZONES[z];
+            if (r.zone >= 0) flash((s.unlocks[key] ? '' : 'New area: ') + ZONES[z]);
+            if (!s.unlocks[key]) s.unlocks[key] = true;
+            r.zone = z;
+        }
+
+        // Wanted level rises over time; each star brings two more police cars.
+        r.wantedT += dt;
+        if (r.wantedT >= (st.stealth ? 40 : 25)) { r.wantedT = 0; if (s.wanted < 5) { s.wanted += 1; flash('Wanted level ' + s.wanted + '★'); sfx.alert(); } }
+        var target = 1 + s.wanted * 2;
+        r.spawnT -= dt;
+        if (r.cops.length < target && r.spawnT <= 0) { r.cops.push(spawnCop(r)); r.spawnT = 0.8; }
+        if (r.cops.length > target) r.cops.length = target;
+
+        // Police
+        var copMax = 300 + 22 * s.wanted;
+        r.cops.forEach(function (c) {
+            c.hitCd -= dt;
+            if (c.stun > 0) {
+                c.stun -= dt; c.a += c.spin * dt;
+                c.vx *= Math.exp(-1.5 * dt); c.vy *= Math.exp(-1.5 * dt); c.x += c.vx * dt; c.y += c.vy * dt;
+                hitBuildings(c); return;
+            }
+            var d = dist(c, P);
+            if (d > 1700) { placeCop(c, r); return; }
+            var lost = fx.smoke > 0 || (st.stealth && d > 650), tx, ty;
+            if (lost) {
+                if (c.wx == null || Math.hypot(c.wx - c.x, c.wy - c.y) < 80) { c.wx = c.x + (Math.random() - 0.5) * 1200; c.wy = c.y + (Math.random() - 0.5) * 1200; }
+                tx = c.wx; ty = c.wy;
+            } else {
+                c.wx = null;
+                var lead = Math.min(0.9, d / 450); tx = P.x + P.vx * lead; ty = P.y + P.vy * lead;
+            }
+            c.navT -= dt;
+            if (!c.nav || c.navT <= 0 || (!c.nav.direct && Math.hypot(c.nav.x - c.x, c.nav.y - c.y) < 50)) { c.nav = navTarget(c, tx, ty); c.navT = 0.2; }
+            var turning = false;
+            if (!c.nav.direct) { tx = c.nav.x; ty = c.nav.y; turning = Math.hypot(tx - c.x, ty - c.y) < 150; }
+            var diff = wrapAng(Math.atan2(ty - c.y, tx - c.x) - c.a), sp = Math.hypot(c.vx, c.vy);
+            if (c.rev > 0) { c.rev -= dt; drive(c, false, diff > 0 ? -1 : 1, true, dt, copMax, 2.9, 7, 600); }
+            else {
+                c.stuck = sp < 40 ? c.stuck + dt : 0;
+                if (c.stuck > 1.2) { c.rev = 0.8; c.stuck = 0; }
+                drive(c, true, clamp(diff * 2.5, -1, 1), Math.abs(diff) > 2.2 && sp > 200, dt, copMax * (lost ? 0.6 : Math.hypot(P.vx, P.vy) < 80 ? clamp((d - 30) / 170, 0.05, 1) : 1) * (turning ? 0.55 : 1) * (c.kind === 'swat' ? 0.9 : 1), 2.9, 7, 600);
+            }
+            hitBuildings(c);
+        });
+        for (var a = 0; a < r.cops.length; a++) for (var b = a + 1; b < r.cops.length; b++) {
+            var c1 = r.cops[a], c2 = r.cops[b], dx = c2.x - c1.x, dy = c2.y - c1.y, dd = Math.hypot(dx, dy), mn = c1.r + c2.r;
+            if (dd > 0 && dd < mn) { var px = dx / dd * (mn - dd) / 2, py = dy / dd * (mn - dd) / 2; c1.x -= px; c1.y -= py; c2.x += px; c2.y += py; }
+        }
+
+        // Player vs police
+        var near = 0, mP = st.ram ? 3 : 1;
+        r.cops.forEach(function (c) {
+            if (c.stun <= 0 && dist(c, P) < c.r + P.r + 14) near++;
+            var heavy = c.kind === 'swat', rel = bump(P, c, mP, heavy ? 2 : 1);
+            if (c.hitCd > 0 || rel < 50) return;
+            c.hitCd = 0.6;
+            var dmg = (6 + rel * 0.04) / st.armor * (heavy ? 1.5 : 1);
+            if (st.ram || fx.shield > 0) { stun(c, 1.6); dmg *= 0.4; }
+            hurt(s, dmg);
+            puff((P.x + c.x) / 2, (P.y + c.y) / 2, 10, '#fde047', 240, 3, 0.4);
+        });
+        var nearest = Infinity;
+        r.cops.forEach(function (c) { if (c.stun <= 0) nearest = Math.min(nearest, dist(c, P)); });
+        r.siren = clamp(1 - (nearest - 150) / 750, 0, 1);
+        if (!s.god && near >= 2 && Math.hypot(P.vx, P.vy) < 60) { r.bustT += dt; if (r.bustT > 2) r.dead = 'Busted'; }
+        else r.bustT = Math.max(0, r.bustT - dt * 2);
+
+        // Traffic
+        while (r.traffic.length < 10) { var tc = newCar(0, 0, 0, { len: 34, wid: 18 }); placeTraffic(tc, r); r.traffic.push(tc); }
+        r.traffic.forEach(function (t) {
+            t.hitCd -= dt;
+            if (dist(t, P) > 1700) { placeTraffic(t, r); return; }
+            if (t.knock > 0) {
+                t.knock -= dt; t.a += t.spin * dt * Math.min(1, t.knock);
+                t.vx *= Math.exp(-2 * dt); t.vy *= Math.exp(-2 * dt); t.x += t.vx * dt; t.y += t.vy * dt;
+                hitBuildings(t);
+            } else if (t.wreck) { t.vx = t.vy = 0; }
+            else { t.vx = Math.cos(t.a) * t.spd; t.vy = Math.sin(t.a) * t.spd; t.x += t.vx * dt; t.y += t.vy * dt; }
+            var rel = st.fly ? 0 : bump(P, t, mP, 0.8);
+            if (rel > 0) {
+                if (rel > 40) knock(t);
+                if (rel > 80 && t.hitCd <= 0) { t.hitCd = 0.6; if (!st.ram) hurt(s, (4 + rel * 0.03) / st.armor); puff((P.x + t.x) / 2, (P.y + t.y) / 2, 8, '#fde047', 220, 3, 0.4); }
+            }
+            r.cops.forEach(function (c) { if (bump(c, t, 1.5, 0.8) > 40) knock(t); });
+        });
+
+        // Coins
+        var coinVal = 10 * (1 + Math.floor(level(s) / 10));
+        r.coins = r.coins.filter(function (c) {
+            var d = dist(c, P);
+            if (d > 1500) return false;
+            if (fx.magnet > 0 && d < 280) { c.x += (P.x - c.x) / d * 600 * dt; c.y += (P.y - c.y) / d * 600 * dt; }
+            if (d < P.r + 12) { s.coins = Math.min(MAX_COINS, s.coins + coinVal); r.got += coinVal; sfx.coin(); return false; }
+            return true;
+        });
+        while (r.coins.length < 40) r.coins.push(roadPoint(P.x, P.y, 500, 1300));
+
+        // Power-ups
+        r.itemT -= dt;
+        if (r.itemT <= 0 && r.items.length < 4) { var ip = roadPoint(P.x, P.y, 350, 800); ip.it = ITEMS[Math.floor(Math.random() * ITEMS.length)]; r.items.push(ip); r.itemT = 7 + Math.random() * 4; }
+        r.items = r.items.filter(function (it) {
+            var d = dist(it, P);
+            if (d > 1600) return false;
+            if (d < P.r + 16) { useItem(it.it, s); return false; }
+            return true;
+        });
+
+        r.parts = r.parts.filter(function (p) { p.life -= dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= 0.96; p.vy *= 0.96; return p.life > 0; });
+        r.rings = r.rings.filter(function (q) { q.life -= dt; q.r = q.max * (1 - q.life / 0.5); return q.life > 0; });
+
+        var k2 = Math.min(1, 5 * dt);
+        game.cam.x += (P.x + P.vx * 0.35 - game.cam.x) * k2; game.cam.y += (P.y + P.vy * 0.35 - game.cam.y) * k2;
+    }
+
+    /* ---- Drawing ---- */
+    function rr(x, y, w, h, rad) {
+        g.beginPath();
+        if (g.roundRect) g.roundRect(x, y, w, h, rad); else g.rect(x, y, w, h);
+    }
+    function drawWorld(cx, cy, hw, hh) {
+        var i0 = Math.floor((cx - hw) / BLOCK) - 1, i1 = Math.floor((cx + hw) / BLOCK) + 1;
+        var j0 = Math.floor((cy - hh) / BLOCK) - 1, j1 = Math.floor((cy + hh) / BLOCK) + 1, i, j;
+        for (i = i0; i <= i1; i++) for (j = j0; j <= j1; j++) {
+            var z = ZONE_STYLE[zoneAt((i + 0.5) * BLOCK, (j + 0.5) * BLOCK)];
+            g.fillStyle = z.ground; g.fillRect(i * BLOCK - ROAD / 2, j * BLOCK - ROAD / 2, BLOCK + 1, BLOCK + 1);
+        }
+        g.strokeStyle = 'rgba(255,255,255,.5)'; g.lineWidth = 3; g.setLineDash([18, 16]); g.beginPath();
+        for (i = i0; i <= i1; i++) for (j = j0; j <= j1; j++) {
+            g.moveTo(i * BLOCK, j * BLOCK + ROAD / 2 + 8); g.lineTo(i * BLOCK, (j + 1) * BLOCK - ROAD / 2 - 8);
+            g.moveTo(i * BLOCK + ROAD / 2 + 8, j * BLOCK); g.lineTo((i + 1) * BLOCK - ROAD / 2 - 8, j * BLOCK);
+        }
+        g.stroke(); g.setLineDash([]);
+        for (i = i0; i <= i1; i++) for (j = j0; j <= j1; j++) {
+            var zs = ZONE_STYLE[zoneAt((i + 0.5) * BLOCK, (j + 0.5) * BLOCK)], bx = i * BLOCK + ROAD / 2, bs = BLOCK - ROAD, by = j * BLOCK + ROAD / 2;
+            g.fillStyle = zs.walk; g.fillRect(bx, by, bs, bs);
+            var b = blockRect(i, j);
+            if (!b) {
+                g.fillStyle = zs.park; g.fillRect(bx + WALK, by + WALK, bs - WALK * 2, bs - WALK * 2);
+                if (zs.tree) {
+                    g.fillStyle = zs.tree;
+                    for (var n = 0; n < 6; n++) {
+                        g.beginPath();
+                        g.arc(bx + 40 + hash(i, j, 10 + n) * (bs - 80), by + 40 + hash(i, j, 20 + n) * (bs - 80), 14 + hash(i, j, 30 + n) * 12, 0, Math.PI * 2);
+                        g.fill();
+                    }
+                }
+                continue;
+            }
+            g.fillStyle = 'rgba(0,0,0,.28)'; g.fillRect(b.x + 9, b.y + 9, b.w, b.h);
+            g.fillStyle = zs.builds[Math.floor(hash(i, j, 2) * zs.builds.length)]; g.fillRect(b.x, b.y, b.w, b.h);
+            g.fillStyle = 'rgba(255,255,255,.1)'; g.fillRect(b.x + 14, b.y + 14, b.w - 28, b.h - 28);
+            g.fillStyle = 'rgba(0,0,0,.18)';
+            for (var m = 0; m < 3; m++) g.fillRect(b.x + 30 + hash(i, j, 40 + m) * (b.w - 90), b.y + 30 + hash(i, j, 50 + m) * (b.h - 90), 30, 22);
+        }
+    }
+    function drawCar(c, color, police, fly) {
+        g.save(); g.translate(c.x, c.y);
+        var L = c.len, W = c.wid, sh = fly ? 14 : 3;
+        g.rotate(c.a);
+        g.fillStyle = 'rgba(0,0,0,.3)'; rr(-L / 2 + sh, -W / 2 + sh, L, W, 5); g.fill();
+        g.fillStyle = color; rr(-L / 2, -W / 2, L, W, 5); g.fill();
+        if (police) { g.fillStyle = '#111827'; g.fillRect(-L / 2, -W / 2, L * 0.22, W); g.fillRect(L / 2 - L * 0.18, -W / 2, L * 0.18, W); }
+        g.fillStyle = 'rgba(15,23,42,.75)';
+        g.fillRect(L * 0.06, -W / 2 + 3, L * 0.18, W - 6); g.fillRect(-L * 0.34, -W / 2 + 3, L * 0.12, W - 6);
+        if (fly) { g.fillStyle = 'rgba(255,255,255,.35)'; g.fillRect(-L * 0.1, -W / 2 - 2, L * 0.2, W + 4); }
+        g.fillStyle = '#fef08a'; g.fillRect(L / 2 - 3, -W / 2 + 2, 3, 4); g.fillRect(L / 2 - 3, W / 2 - 6, 3, 4);
+        if (police) {
+            var on = Math.floor(game.t * 8) % 2;
+            g.fillStyle = on ? '#ef4444' : '#3b82f6'; g.fillRect(-4, -W / 2 + 2, 6, W / 2 - 2);
+            g.fillStyle = on ? '#3b82f6' : '#ef4444'; g.fillRect(-4, 0, 6, W / 2 - 2);
+        }
+        g.restore();
+    }
+    function drawScene(r) {
+        r.coins.forEach(function (c) {
+            g.fillStyle = '#ca8a04'; g.beginPath(); g.arc(c.x, c.y, 9, 0, Math.PI * 2); g.fill();
+            g.fillStyle = '#fde047'; g.beginPath(); g.arc(c.x, c.y, 6, 0, Math.PI * 2); g.fill();
+        });
+        g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '18px system-ui, sans-serif';
+        r.items.forEach(function (it) {
+            var pulse = 1 + Math.sin(game.t * 5) * 0.08;
+            g.save(); g.translate(it.x, it.y); g.scale(pulse, pulse);
+            g.fillStyle = 'rgba(96,165,250,.35)'; g.beginPath(); g.arc(0, 0, 22, 0, Math.PI * 2); g.fill();
+            g.fillStyle = '#f8fafc'; rr(-14, -14, 28, 28, 6); g.fill();
+            g.fillText(ITEM_ICON[it.it], 0, 1); g.restore();
+        });
+        r.traffic.forEach(function (t) { drawCar(t, t.color, false, false); });
+        r.cops.forEach(function (c) { drawCar(c, c.kind === 'swat' ? '#1e293b' : '#f8fafc', true, false); });
+        var P = r.p, fx = r.fx;
+        drawCar(P, r.st.color, false, r.st.fly);
+        if (fx.shield > 0) { g.strokeStyle = 'rgba(56,189,248,' + (0.5 + Math.sin(game.t * 10) * 0.3) + ')'; g.lineWidth = 4; g.beginPath(); g.arc(P.x, P.y, P.len * 0.75, 0, Math.PI * 2); g.stroke(); }
+        if (fx.magnet > 0) { g.strokeStyle = 'rgba(250,204,21,.25)'; g.lineWidth = 2; g.beginPath(); g.arc(P.x, P.y, 280, 0, Math.PI * 2); g.stroke(); }
+        r.parts.forEach(function (p) { g.globalAlpha = Math.max(0, p.life / p.max) * 0.85; g.fillStyle = p.color; g.beginPath(); g.arc(p.x, p.y, p.size, 0, Math.PI * 2); g.fill(); });
+        g.globalAlpha = 1;
+        r.rings.forEach(function (q) { g.strokeStyle = 'rgba(147,197,253,' + q.life * 2 + ')'; g.lineWidth = 6; g.beginPath(); g.arc(q.x, q.y, q.r, 0, Math.PI * 2); g.stroke(); });
+    }
+    function pill(x, y, text, align) {
+        g.font = '800 15px "Nunito Sans", system-ui, sans-serif';
+        var w = g.measureText(text).width + 20;
+        if (align === 'right') x -= w;
+        g.fillStyle = 'rgba(15,23,42,.72)'; rr(x, y, w, 28, 14); g.fill();
+        g.fillStyle = '#fff'; g.textAlign = 'left'; g.textBaseline = 'middle'; g.fillText(text, x + 10, y + 15);
+        return w;
+    }
+    function drawHud(w, h) {
+        var s = active(), r = run; if (!s || !r) return;
+        g.textBaseline = 'middle';
+        pill(10, 10, 'Score ' + Math.floor(r.dist / 8).toLocaleString());
+        pill(10, 44, '🪙 +' + r.got.toLocaleString());
+        var stars = ''; for (var i = 0; i < 5; i++) stars += i < s.wanted ? '★' : '☆';
+        pill(w - 10, 10, stars, 'right');
+        var fxs = Object.keys(FX_ICON).filter(function (k) { return r.fx[k] > 0; }).map(function (k) { return FX_ICON[k] + ' ' + Math.ceil(r.fx[k]); });
+        if (fxs.length) pill(10, 78, fxs.join('  '));
+        // Health and nitro bars
+        var bw = Math.min(220, w * 0.45), by = h - 38;
+        g.fillStyle = 'rgba(15,23,42,.72)'; rr(10, by - 26, bw + 16, 22, 11); g.fill();
+        g.fillStyle = 'rgba(255,255,255,.15)'; rr(18, by - 19, bw, 8, 4); g.fill();
+        g.fillStyle = r.boosting ? (Math.floor(game.t * 12) % 2 ? '#fde047' : '#fb923c') : r.charge > 0.02 ? '#f97316' : '#64748b';
+        rr(18, by - 19, Math.max(8, bw * (r.fx.nitro > 0 ? 1 : r.charge)), 8, 4); g.fill();
+        g.fillStyle = 'rgba(15,23,42,.72)'; rr(10, by, bw + 16, 28, 14); g.fill();
+        g.fillStyle = 'rgba(255,255,255,.15)'; rr(18, by + 8, bw, 12, 6); g.fill();
+        g.fillStyle = s.god ? '#facc15' : s.health <= 25 ? '#ef4444' : '#22c55e';
+        rr(18, by + 8, bw * (s.god ? 1 : Math.min(100, s.health) / 100), 12, 6); g.fill();
+        g.font = '800 12px "Nunito Sans", system-ui, sans-serif'; g.fillStyle = '#fff'; g.textAlign = 'center';
+        g.fillText(s.god ? 'GOD MODE' : s.health + ' HP', 18 + bw / 2, by + 15);
+        // Messages
+        g.textAlign = 'center'; g.font = '800 20px "Nunito Sans", system-ui, sans-serif';
+        if (r.bustT > 0) { g.fillStyle = '#fca5a5'; g.fillText('Boxed in! Get moving!', w / 2, 70); }
+        else if (r.msgT > 0) { g.globalAlpha = Math.min(1, r.msgT); g.fillStyle = '#fff'; g.fillText(r.msg, w / 2, 70); g.globalAlpha = 1; }
+        // Arrows pointing at off-screen police
+        var cx = w / 2, cy = h / 2;
+        r.cops.forEach(function (c) {
+            var sp = toScreen(c.x, c.y, w, h);
+            if (sp.z < 1 && sp.x > 0 && sp.x < w && sp.y > 0 && sp.y < h) return;
+            var a = Math.atan2(c.y - game.cam.y, c.x - game.cam.x), ca = Math.cos(a), sa = Math.sin(a);
+            var t = Math.min((w / 2 - 16) / Math.abs(ca || 1e-6), (h / 2 - 16) / Math.abs(sa || 1e-6));
+            g.save(); g.translate(cx + ca * t, cy + sa * t); g.rotate(a);
+            g.fillStyle = 'rgba(239,68,68,.85)'; g.beginPath(); g.moveTo(9, 0); g.lineTo(-6, -7); g.lineTo(-6, 7); g.closePath(); g.fill();
+            g.restore();
+        });
+        if (r.hitT > 0) {
+            var grd = g.createRadialGradient(cx, cy, Math.min(w, h) * 0.3, cx, cy, Math.max(w, h) * 0.7);
+            grd.addColorStop(0, 'rgba(239,68,68,0)'); grd.addColorStop(1, 'rgba(239,68,68,' + r.hitT * 1.4 + ')');
+            g.fillStyle = grd; g.fillRect(0, 0, w, h);
+        }
+    }
+    function draw() {
+        var w = cv.clientWidth, h = cv.clientHeight; if (!w || !h) return;
+        var dpr = Math.min(2, window.devicePixelRatio || 1);
+        if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+        var sc = game.sc = Math.max(0.5, Math.min(1.1, Math.min(w, h) / 620));
+        game.hw = w / 2 / sc; game.hh = h / 2 / sc;
+        var r = run || game.ghost;
+        if (R3) {
+            R3.render(r, w, h, dpr);
+            g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, w, h);
+            if (run) drawHud(w, h);
+            return;
+        }
+        g.setTransform(dpr * sc, 0, 0, dpr * sc, dpr * (w / 2 - game.cam.x * sc), dpr * (h / 2 - game.cam.y * sc));
+        drawWorld(game.cam.x, game.cam.y, game.hw, game.hh);
+        if (r) drawScene(r);
+        g.setTransform(dpr, 0, 0, dpr, 0, 0);
+        if (run) drawHud(w, h);
+    }
+    function loop(ts) {
+        var dt = Math.min(0.05, Math.max(0, (ts - (game.last || ts)) / 1000)); game.last = ts;
+        game.t += dt;
+        var live = run && !game.paused && !adminOpen && dlg.hidden;
+        if (live) { update(dt); if (run && run.dead) endRun(run.dead); }
+        sfx.update(run ? Math.hypot(run.p.vx, run.p.vy) : 0, run ? run.siren : 0, live && !!run);
+        try { draw(); } catch (e) { if (window.console) console.error(e); }
+        requestAnimationFrame(loop);
+    }
+
+    /* ---- 3D view: low-poly city seen from a high, angled chase camera ----
+       Uses vendor/three.min.js. If it is missing or WebGL is unavailable, the game
+       falls back to the flat top-down view drawn by draw2D(). */
+    var cv3 = $('game-3d'), R3 = null;
+    function init3D() {
+        var T = window.THREE;
+        if (!T || !cv3) return null;
+        var ren;
+        try { ren = new T.WebGLRenderer({ canvas: cv3, antialias: true, powerPreference: 'high-performance' }); }
+        catch (e) { return null; }
+        var coarse = matchMedia('(pointer: coarse)').matches;
+        ren.shadowMap.enabled = !coarse;
+        ren.shadowMap.type = T.PCFSoftShadowMap;
+
+        var scene = new T.Scene(), cam = new T.PerspectiveCamera(42, 1, 10, 6000);
+        var sky = new T.Color(ZONE_STYLE[0].sky), skyTarget = new T.Color();
+        scene.background = sky; scene.fog = new T.Fog(sky, 1000, 2400); scene.fog.color = sky;
+        scene.add(new T.HemisphereLight(0xffffff, 0x7d8ca3, 0.72));
+        var sun = new T.DirectionalLight(0xfff1d6, 1.0);
+        sun.position.set(-300, 700, 250); scene.add(sun); scene.add(sun.target);
+        if (ren.shadowMap.enabled) {
+            sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0008;
+            var sc = sun.shadow.camera; sc.left = -1100; sc.right = 1100; sc.top = 1100; sc.bottom = -1100; sc.near = 10; sc.far = 2500;
+        }
+
+        var mats = {};
+        function mat(color) { return mats[color] || (mats[color] = new T.MeshLambertMaterial({ color: color })); }
+        function shade(color, f) { return '#' + new T.Color(color).multiplyScalar(1 + f).getHexString(); }
+        var BOX = new T.BoxGeometry(1, 1, 1), TILE = new T.PlaneGeometry(BLOCK, BLOCK), CONE = new T.ConeGeometry(1, 1, 6),
+            CYL = new T.CylinderGeometry(1, 1, 1, 6), COIN = new T.CylinderGeometry(9, 9, 3, 14), DISC = new T.CircleGeometry(1, 20),
+            PUFF = new T.IcosahedronGeometry(1, 0), RING = new T.RingGeometry(0.92, 1, 48), BALL = new T.SphereGeometry(1, 16, 12);
+        COIN.rotateX(Math.PI / 2);
+        var shadowMat = new T.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.28, depthWrite: false });
+        function box(w, h, d, color, x, y, z, parent, cast) {
+            var m = new T.Mesh(BOX, typeof color === 'string' ? mat(color) : color);
+            m.scale.set(w, h, d); m.position.set(x, y, z); m.castShadow = !!cast; m.receiveShadow = true;
+            parent.add(m); return m;
+        }
+
+        // One road tile per city block: asphalt with lane dashes, coloured per area.
+        var roadMats = ZONE_STYLE.map(function (zs) {
+            var c = document.createElement('canvas'), k = 512 / BLOCK; c.width = c.height = 512;
+            var x = c.getContext('2d');
+            x.fillStyle = zs.ground; x.fillRect(0, 0, 512, 512);
+            x.fillStyle = 'rgba(255,255,255,.85)';
+            for (var cw = 6; cw < ROAD - 6; cw += 14) { x.fillRect(cw * k, (ROAD + 6) * k, 7 * k, 20 * k); x.fillRect((ROAD + 6) * k, cw * k, 20 * k, 7 * k); }
+            for (var y = ROAD + 40; y < BLOCK - 8; y += 34) {
+                var len = Math.min(18, BLOCK - 8 - y) * k;
+                x.fillRect((ROAD / 2 - 1.5) * k, y * k, 3 * k, len);
+                x.fillRect(y * k, (ROAD / 2 - 1.5) * k, len, 3 * k);
+            }
+            var tex = new T.CanvasTexture(c); tex.anisotropy = 4;
+            return new T.MeshLambertMaterial({ map: tex });
+        });
+
+        var winTex = {};
+        function windows(floors) {
+            if (winTex[floors]) return winTex[floors];
+            var c = document.createElement('canvas'); c.width = 128; c.height = 32;
+            var x = c.getContext('2d');
+            x.fillStyle = '#ffffff'; x.fillRect(0, 0, 128, 32);
+            for (var n = 0; n < 4; n++) {
+                x.fillStyle = '#1e3a5f'; x.fillRect(n * 32 + 7, 8, 18, 16);
+                x.fillStyle = 'rgba(160,220,255,.55)'; x.fillRect(n * 32 + 7, 8, 7, 16);
+            }
+            var t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.repeat.set(2, floors); t.anisotropy = 4;
+            return (winTex[floors] = t);
+        }
+        var cells = {};
+        function buildCell(i, j) {
+            var grp = new T.Group(), z = zoneAt((i + 0.5) * BLOCK, (j + 0.5) * BLOCK), zs = ZONE_STYLE[z];
+            var cx = (i + 0.5) * BLOCK, cz = (j + 0.5) * BLOCK, bs = BLOCK - ROAD;
+            var tile = new T.Mesh(TILE, roadMats[z]);
+            tile.rotation.x = -Math.PI / 2; tile.position.set(cx - ROAD / 2, 0, cz - ROAD / 2); tile.receiveShadow = true; grp.add(tile);
+            box(bs, 6, bs, zs.walk, cx, 3, cz, grp);
+            var b = blockRect(i, j);
+            if (!b) {
+                box(bs - WALK * 2, 2, bs - WALK * 2, zs.park, cx, 7, cz, grp);
+                if (zs.tree) for (var n = 0; n < 6; n++) {
+                    var tx = cx - bs / 2 + 40 + hash(i, j, 10 + n) * (bs - 80), tz = cz - bs / 2 + 40 + hash(i, j, 20 + n) * (bs - 80), s = 14 + hash(i, j, 30 + n) * 12;
+                    var trunk = new T.Mesh(CYL, mat('#6b4423')); trunk.scale.set(3, 16, 3); trunk.position.set(tx, 14, tz); grp.add(trunk);
+                    var top = new T.Mesh(CONE, mat(zs.tree)); top.scale.set(s, s * 2.6, s); top.position.set(tx, 20 + s * 1.3, tz); top.castShadow = true; grp.add(top);
+                }
+                return grp;
+            }
+            var hgt = zs.hmin + hash(i, j, 3) * (zs.hmax - zs.hmin), col = zs.builds[Math.floor(hash(i, j, 2) * zs.builds.length)];
+            var wall = new T.MeshLambertMaterial({ color: col, map: windows(Math.max(1, Math.round(hgt / 38))) }), top = mat(shade(col, -0.08)).clone(),
+                trim = mat(shade(col, -0.22)).clone(), roof = mat(shade(col, -0.35)).clone();
+            box(b.w, hgt, b.h, [wall, wall, top, top, wall, wall], cx, 6 + hgt / 2, cz, grp, true);
+            box(b.w - 20, 3, b.h - 20, trim, cx, 7.5 + hgt, cz, grp);
+            for (var m = 0; m < 2; m++) box(26, 12, 20, roof, cx - b.w / 2 + 40 + hash(i, j, 40 + m) * (b.w - 80), 12 + hgt, cz - b.h / 2 + 40 + hash(i, j, 50 + m) * (b.h - 80), grp, true);
+            grp.userData.b = b; grp.userData.hgt = hgt; grp.userData.mats = [wall, top, trim, roof]; grp.userData.alpha = 1;
+            return grp;
+        }
+        function syncCells(cx, cz, D, aspect) {
+            var hx = 0.65 * aspect * D + BLOCK, keep = {};
+            var i0 = Math.floor((cx - hx) / BLOCK), i1 = Math.floor((cx + hx) / BLOCK);
+            var j0 = Math.floor((cz - 0.95 * D - BLOCK) / BLOCK), j1 = Math.floor((cz + 0.6 * D + BLOCK) / BLOCK);
+            for (var i = i0; i <= i1; i++) for (var j = j0; j <= j1; j++) {
+                var k = i + ',' + j; keep[k] = 1;
+                if (!cells[k]) { cells[k] = buildCell(i, j); scene.add(cells[k]); }
+            }
+            for (var key in cells) if (!keep[key]) {
+                scene.remove(cells[key]);
+                if (cells[key].userData.mats) cells[key].userData.mats.forEach(function (m) { m.dispose(); });
+                delete cells[key];
+            }
+        }
+        // Fade any building standing between the camera and the player's car.
+        function fadeBlockers(P, dt) {
+            for (var key in cells) {
+                var u = cells[key].userData; if (!u.b) continue;
+                var b = u.b, hide = P && P.x > b.x - 30 && P.x < b.x + b.w + 30 && P.y < b.y + 20 && P.y > b.y - u.hgt * 0.75 - 40;
+                var a = hide ? Math.max(0.25, u.alpha - dt * 4) : Math.min(1, u.alpha + dt * 4);
+                if (a === u.alpha) continue;
+                u.alpha = a;
+                u.mats.forEach(function (m) {
+                    var tr = a < 0.999;
+                    if (m.transparent !== tr) { m.transparent = tr; m.depthWrite = !tr; m.needsUpdate = true; }
+                    m.opacity = a;
+                });
+            }
+        }
+
+        function carMesh(st, kind) {
+            var gr = new T.Group(), inner = new T.Group(), L = st.len, W = st.wid, swat = kind === 'swat', police = kind === 'police' || swat;
+            var body = box(L, swat ? 12 : 9, W, swat ? '#1e293b' : police ? '#f8fafc' : st.color, 0, swat ? 9.5 : 8, 0, inner, true);
+            box(L * (swat ? 0.62 : 0.5), swat ? 10 : 8, W * 0.86, '#0f172a', -L * 0.06, swat ? 20 : 16.5, 0, inner, true);
+            if (swat) box(L + 0.4, 2, W + 0.4, '#f8fafc', 0, 9, 0, inner);
+            if (kind === 'police') { box(L * 0.2, 9.4, W + 0.4, '#111827', L * 0.4, 8, 0, inner); box(L * 0.16, 9.4, W + 0.4, '#111827', -L * 0.42, 8, 0, inner); }
+            if (!st.fly) [[1, 1], [1, -1], [-1, 1], [-1, -1]].forEach(function (q) { box(8, 8, 3, '#111111', q[0] * L * 0.3, 4, q[1] * W / 2, inner); });
+            box(1.5, 3, 4, '#fef08a', L / 2, 9, W * 0.3, inner); box(1.5, 3, 4, '#fef08a', L / 2, 9, -W * 0.3, inner);
+            if (police) {
+                var lh = swat ? 26.5 : 22;
+                gr.userData.red = box(5, 3, W * 0.4, new T.MeshBasicMaterial({ color: 0xef4444 }), -L * 0.06, lh, -W * 0.22, inner);
+                gr.userData.blue = box(5, 3, W * 0.4, new T.MeshBasicMaterial({ color: 0x3b82f6 }), -L * 0.06, lh, W * 0.22, inner);
+                gr.userData.red.material.userData.own = gr.userData.blue.material.userData.own = true;
+            }
+            if (st.fly) {
+                box(L * 0.35, 2, W * 1.6, st.color, -L * 0.05, 11, 0, inner, true); box(L * 0.2, 6, 2, st.color, -L * 0.45, 16, 0, inner, true);
+                if (st.rotor) { var rot = new T.Group(); box(L * 1.5, 1, 3, '#1f2937', 0, 0, 0, rot); box(3, 1, L * 1.5, '#1f2937', 0, 0, 0, rot); rot.position.set(-L * 0.06, 22, 0); inner.add(rot); gr.userData.rotor = rot; rot.children.forEach(function (m) { m.material = m.material.clone(); m.material.depthTest = false; m.material.userData.own = true; m.renderOrder = 60; }); }
+                var order = 20;
+                inner.children.forEach(function (m) { if (!m.isMesh) return; m.material = m.material.clone(); m.material.depthTest = false; m.material.userData.own = true; m.renderOrder = order++; });
+            }
+            var sh = new T.Mesh(DISC, shadowMat); sh.rotation.x = -Math.PI / 2; sh.scale.set(L * 0.62, W * 0.8, 1); sh.position.y = 0.8;
+            gr.add(sh); gr.add(inner);
+            gr.userData.inner = inner; gr.userData.body = body; gr.userData.fly = !!st.fly; gr.userData.kind = kind;
+            return gr;
+        }
+        function disposeOwn(obj) { obj.traverse(function (o) { if (o.material && o.material.userData.own) o.material.dispose(); }); }
+        var COP_ST = { len: 36, wid: 18 }, SWAT_ST = { len: 44, wid: 22 }, CIV_ST = { len: 34, wid: 18, color: '#f97316' };
+        var playerMesh = null, playerKey = '', copMeshes = [], civMeshes = [], coinMeshes = [], itemMeshes = [], partMeshes = [], ringMeshes = [];
+        var shield = new T.Mesh(BALL, new T.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.25, depthWrite: false, depthTest: false }));
+        shield.renderOrder = 40;
+        var magnet = new T.Mesh(RING, new T.MeshBasicMaterial({ color: 0xfacc15, transparent: true, opacity: 0.35, side: T.DoubleSide, depthWrite: false }));
+        magnet.rotation.x = -Math.PI / 2; scene.add(shield); scene.add(magnet);
+        var coinMat = new T.MeshLambertMaterial({ color: 0xffd60a, emissive: 0xa16207 });
+        var iconMats = {};
+        function iconMat(icon) {
+            if (iconMats[icon]) return iconMats[icon];
+            var c = document.createElement('canvas'); c.width = c.height = 64;
+            var x = c.getContext('2d'); x.font = '44px system-ui, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(icon, 32, 36);
+            return (iconMats[icon] = new T.SpriteMaterial({ map: new T.CanvasTexture(c), depthTest: false }));
+        }
+        function pool(list, n, make) {
+            while (list.length < n) { var m = make(); scene.add(m); list.push(m); }
+            for (var i = 0; i < list.length; i++) list[i].visible = i < n;
+        }
+        function place(m, c, fly) {
+            m.position.set(c.x, 0, c.y); m.rotation.y = -c.a;
+            if (fly) m.userData.inner.position.y = 55 + Math.sin(game.t * 3) * 4;
+            if (m.userData.rotor) m.userData.rotor.rotation.y = game.t * 25;
+        }
+
+        var size = new T.Vector2(), v3 = new T.Vector3(), lastW = 1, lastH = 1, lastT = 0, perf = { last: 0, sum: 0, n: 0, level: 0 };
+        function render(r, w, h, dpr) {
+            lastW = w; lastH = h;
+            var now = performance.now(), gap = now - perf.last;
+            perf.last = now;
+            if (gap < 2000) { perf.sum += Math.min(gap, 250); perf.n++; }
+            if (perf.n >= 90 || perf.sum >= 5000) {
+                if (perf.sum / perf.n > 25 && perf.level < 2) {
+                    perf.level++;
+                    if (perf.level === 1) { sun.castShadow = false; ren.shadowMap.enabled = false; }
+                }
+                perf.sum = perf.n = 0;
+            }
+            var pr = Math.min(dpr, perf.level >= 2 ? 1 : coarse ? 1.5 : 2);
+            if (ren.getPixelRatio() !== pr) ren.setPixelRatio(pr);
+            ren.getSize(size); if (size.x !== w || size.y !== h) ren.setSize(w, h, false);
+            cam.aspect = w / h;
+            var D = Math.max(820, 500 / (0.768 * cam.aspect)), tx = game.cam.x, tz = game.cam.y, dt = Math.min(0.05, game.t - (lastT || game.t));
+            lastT = game.t;
+            cam.position.set(tx, D * 0.82, tz + D * 0.57); cam.lookAt(tx, 0, tz);
+            cam.near = D * 0.2; cam.far = D * 3; cam.updateProjectionMatrix(); cam.updateMatrixWorld();
+            scene.fog.near = D * 1.15; scene.fog.far = D * 2.1;
+            skyTarget.set(ZONE_STYLE[zoneAt(tx, tz)].sky); sky.lerp(skyTarget, 0.04);
+            sun.position.set(tx - 300, 700, tz + 250); sun.target.position.set(tx, 0, tz);
+            syncCells(tx, tz, D, cam.aspect);
+            fadeBlockers(r && r.p && !r.st.fly ? r.p : null, dt);
+
+            if (!r) r = { cops: [], traffic: [], coins: [], items: [], parts: [], rings: [], fx: {} };
+            if (r.p) {
+                if (playerKey !== r.vehicle || !playerMesh) {
+                    if (playerMesh) { scene.remove(playerMesh); disposeOwn(playerMesh); }
+                    playerMesh = carMesh(r.st, 'player'); scene.add(playerMesh); playerKey = r.vehicle;
+                }
+                playerMesh.visible = true; place(playerMesh, r.p, r.st.fly);
+            } else if (playerMesh) playerMesh.visible = false;
+            var on = Math.floor(game.t * 8) % 2 === 0;
+            r.cops.forEach(function (c, i) {
+                var m = copMeshes[i], kind = c.kind || 'police';
+                if (!m || m.userData.kind !== kind) {
+                    if (m) { scene.remove(m); disposeOwn(m); }
+                    m = copMeshes[i] = carMesh(kind === 'swat' ? SWAT_ST : COP_ST, kind); scene.add(m);
+                }
+                m.visible = true; place(m, c); m.userData.red.visible = on; m.userData.blue.visible = !on;
+            });
+            for (var ci = r.cops.length; ci < copMeshes.length; ci++) copMeshes[ci].visible = false;
+            pool(civMeshes, r.traffic.length, function () { return carMesh(CIV_ST, 'civ'); });
+            r.traffic.forEach(function (t, i) { var m = civMeshes[i]; place(m, t); m.userData.body.material = mat(t.color); });
+            pool(coinMeshes, r.coins.length, function () { var m = new T.Mesh(COIN, coinMat); m.castShadow = true; return m; });
+            r.coins.forEach(function (c, i) { var m = coinMeshes[i]; m.position.set(c.x, 14 + Math.sin(game.t * 3 + i) * 3, c.y); m.rotation.y = game.t * 3 + i; });
+            pool(itemMeshes, r.items.length, function () {
+                var gr = new T.Group();
+                gr.userData.box = box(22, 22, 22, new T.MeshLambertMaterial({ color: 0xf8fafc, emissive: 0x1e3a8a }), 0, 16, 0, gr, true);
+                gr.userData.icon = new T.Sprite(iconMat('❔')); gr.userData.icon.scale.set(34, 34, 1); gr.userData.icon.position.y = 48; gr.add(gr.userData.icon);
+                return gr;
+            });
+            r.items.forEach(function (it, i) {
+                var m = itemMeshes[i]; m.position.set(it.x, Math.sin(game.t * 4 + i) * 3, it.y);
+                m.userData.box.rotation.y = game.t * 1.5; m.userData.icon.material = iconMat(ITEM_ICON[it.it]);
+            });
+            var np = Math.min(r.parts.length, 160);
+            pool(partMeshes, np, function () { return new T.Mesh(PUFF, new T.MeshBasicMaterial({ transparent: true, depthWrite: false })); });
+            for (var i = 0; i < np; i++) {
+                var p = r.parts[i], pm = partMeshes[i];
+                pm.position.set(p.x, 10 + (1 - p.life / p.max) * 12, p.y); pm.scale.setScalar(p.size);
+                pm.material.color.set(p.color); pm.material.opacity = Math.max(0, p.life / p.max) * 0.85;
+            }
+            pool(ringMeshes, r.rings.length, function () { var m = new T.Mesh(RING, new T.MeshBasicMaterial({ color: 0x93c5fd, transparent: true, side: T.DoubleSide, depthWrite: false })); m.rotation.x = -Math.PI / 2; return m; });
+            r.rings.forEach(function (q, i) { var m = ringMeshes[i]; m.position.set(q.x, 6, q.y); m.scale.setScalar(Math.max(1, q.r)); m.material.opacity = q.life * 2; });
+            var P = r.p, fx = r.fx || {};
+            shield.visible = !!(P && fx.shield > 0);
+            if (shield.visible) { shield.position.set(P.x, r.st.fly ? 70 : 12, P.y); shield.scale.setScalar(P.len * 0.8); shield.material.opacity = 0.2 + Math.sin(game.t * 10) * 0.08; }
+            magnet.visible = !!(P && fx.magnet > 0);
+            if (magnet.visible) { magnet.position.set(P.x, 2, P.y); magnet.scale.setScalar(280); }
+            ren.render(scene, cam);
+        }
+        function toScreen(x, y) {
+            v3.set(x, 10, y).project(cam);
+            return { x: (v3.x + 1) / 2 * lastW, y: (1 - v3.y) / 2 * lastH, z: v3.z };
+        }
+        function onScreen(x, y, margin) {
+            var p = toScreen(x, y);
+            return p.z < 1 && p.x > -margin && p.x < lastW + margin && p.y > -margin && p.y < lastH + margin;
+        }
+        cv3.addEventListener('webglcontextlost', function (e) { e.preventDefault(); R3 = null; cv3.hidden = true; });
+        return { render: render, toScreen: toScreen, onScreen: onScreen };
+    }
+
+    /* ---- Sound: synthesised with Web Audio, so there are no files to download ---- */
+    var sfx = (function () {
+        var ac = null, master = null, engine, engGain, sirenGain, muted = false;
+        try { muted = localStorage.getItem('ga_muted') === '1'; } catch (e) {}
+        function vol() { return muted ? 0 : 0.5; }
+        // Browsers only allow audio to start from a click or key press, so this runs from startRun().
+        function init() {
+            if (ac) { if (ac.state === 'suspended') ac.resume(); return; }
+            var AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            try { ac = new AC(); } catch (e) { return; }
+            master = ac.createGain(); master.gain.value = vol(); master.connect(ac.destination);
+            engine = ac.createOscillator(); engine.type = 'sawtooth'; engine.frequency.value = 50;
+            var lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 320;
+            engGain = ac.createGain(); engGain.gain.value = 0;
+            engine.connect(lp); lp.connect(engGain); engGain.connect(master); engine.start();
+            var siren = ac.createOscillator(), lfo = ac.createOscillator(), depth = ac.createGain();
+            siren.type = 'triangle'; siren.frequency.value = 760; lfo.frequency.value = 0.9; depth.gain.value = 190;
+            lfo.connect(depth); depth.connect(siren.frequency);
+            sirenGain = ac.createGain(); sirenGain.gain.value = 0;
+            siren.connect(sirenGain); sirenGain.connect(master); siren.start(); lfo.start();
+        }
+        function tone(freq, dur, type, level, to, delay) {
+            if (!ac || muted) return;
+            var t = ac.currentTime + (delay || 0), o = ac.createOscillator(), gn = ac.createGain();
+            o.type = type || 'square'; o.frequency.setValueAtTime(freq, t);
+            if (to) o.frequency.exponentialRampToValueAtTime(to, t + dur);
+            gn.gain.setValueAtTime(level || 0.12, t); gn.gain.exponentialRampToValueAtTime(0.001, t + dur);
+            o.connect(gn); gn.connect(master); o.start(t); o.stop(t + dur + 0.05);
+        }
+        function noise(dur, level, cutoff) {
+            if (!ac || muted) return;
+            var n = Math.floor(ac.sampleRate * dur), buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0);
+            for (var i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+            var src = ac.createBufferSource(), f = ac.createBiquadFilter(), gn = ac.createGain();
+            src.buffer = buf; f.type = 'lowpass'; f.frequency.value = cutoff || 900; gn.gain.value = level;
+            src.connect(f); f.connect(gn); gn.connect(master); src.start();
+        }
+        return {
+            init: init,
+            muted: function () { return muted; },
+            toggle: function () {
+                muted = !muted;
+                try { localStorage.setItem('ga_muted', muted ? '1' : '0'); } catch (e) {}
+                if (master) master.gain.setValueAtTime(vol(), ac.currentTime);
+                return muted;
+            },
+            // Called every frame: engine pitch follows speed, siren volume follows the nearest police car.
+            update: function (speed, siren, active) {
+                if (!ac) return;
+                var t = ac.currentTime;
+                engine.frequency.setTargetAtTime(42 + speed * 0.22, t, 0.08);
+                engGain.gain.setTargetAtTime(active ? 0.05 : 0, t, 0.12);
+                sirenGain.gain.setTargetAtTime(active ? siren * 0.045 : 0, t, 0.2);
+            },
+            suspend: function () { if (ac && ac.state === 'running') ac.suspend(); },
+            resume: function () { if (ac && ac.state === 'suspended') ac.resume(); },
+            coin: function () { tone(988, 0.06, 'square', 0.05); tone(1319, 0.1, 'square', 0.05, null, 0.05); },
+            crash: function (power) { noise(0.25 + power * 0.2, 0.25 + power * 0.45, 600 + power * 900); tone(110, 0.2, 'sawtooth', 0.08 * power, 50); },
+            item: function () { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, 0.12, 'triangle', 0.09, null, i * 0.06); }); },
+            nitro: function () { noise(0.5, 0.18, 2400); tone(200, 0.45, 'sawtooth', 0.05, 600); },
+            alert: function () { tone(880, 0.14, 'square', 0.06); tone(660, 0.18, 'square', 0.06, null, 0.15); },
+            over: function () { [392, 330, 262, 196].forEach(function (f, i) { tone(f, 0.25, 'triangle', 0.1, null, i * 0.16); }); }
+        };
+    })();
+
+    /* ---- Input ---- */
+    var KEYMAP = { ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right', ArrowDown: 'down', s: 'down', S: 'down', ArrowUp: 'up', w: 'up', W: 'up', Shift: 'boost' };
+    function typing(t) { return t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable); }
+    document.addEventListener('keydown', function (e) {
+        if (adminOpen || !dlg.hidden || typing(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
+        var k = KEYMAP[e.key];
+        if (k) { keys[k] = true; if (game.mode === 'run' && !game.paused) e.preventDefault(); return; }
+        if (e.repeat) return;
+        if (game.mode === 'run' && (e.key === 'p' || e.key === 'P' || e.key === ' ')) { e.preventDefault(); setPaused(!game.paused); return; }
+        if (e.key === 'm' || e.key === 'M') { sfx.toggle(); setSoundLabel(); return; }
+        if ((e.key === 'r' || e.key === 'R') && game.mode !== 'menu') { e.preventDefault(); startRun(); return; }
+        if (game.mode !== 'run' && (e.key === 'Enter' || e.key === ' ') && (e.target === document.body || e.target === cv)) { e.preventDefault(); startRun(); }
+    });
+    document.addEventListener('keyup', function (e) { var k = KEYMAP[e.key]; if (k) keys[k] = false; });
+    window.addEventListener('blur', function () { keys = {}; touches = {}; if (game.mode === 'run' && !game.paused) setPaused(true); });
+    function touchSide(e) { var rc = cv.getBoundingClientRect(); return e.clientX - rc.left < rc.width / 2 ? -1 : 1; }
+    cv.addEventListener('pointerdown', function (e) {
+        if (game.mode !== 'run' || game.paused) return;
+        touches[e.pointerId] = touchSide(e);
+        try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+        e.preventDefault();
+    });
+    cv.addEventListener('pointermove', function (e) { if (e.pointerId in touches) touches[e.pointerId] = touchSide(e); });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (ev) { cv.addEventListener(ev, function (e) { delete touches[e.pointerId]; }); });
+    cv.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'hidden') { sfx.suspend(); if (game.mode === 'run') setPaused(true); }
+        else sfx.resume();
+    });
+    var nitroBtn = $('btn-nitro');
+    nitroBtn.addEventListener('pointerdown', function (e) { e.preventDefault(); keys.boost = true; try { nitroBtn.setPointerCapture(e.pointerId); } catch (err) {} });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (ev) { nitroBtn.addEventListener(ev, function () { keys.boost = false; }); });
+    nitroBtn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    function setSoundLabel() {
+        var b = $('btn-sound'), m = sfx.muted();
+        b.setAttribute('aria-pressed', m ? 'true' : 'false');
+        b.querySelector('.tool-label').textContent = m ? 'Muted' : 'Sound';
+        b.querySelector('.snd-wave').style.display = m ? 'none' : '';
+        b.querySelector('.snd-x').style.display = m ? '' : 'none';
+    }
+
+    function fillVehicleTable() {
+        var tb = $('veh-table'); if (!tb) return;
+        tb.innerHTML = Object.keys(VEHICLES).map(function (n) {
+            var v = VEHICLES[n];
+            return '<tr><td>' + esc(n) + '</td><td>' + v.spd.toFixed(2) + '×</td><td>' + v.turn.toFixed(2) + '×</td><td>' + v.armor.toFixed(1) + '×</td><td>' + (perks(v).join(', ') || '—') + '</td><td>' + (v.price ? v.price.toLocaleString() + ' coins' : 'Free') + '</td></tr>';
+        }).join('');
+    }
 
     /* ---------------- Events ---------------- */
     var LOCAL_ADMIN = { 'admin-close': 1, 'admin-lock': 1, 'admin-select': 1, 'admin-tab': 1 };
 
+    // Backdrops close the panel only if the press also started on them (not a drag out of a text field).
+    var downTarget = null;
+    document.addEventListener('pointerdown', function (e) { downTarget = e.target; }, true);
+
     document.addEventListener('click', function (e) {
         var t = e.target;
         if (!t || !t.closest) return;
-        if (t === dlg) { closeDialog(); return; }
+        if (t === dlg && downTarget === dlg) { closeDialog(); return; }
         var tabBtn = t.closest('.sv-tabs button');
         if (tabBtn) { tab = tabBtn.getAttribute('data-tab'); render(); return; }
-        if (t === modal) { closeAdmin(); return; }
+        if (t === modal && downTarget === modal) { closeAdmin(); return; }
 
         var el = t.closest('[data-act]'); if (!el) return;
         var act = el.getAttribute('data-act'), v = el.getAttribute('data-v'), s = active();
@@ -1154,18 +2121,37 @@
             case 'close': togglePanel(false); break;
             case 'dlg-ok': submitDialog(); break;
             case 'dlg-cancel': closeDialog(); break;
-            case 'game-reload': reloadGame(); break;
-            case 'game-dismiss': loadingEl.hidden = true; break;
+            case 'game-start': startRun(); break;
+            case 'game-restart': startRun(); break;
+            case 'game-resume': setPaused(false); break;
+            case 'game-pause': if (game.mode === 'run') setPaused(!game.paused); break;
+            case 'game-sound': sfx.toggle(); setSoundLabel(); break;
+            case 'open-garage': e.preventDefault(); tab = 'garage'; togglePanel(true); break;
+            case 'buy-veh':
+                var bv = allVehicles().filter(function (x) { return x.key === v; })[0];
+                if (!s || !bv || s.unlocks[bv.key]) return;
+                var price = vstats(bv.name).price;
+                if (s.coins < price) { toast('You need ' + (price - s.coins).toLocaleString() + ' more coins for the ' + bv.name); return; }
+                s.coins -= price; s.unlocks[bv.key] = true; s.vehicle = bv.name;
+                commit(); toast('Bought the ' + bv.name + '! Now driving it.'); confetti(); break;
+            case 'upgrade-item':
+                if (!s || ITEMS.indexOf(v) < 0) return;
+                var ilv = s.items[v] || 0, cost = itemCost(ilv);
+                if (ilv >= MAX_ITEM) return;
+                if (s.coins < cost) { toast('You need ' + (cost - s.coins).toLocaleString() + ' more coins'); return; }
+                s.coins -= cost; s.items[v] = ilv + 1; commit(); toast(v + ' upgraded to level ' + (ilv + 1)); break;
             case 'game-theater': setTheater(!document.body.classList.contains('theater')); break;
             case 'game-full': toggleFullscreen(); break;
             case 'create':
                 var ci = num(el.getAttribute('data-i'));
                 if (ci >= SLOT_COUNT || state.slots[ci]) return;
+                stopRun();
                 state.slots[ci] = newSlot('Player ' + (ci + 1)); state.activeSlot = ci; sessionCounted = false;
                 tab = 'profile'; commit(); toast('Save created! Type your name below.');
                 setTimeout(function () { var n = $('sv-name'); if (n) { n.focus(); n.select(); } }, 30);
                 break;
             case 'use':
+                stopRun();
                 state.activeSlot = num(el.getAttribute('data-i')); sessionCounted = false;
                 commit(); toast('Loaded slot ' + (state.activeSlot + 1)); break;
             case 'delete-slot':
@@ -1190,11 +2176,14 @@
                 if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(function () { toast('Code copied'); }, fallbackCopy);
                 else fallbackCopy();
                 break;
-            case 'download': download('escape-road-3-saves.json', { er3: 1, data: state }); break;
+            case 'download': download('getaway-arcade-saves.json', { er3: 1, data: state }); break;
+            case 'upload': $('sv-file').click(); break;
             case 'import-code':
                 var code = $('sv-import').value, parsedCode;
                 if (!code.trim()) { toast('Paste a save code first'); return; }
-                try { parsedCode = decode(code); } catch (err) { toast('That code isn\'t a valid save'); return; }
+                try { parsedCode = decode(code); } catch (err) {
+                    try { parsedCode = JSON.parse(code); } catch (err2) { toast('That code isn\'t a valid save'); return; }
+                }
                 ask({ title: 'Replace all saves?', text: 'Importing replaces every save slot in this browser.', ok: 'Import' }, function () {
                     try { importData(parsedCode); } catch (err) { toast('That code isn\'t a valid save'); }
                 });
@@ -1210,10 +2199,15 @@
 
     document.addEventListener('change', function (e) {
         var s = active(), t = e.target;
-        if (t.id === 'sv-name' && s) { s.name = (t.value.trim() || 'Player').slice(0, 24); commit(); }
+        if (t.id === 'sv-name' && s) {
+            s.name = (t.value.trim() || 'Player').slice(0, 24); commit(false);
+            $('sv-slotlabel').textContent = 'Slot ' + (state.activeSlot + 1) + ' · ' + s.name;
+            var nameEl = body.querySelector('.sv-slot.on b'); if (nameEl) { nameEl.textContent = s.name; nameEl.title = s.name; }
+        }
         else if (t.id === 'sv-vehicle' && s) { s.vehicle = t.value; commit(); toast('Now driving: ' + s.vehicle); }
         else if (t.getAttribute && t.getAttribute('data-unlock') && s) {
             var k = t.getAttribute('data-unlock');
+            if (earnedOnly(k.split('|')[0])) { t.checked = !!s.unlocks[k]; return; }
             if (t.checked) s.unlocks[k] = true; else delete s.unlocks[k];
             if (ownedVehicles(s).indexOf(s.vehicle) < 0) s.vehicle = STARTER;
             commit();
@@ -1239,26 +2233,13 @@
         clearTimeout(notesTimer); notesTimer = setTimeout(function () { commit(false); }, 600);
     });
 
-    document.addEventListener('submit', function (e) {
-        if (e.target.id !== 'sv-runform') return;
-        e.preventDefault();
-        var s = active(); if (!s) return;
-        var prevBest = bestScore(s), score = num($('sv-r-score').value), coins = num($('sv-r-coins').value);
-        s.runs.push({ id: uid(), date: Date.now(), score: score, coins: coins, vehicle: $('sv-r-veh').value.trim().slice(0, 40), note: $('sv-r-note').value.trim().slice(0, 120) });
-        if (s.runs.length > 500) s.runs.shift();
-        s.coins = Math.min(MAX_COINS, s.coins + coins);
-        var ups = addXp(s, Math.floor(score / 10)), record = score > prevBest && s.runs.length > 1;
-        commit(); toast(ups ? 'Level up! You\'re level ' + level(s) : record ? 'New best score!' : 'Run logged');
-        if (ups || record) confetti();
-    });
-
     document.addEventListener('keydown', function (e) {
         if (!dlg.hidden) {
             if (e.key === 'Escape') { e.preventDefault(); closeDialog(); }
             else if (e.key === 'Enter' && e.target && e.target.id === 'sv-dlg-input') { e.preventDefault(); submitDialog(); }
             return;
         }
-        if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); if (adminOpen) closeAdmin(); else openAdmin(); return; }
+        if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); if (e.repeat) return; if (adminOpen) closeAdmin(); else openAdmin(); return; }
         if (adminOpen && !adminUnlocked && /^[0-9]$/.test(e.key)) { e.preventDefault(); pressKey(e.key); return; }
         if (adminOpen && !adminUnlocked && e.key === 'Backspace') { e.preventDefault(); pressKey('⌫'); return; }
         if (e.key === 'Enter' && e.target && e.target.id === 'sv-name') { e.target.blur(); return; }
@@ -1266,31 +2247,43 @@
             if (adminOpen) closeAdmin();
             else if (!panel.hidden) togglePanel(false);
             else if (document.body.classList.contains('theater')) setTheater(false);
+            else if (game.mode === 'run' && !game.paused) setPaused(true);
         }
     });
 
     // Keep two open tabs in sync.
-    window.addEventListener('storage', function (e) { if (e.key === STORE_KEY) { state = load(); render(); applyFx(); if (adminOpen) renderAdmin(); } });
+    window.addEventListener('storage', function (e) { if (e.key === STORE_KEY) { state = load(); undoStack = []; render(); applyFx(); if (adminOpen) renderAdmin(); } });
 
     /* ---------------- Play-time tracking ---------------- */
     var sessionCounted = false, ticks = 0;
     setInterval(function () {
         var s = active();
-        if (!s || document.visibilityState !== 'visible' || document.activeElement !== frame) return;
+        if (!panel.hidden && tab === 'garage' && run && !body.contains(document.activeElement)) render();
+        if (!s || !run || game.paused || adminOpen || !dlg.hidden || document.visibilityState !== 'visible') return;
         if (!sessionCounted) { s.sessions += 1; sessionCounted = true; }
-        s.playSeconds += 1; s.lastPlayed = Date.now(); ticks += 1;
+        s.playSeconds += 1; s.lastPlayed = Date.now(); ticks += 1; undoStack = [];
         var pt = $('sv-playtime'); if (pt) pt.textContent = fmtTime(s.playSeconds);
         if (ticks % 10 === 0) persist();
     }, 1000);
     function flush() { if (ticks) persist(); }
     document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') flush(); });
-    window.addEventListener('pagehide', flush);
+    window.addEventListener('pagehide', function () { if (run) { endRun('Left the game', true); showMenu(); } flush(); });
 
     /* ---------------- Start ---------------- */
+    // A run that was never finished (tab closed or discarded mid-run) shouldn't leave its wanted level behind.
+    if (state.slots.some(function (sl) { return sl && sl.running; })) {
+        state.slots.forEach(function (sl) { if (sl && sl.running) { sl.wanted = 0; sl.running = false; } });
+        persist();
+    }
     render();
     applyFx();
     setStatus(storageOk ? '' : 'Saved for this visit only');
-    if (frame.getAttribute('data-loaded')) loadingEl.hidden = true; else startLoadTimer();
+    fillVehicleTable();
+    R3 = init3D();
+    if (!R3) cv3.hidden = true;
+    setSoundLabel();
+    showMenu();
+    requestAnimationFrame(loop);
 })();
 </script>
 <!-- =================== END SAVE SYSTEM =================== -->
