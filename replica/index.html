@@ -8,7 +8,7 @@
     <title>Getaway Arcade</title>
     <meta name="keywords" content="getaway, police chase game, driving game">
     <meta name="news_keywords" content="getaway arcade">
-    <meta name="description" content="Getaway is a free top-down police chase game. Outrun the cops, collect coins, unlock vehicles and upgrade power-ups, with save slots and an admin cheat panel.">
+    <meta name="description" content="Getaway is a free 3D police chase game. Outrun the cops, collect coins, unlock vehicles and upgrade power-ups, with save slots and an admin cheat panel.">
     <meta name="theme-color" content="#0b1220">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d4ed8'/%3E%3Ctext x='32' y='42' font-size='26' text-anchor='middle' fill='white' font-family='Arial,sans-serif' font-weight='bold'%3EGA%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,6 +35,23 @@
             --sv-bg: #171a21; --sv-surface: #1f232c; --sv-tint: #16203a; --sv-border: #2f3542; --sv-text: #e5e7eb; --sv-muted: #9ca3af;
             --sv-red: #60a5fa;
         }
+        /* Follow the viewer's light/dark setting (same palette as the Night mode effect) */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+            --pg-bg: #0e1014; --pg-card: #171a21; --pg-text: #e5e7eb; --pg-muted: #9ca3af; --pg-border: #2a2f3a;
+            --pg-stripe: #1c2029; --pg-link: #60a5fa; --pg-head: #000000;
+            --sv-bg: #171a21; --sv-surface: #1f232c; --sv-tint: #16203a; --sv-border: #2f3542; --sv-text: #e5e7eb; --sv-muted: #9ca3af;
+            --sv-red: #60a5fa;
+            color-scheme: dark;
+            }
+        }
+        :root[data-theme="dark"] {
+            --pg-bg: #0e1014; --pg-card: #171a21; --pg-text: #e5e7eb; --pg-muted: #9ca3af; --pg-border: #2a2f3a;
+            --pg-stripe: #1c2029; --pg-link: #60a5fa; --pg-head: #000000;
+            --sv-bg: #171a21; --sv-surface: #1f232c; --sv-tint: #16203a; --sv-border: #2f3542; --sv-text: #e5e7eb; --sv-muted: #9ca3af;
+            --sv-red: #60a5fa;
+            color-scheme: dark;
+        }
         *, *::before, *::after { box-sizing: border-box; }
         html { -webkit-text-size-adjust: 100%; }
         body { margin: 0; background: radial-gradient(900px 520px at 0% 0%, var(--glow1), transparent 70%), radial-gradient(900px 520px at 100% 8%, var(--glow2), transparent 70%), var(--pg-bg); color: var(--pg-text); font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 16px; line-height: 1.6; }
@@ -42,7 +59,8 @@
         .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
 
         /* Header */
-        .site-header { position: sticky; top: 0; z-index: 50; background: var(--pg-head); background-image: var(--head-grad); color: #fff; box-shadow: 0 2px 18px rgba(0,0,0,.25); }
+        .site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: var(--pg-head); background-image: var(--head-grad); color: #fff; box-shadow: 0 2px 18px rgba(0,0,0,.25); }
+        body::before { content: ""; position: fixed; top: 0; right: 0; left: 0; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--pg-head); }
         .header-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 56px; }
         .logo { display: inline-flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 800; font-size: 19px; }
         .logo-mark { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px; background: var(--grad); box-shadow: 0 2px 10px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.25); font-size: 13px; letter-spacing: .02em; }
@@ -129,12 +147,12 @@
         .sv, .sv * { box-sizing: border-box; font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
         .sv button { font: inherit; cursor: pointer; }
         .sv button:disabled { cursor: not-allowed; opacity: .5; }
-        .sv-fab { position: fixed; right: 18px; bottom: 18px; z-index: 9998; display: flex; align-items: center; gap: 8px; padding: 12px 18px; border: none; border-radius: 999px; background: var(--grad); color: #fff; font-weight: 700; font-size: 15px; box-shadow: var(--sv-shadow); }
+        .sv-fab { position: fixed; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 9998; display: flex; align-items: center; gap: 8px; padding: 12px 18px; border: none; border-radius: 999px; background: var(--grad); color: #fff; font-weight: 700; font-size: 15px; box-shadow: var(--sv-shadow); }
         .sv-fab:hover { filter: brightness(1.1); }
         body.theater .sv-fab, .game-card:fullscreen .sv-fab, .game-card:-webkit-full-screen .sv-fab { display: none; }
         .sv-fab svg { width: 18px; height: 18px; fill: currentColor; }
 
-        .sv-panel { position: fixed; right: 18px; bottom: 76px; z-index: 9999; width: 380px; max-width: calc(100vw - 32px); max-height: 640px; max-height: min(640px, calc(100vh - 100px)); display: flex; flex-direction: column; background: var(--sv-bg); color: var(--sv-text); border-radius: 14px; box-shadow: var(--sv-shadow); overflow: hidden; }
+        .sv-panel { position: fixed; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(76px + env(safe-area-inset-bottom, 0px)); z-index: 9999; width: 380px; max-width: calc(100vw - 32px); max-height: 640px; max-height: min(640px, calc(100vh - 100px)); display: flex; flex-direction: column; background: var(--sv-bg); color: var(--sv-text); border-radius: 14px; box-shadow: var(--sv-shadow); overflow: hidden; }
         .sv-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: var(--grad); color: #fff; }
         .sv-head strong { font-size: 16px; }
         .sv-status { font-size: 12px; opacity: .85; margin-left: auto; }
@@ -251,7 +269,7 @@
         .sv-dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
         .sv-dialog-card .sv-msg { text-align: left; margin-top: 6px; }
 
-        .sv-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 10004; max-width: calc(100vw - 32px); background: #1a1a1a; color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 14px; box-shadow: var(--sv-shadow); text-align: center; }
+        .sv-toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 10004; max-width: calc(100vw - 32px); background: #1a1a1a; color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 14px; box-shadow: var(--sv-shadow); text-align: center; }
 
         /* Page effects */
         #sv-siren { position: fixed; top: 0; right: 0; bottom: 0; left: 0; pointer-events: none; z-index: 9997; animation: sv-siren .8s steps(1) infinite; }
@@ -271,8 +289,8 @@
 
         @media (max-width: 520px) {
             .sv-cheat, .sv-grid2, .sv-grid3 { grid-template-columns: 1fr; }
-            .sv-panel { right: 0; left: 0; bottom: 0; width: 100%; max-width: 100%; border-radius: 14px 14px 0 0; max-height: 85vh; }
-            .sv-fab { right: 14px; bottom: 14px; padding: 10px 14px; }
+            .sv-panel { right: 0; left: 0; bottom: 0; width: 100%; max-width: 100%; border-radius: 14px 14px 0 0; max-height: 85vh; padding-bottom: env(safe-area-inset-bottom, 0px); }
+            .sv-fab { right: calc(14px + env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); padding: 10px 14px; }
             .sv-table .hide-sm { display: none; }
         }
     </style>
